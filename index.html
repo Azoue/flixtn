@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>FlixTN — السينما العربية والتونسية</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23f5c518'/><text y='68' x='50' font-size='52' font-family='Arial Black' font-weight='900' fill='black' text-anchor='middle'>FN</text></svg>"/>
+  <meta name="theme-color" content="#f5c518"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:#060608;color:#fff}
-    #boot{position:fixed;inset:0;background:#060608;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;z-index:99999;font-family:'Bebas Neue',sans-serif}
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-    .bl{font-size:3.5rem;font-weight:400;letter-spacing:6px;background:linear-gradient(135deg,#fff 0%,#e50914 60%,#ff4444 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(229,9,20,.4));animation:p 1.8s ease infinite}
+    body{background:#06060a;color:#fff;-webkit-font-smoothing:antialiased}
+    #boot{position:fixed;inset:0;background:#06060a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;z-index:99999}
+    .bl{font-size:3.5rem;font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,#fff 0%,#ffd700 40%,#e50914 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(245,197,24,.5));animation:p 1.8s ease infinite;font-family:Arial Black,sans-serif}
     @keyframes p{0%,100%{opacity:1}50%{opacity:.2}}
-    .bs{width:40px;height:40px;border:3px solid rgba(229,9,20,.2);border-top-color:#e50914;border-radius:50%;animation:sp .75s linear infinite}
+    .bs{width:42px;height:42px;border:3px solid rgba(245,197,24,.15);border-top-color:#f5c518;border-radius:50%;animation:sp .75s linear infinite}
     @keyframes sp{to{transform:rotate(360deg)}}
-    .bt{font-size:.8rem;letter-spacing:2px;color:rgba(255,255,255,.2);font-family:'Cairo',sans-serif}
+    .bt{font-size:.7rem;letter-spacing:3px;color:rgba(255,248,200,.15);font-family:Cairo,sans-serif}
   </style>
 </head>
 <body>
@@ -55,171 +56,216 @@ const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&family=Tajawal:wght@300;400;500;700;800&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#060608;--bg1:#0c0c10;--bg2:#111116;--bg3:#16161e;
-  --s1:#1a1a24;--s2:#20202e;--s3:#2a2a3e;--s4:#343450;
-  --red:#e50914;--red2:#ff2030;--red3:#ff7070;--redbg:rgba(229,9,20,.1);--redbr:rgba(229,9,20,.25);
-  --gold:#f5c518;--cyan:#00d4ff;--green:#1db954;--purp:#9b59b6;
-  --t1:#ffffff;--t2:#b0b0c8;--t3:#606078;--t4:#383850;
-  --r:10px;--r2:14px;--tr:.22s cubic-bezier(.4,0,.2,1);
-  --shadow:0 8px 40px rgba(0,0,0,.8);
-  --glow:0 0 40px rgba(229,9,20,.3);
+  --bg:#06060a;--bg1:#0b0b10;--bg2:#101018;--bg3:#15151e;
+  --s1:#1a1a24;--s2:#20202e;--s3:#28283c;--s4:#323248;
+  --red:#e50914;--red2:#ff1f2e;--red3:#ff6b75;
+  --redbg:rgba(229,9,20,.08);--redbr:rgba(229,9,20,.22);
+  --gold:#f5c518;--gold2:#ffd700;--gold3:#ffec6e;
+  --goldbg:rgba(245,197,24,.1);--goldbr:rgba(245,197,24,.3);
+  --accent:#f5c518;--accent2:#ffd700;
+  --cyan:#00cfff;--green:#21c55d;
+  --t1:#fff8e8;--t2:#c8b890;--t3:#786848;--t4:#3e3828;
+  --r:12px;--r2:16px;--tr:.25s cubic-bezier(.4,0,.2,1);
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--t1);font-family:'Cairo',sans-serif;overflow-x:hidden;direction:rtl}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--red);border-radius:4px}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),var(--red));border-radius:4px}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.85rem 3rem;transition:all .5s}
-.nav.t{background:linear-gradient(180deg,rgba(6,6,8,.95) 0%,transparent 100%)}
-.nav.s{background:rgba(6,6,8,.96);backdrop-filter:blur(28px);box-shadow:0 1px 0 rgba(255,255,255,.04),0 4px 30px rgba(0,0,0,.5)}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;font-weight:400;cursor:pointer;letter-spacing:3px;background:linear-gradient(135deg,#fff 0%,var(--red) 60%,#ff4444 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(229,9,20,.4))}
-.nav-links{display:flex;gap:2rem}
-.nl{font-size:.8rem;cursor:pointer;color:var(--t3);transition:all .25s;padding:.3rem 0;position:relative;letter-spacing:.5px}
-.nl::after{content:'';position:absolute;bottom:-2px;right:0;left:0;height:2px;background:var(--red);border-radius:1px;transform:scaleX(0);transition:transform .25s}
-.nl:hover{color:var(--t1)}.nl:hover::after{transform:scaleX(1)}
-.nl.a{color:var(--t1)}.nl.a::after{transform:scaleX(1)}
-.nav-r{display:flex;align-items:center;gap:.5rem}
-.ni{background:none;border:none;color:var(--t2);font-size:1rem;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
-.ni:hover{background:var(--s2);color:var(--t1)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.9rem 3rem;transition:all .45s}
+.nav.t{background:linear-gradient(180deg,rgba(7,7,12,.95) 0%,transparent 100%)}
+.nav.s{background:rgba(7,7,12,.97);backdrop-filter:blur(32px);box-shadow:0 1px 0 rgba(255,255,255,.04)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;cursor:pointer;letter-spacing:4px;background:linear-gradient(120deg,#fff 0%,var(--gold2) 40%,var(--red) 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(245,197,24,.5));transition:filter .3s}
+.logo:hover{filter:drop-shadow(0 0 28px rgba(245,197,24,.9))}
+.nav-links{display:flex;gap:2.2rem}
+.nl{font-size:.78rem;cursor:pointer;color:var(--t3);transition:all .25s;padding:.4rem 0;position:relative;letter-spacing:.8px;font-weight:600}
+.nl::after{content:'';position:absolute;bottom:-1px;right:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),var(--red));border-radius:2px;transform:scaleX(0);transform-origin:right;transition:transform .3s}
+.nl:hover,.nl.a{color:var(--t1)}
+.nl:hover::after,.nl.a::after{transform:scaleX(1)}
+.nav-r{display:flex;align-items:center;gap:.6rem}
+.ni{background:none;border:none;color:var(--t2);font-size:1rem;cursor:pointer;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+.ni:hover{background:var(--s2);color:var(--t1);transform:scale(1.1)}
 .av-wrap{position:relative}
-.av{width:34px;height:34px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid var(--s3);transition:all var(--tr);box-shadow:0 0 0 0 rgba(229,9,20,0)}
-.av:hover{border-color:var(--red);box-shadow:0 0 0 3px rgba(229,9,20,.2)}
-.umenu{position:absolute;left:0;top:calc(100% + .8rem);background:rgba(17,17,22,.98);border:1px solid var(--s3);border-radius:16px;min-width:240px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.9);animation:mIn .22s cubic-bezier(.4,0,.2,1);z-index:500;backdrop-filter:blur(20px)}
-@keyframes mIn{from{opacity:0;transform:translateY(-10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-.umenu-head{padding:1.1rem 1rem;display:flex;align-items:center;gap:.8rem;border-bottom:1px solid var(--s2);background:linear-gradient(135deg,var(--s1) 0%,rgba(229,9,20,.05) 100%)}
-.umenu-head img{width:42px;height:42px;border-radius:50%;border:2px solid var(--red);box-shadow:0 0 12px rgba(229,9,20,.3)}
-.umenu-head .nm{font-weight:700;font-size:.85rem}
-.umenu-head .em{font-size:.65rem;color:var(--t3);margin-top:.15rem}
-.mi{display:flex;align-items:center;gap:.7rem;padding:.72rem 1rem;font-size:.8rem;cursor:pointer;transition:all var(--tr);width:100%;background:none;border:none;color:var(--t2);text-align:right}
-.mi:hover{background:var(--s2);color:var(--t1);padding-right:1.3rem}
-.md{height:1px;background:var(--s2);margin:.2rem 0}
-.btn-in{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--t1);padding:.45rem 1.1rem;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:'Cairo',sans-serif;transition:all var(--tr);letter-spacing:.3px}
-.btn-in:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
-.btn-up{background:linear-gradient(135deg,var(--red) 0%,#c0000a 100%);border:none;color:#fff;padding:.45rem 1.1rem;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:'Cairo',sans-serif;font-weight:700;transition:all var(--tr);box-shadow:0 2px 12px rgba(229,9,20,.3);letter-spacing:.3px}
-.btn-up:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(229,9,20,.5)}
+.av{width:36px;height:36px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid var(--s3);transition:all .3s}
+.av:hover{border-color:var(--red);transform:scale(1.08);box-shadow:0 0 0 3px rgba(229,9,20,.2)}
+.umenu{position:absolute;left:0;top:calc(100% + .9rem);background:rgba(13,13,20,.98);border:1px solid var(--s3);border-radius:18px;min-width:250px;overflow:hidden;box-shadow:0 28px 90px rgba(0,0,0,.95);animation:mIn .22s cubic-bezier(.4,0,.2,1);z-index:500;backdrop-filter:blur(24px)}
+@keyframes mIn{from{opacity:0;transform:translateY(-12px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.umenu-head{padding:1.2rem 1rem;display:flex;align-items:center;gap:.85rem;border-bottom:1px solid var(--s2);background:linear-gradient(135deg,var(--s1) 0%,rgba(229,9,20,.06) 100%)}
+.umenu-head img{width:44px;height:44px;border-radius:50%;border:2px solid var(--red);box-shadow:0 0 14px rgba(229,9,20,.35)}
+.umenu-head .nm{font-weight:700;font-size:.86rem}
+.umenu-head .em{font-size:.64rem;color:var(--t3);margin-top:.18rem}
+.mi{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;font-size:.8rem;cursor:pointer;transition:all var(--tr);width:100%;background:none;border:none;color:var(--t2);text-align:right}
+.mi:hover{background:var(--s2);color:var(--t1);padding-right:1.4rem}
+.md{height:1px;background:var(--s2);margin:.25rem 0}
+.btn-in{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--t1);padding:.48rem 1.2rem;border-radius:9px;cursor:pointer;font-size:.78rem;font-family:'Cairo',sans-serif;transition:all var(--tr)}
+.btn-in:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+.btn-up{background:linear-gradient(135deg,var(--gold) 0%,#d4a000 100%);border:none;color:#000;padding:.48rem 1.2rem;border-radius:9px;cursor:pointer;font-size:.78rem;font-family:'Cairo',sans-serif;font-weight:800;transition:all var(--tr);box-shadow:0 2px 14px rgba(245,197,24,.35);letter-spacing:.3px}
+.btn-up:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 6px 28px rgba(245,197,24,.6)}
 
 /* HERO */
-.hero{position:relative;height:100vh;min-height:620px;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;animation:kb 24s ease infinite alternate;transform-origin:center center}
-@keyframes kb{0%{transform:scale(1) translateX(0)}50%{transform:scale(1.04) translateX(-1%)}100%{transform:scale(1.08) translateX(1%)}}
-.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(6,6,8,.5) 35%,rgba(6,6,8,.15) 65%,transparent 100%)}
-.hero-ov2{position:absolute;inset:0;background:linear-gradient(to left,transparent 40%,rgba(6,6,8,.85) 100%)}
-.hero-ov3{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(229,9,20,.06) 0%,transparent 60%)}
-.hero-c{position:relative;z-index:2;padding:5rem 3rem;max-width:700px;animation:heroIn .8s cubic-bezier(.4,0,.2,1) both}
-@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.gpill{background:rgba(229,9,20,.15);border:1px solid rgba(229,9,20,.35);color:var(--red3);padding:.25rem .75rem;border-radius:20px;font-size:.65rem;font-weight:700;letter-spacing:.8px;backdrop-filter:blur(4px)}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(245,197,24,.12);border:1px solid rgba(245,197,24,.25);color:var(--gold);padding:.25rem .75rem;border-radius:20px;font-size:.62rem;font-weight:700;letter-spacing:.8px}
-.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:400;line-height:1;margin-bottom:.6rem;letter-spacing:3px;text-shadow:0 4px 30px rgba(0,0,0,.6)}
-.hero-meta{display:flex;gap:.9rem;align-items:center;flex-wrap:wrap;margin-bottom:.9rem;font-size:.8rem}
-.hero-meta-dot{width:4px;height:4px;border-radius:50%;background:var(--t4)}
-.hero-rating{display:flex;align-items:center;gap:.3rem;color:var(--gold);font-weight:700}
-.hero-desc{color:rgba(176,176,200,.85);font-size:.88rem;line-height:1.8;max-width:520px;margin-bottom:1.8rem;font-family:'Tajawal',sans-serif;font-weight:400}
-.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
-.btn-play{background:linear-gradient(135deg,var(--red) 0%,#b5000a 100%);border:none;color:#fff;padding:.85rem 2.2rem;border-radius:10px;cursor:pointer;font-size:.9rem;font-family:'Cairo',sans-serif;font-weight:700;display:flex;align-items:center;gap:.55rem;transition:all .3s;box-shadow:0 4px 20px rgba(229,9,20,.4);letter-spacing:.3px}
-.btn-play:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 8px 35px rgba(229,9,20,.55)}
-.btn-play:active{transform:translateY(0) scale(.98)}
-.btn-ol{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:var(--t1);padding:.85rem 1.8rem;border-radius:10px;cursor:pointer;font-size:.9rem;font-family:'Cairo',sans-serif;font-weight:600;transition:all .3s;backdrop-filter:blur(8px)}
-.btn-ol:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3)}
-/* hero indicators */
-.hero-dots{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:5}
-.hero-dot{width:24px;height:3px;border-radius:2px;background:rgba(255,255,255,.2);transition:all .4s}
-.hero-dot.a{background:var(--red);width:40px}
+.hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;overflow:hidden}
+.hero-bg img{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(1.0);
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center top;
+  image-rendering:auto;
+  animation:kb 30s ease-in-out infinite alternate;
+  filter:brightness(1.05) contrast(1.08) saturate(1.1);
+  transition:opacity .8s ease;
+  will-change:transform;
+}
+@keyframes kb{
+  0%{transform:translate(-50%,-50%) scale(1.0) translateX(0px)}
+  33%{transform:translate(-50%,-50%) scale(1.03) translateX(-8px)}
+  66%{transform:translate(-50%,-50%) scale(1.05) translateX(5px)}
+  100%{transform:translate(-50%,-50%) scale(1.07) translateX(-3px)}
+}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(8,8,15,.55) 30%,rgba(8,8,15,.1) 55%,transparent 100%)}
+.hero-ov2{position:absolute;inset:0;background:linear-gradient(to left,transparent 38%,rgba(8,8,15,.75) 75%,rgba(8,8,15,.92) 100%)}
+.hero-ov3{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(245,197,24,.05) 0%,transparent 50%)}
+.hero-fade{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,transparent 18%)}
+.hero-c{position:relative;z-index:2;padding:3.5rem 3.5rem 5.5rem;max-width:650px;animation:heroIn 1s cubic-bezier(.4,0,.2,1) both;margin-right:auto}
+@keyframes heroIn{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+.hero-live{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,rgba(245,197,24,.18),rgba(245,197,24,.06));border:1px solid rgba(245,197,24,.4);color:var(--gold3);padding:.32rem 1rem;border-radius:30px;font-size:.68rem;font-weight:700;letter-spacing:.8px;margin-bottom:1.2rem;backdrop-filter:blur(10px);box-shadow:0 2px 14px rgba(245,197,24,.2)}
+.hero-live-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;animation:livepulse 1.8s ease infinite;box-shadow:0 0 0 0 rgba(245,197,24,.8)}
+@keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(245,197,24,.8)}70%{box-shadow:0 0 0 8px rgba(245,197,24,0)}100%{box-shadow:0 0 0 0 rgba(245,197,24,0)}}
+.hero-live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1.5s ease infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);line-height:.95;margin-bottom:.6rem;letter-spacing:2px;text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.hero-sub{font-family:'Tajawal',sans-serif;font-size:1rem;color:var(--t2);margin-bottom:.7rem;font-weight:300;letter-spacing:.3px}
+.hero-meta{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin-bottom:1.2rem;font-size:.82rem}
+.hero-rating{color:var(--gold);font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:.25rem}
+.hero-sep{width:3px;height:3px;border-radius:50%;background:var(--t4)}
+.hero-desc{color:var(--t2);font-size:.88rem;line-height:1.82;max-width:500px;margin-bottom:2rem;font-family:'Tajawal',sans-serif;font-weight:400}
+.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap}
+.btn-play{background:linear-gradient(135deg,var(--red) 0%,#c0000a 100%);border:none;color:#fff;padding:.85rem 2.2rem;border-radius:10px;cursor:pointer;font-size:.9rem;font-family:'Cairo',sans-serif;font-weight:700;display:flex;align-items:center;gap:.6rem;transition:all .3s;box-shadow:0 4px 22px rgba(229,9,20,.45),inset 0 1px 0 rgba(255,255,255,.12)}
+.btn-play:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 38px rgba(229,9,20,.65),inset 0 1px 0 rgba(255,255,255,.15)}
+.btn-play:active{transform:translateY(-1px)}
+.btn-play-ico{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.btn-ol{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);color:var(--t1);padding:.85rem 2rem;border-radius:10px;cursor:pointer;font-size:.9rem;font-family:'Cairo',sans-serif;font-weight:600;transition:all .3s;backdrop-filter:blur(8px)}
+.btn-ol:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.28);transform:translateY(-2px)}
+.gpill{background:rgba(229,9,20,.12);border:1px solid rgba(229,9,20,.3);color:var(--red3);padding:.22rem .6rem;border-radius:20px;font-size:.65rem;font-weight:700}
 
 /* ROWS */
-.row{padding:.2rem 0 2.5rem}
-.row-hd{display:flex;align-items:center;justify-content:space-between;padding:.5rem 3rem 1.1rem}
-.row-hd-l{display:flex;align-items:center;gap:.7rem}
-.row-bar{width:3px;height:20px;background:linear-gradient(180deg,var(--red) 0%,rgba(229,9,20,.3) 100%);border-radius:2px}
-.row-title{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;font-weight:400;letter-spacing:2px;color:var(--t1)}
-.row-more{font-size:.7rem;color:var(--t3);cursor:pointer;transition:color .2s;letter-spacing:.3px;display:flex;align-items:center;gap:.3rem}
-.row-more:hover{color:var(--red)}
-.slider{display:flex;gap:1rem;overflow-x:auto;padding:.4rem 3rem 1.2rem;scroll-snap-type:x mandatory;scrollbar-width:none}
+.section{padding:.5rem 0 2.2rem}
+.sec-hd{display:flex;align-items:center;justify-content:space-between;padding:.5rem 3rem 1rem}
+.sec-hd-l{display:flex;align-items:center;gap:.75rem}
+.sec-line{width:3px;height:20px;background:linear-gradient(to bottom,var(--red),rgba(229,9,20,0));border-radius:2px}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:2px;color:var(--t1)}
+.sec-more{font-size:.72rem;color:var(--t3);cursor:pointer;transition:color .22s;letter-spacing:.5px}
+.sec-more:hover{color:var(--red3)}
+.slider{display:flex;gap:1.1rem;overflow-x:auto;padding:.4rem 3rem 1.2rem;scroll-snap-type:x mandatory;scrollbar-width:none}
 .slider::-webkit-scrollbar{display:none}
 
-/* CARD */
-.card{flex-shrink:0;width:162px;cursor:pointer;position:relative;scroll-snap-align:start;transition:transform .3s cubic-bezier(.4,0,.2,1)}
-.card:hover{transform:translateY(-10px) scale(1.04);z-index:5}
-.card-img{width:162px;height:243px;object-fit:cover;border-radius:10px;background:var(--s2);display:block;transition:box-shadow .3s}
-.card:hover .card-img{box-shadow:0 20px 50px rgba(0,0,0,.7),0 0 0 1px rgba(229,9,20,.2)}
-.card-ov{position:absolute;inset:0;border-radius:10px;background:linear-gradient(to top,rgba(6,6,8,.98) 0%,rgba(6,6,8,.4) 50%,transparent 100%);opacity:0;transition:opacity .3s}
+/* CARDS */
+.card{flex-shrink:0;width:162px;cursor:pointer;position:relative;scroll-snap-align:start;transition:all .32s cubic-bezier(.4,0,.2,1)}
+.card:hover{transform:translateY(-10px) scale(1.06);z-index:5}
+.card-wrap{position:relative;border-radius:var(--r);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.card:hover .card-wrap{box-shadow:0 20px 55px rgba(229,9,20,.4),0 0 0 1px rgba(229,9,20,.2)}
+.card-img{width:162px;height:243px;object-fit:cover;display:block;background:var(--s2);transition:transform .35s}
+.card:hover .card-img{transform:scale(1.04)}
+.card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,12,1) 0%,rgba(7,7,12,.3) 55%,transparent 100%);opacity:0;transition:opacity .28s}
 .card:hover .card-ov{opacity:1}
-.card-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.7);width:46px;height:46px;border-radius:50%;background:rgba(229,9,20,.9);display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;font-size:1rem;box-shadow:0 0 0 8px rgba(229,9,20,.2)}
-.card:hover .card-play{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.card-info{position:absolute;bottom:0;left:0;right:0;padding:.7rem .65rem;opacity:0;transition:opacity .3s;transform:translateY(4px);transition:all .3s}
+.card-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.6);width:50px;height:50px;border-radius:50%;background:rgba(229,9,20,.92);display:flex;align-items:center;justify-content:center;opacity:0;transition:all .28s;font-size:1.1rem;box-shadow:0 0 28px rgba(229,9,20,.6)}
+.card:hover .card-play{opacity:1;transform:translate(-50%,-50%) scale(1);box-shadow:0 0 0 8px rgba(245,197,24,.2),0 4px 20px rgba(245,197,24,.4);color:#000}
+.card-info{position:absolute;bottom:0;left:0;right:0;padding:.75rem;opacity:0;transition:all .28s;transform:translateY(4px)}
 .card:hover .card-info{opacity:1;transform:translateY(0)}
-.card-title{font-size:.74rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.22rem}
-.card-meta{font-size:.62rem;color:var(--t3);display:flex;gap:.45rem;align-items:center}
-.card-badge{position:absolute;top:.55rem;right:.55rem;background:linear-gradient(135deg,var(--red),#b5000a);color:#fff;font-size:.56rem;font-weight:700;padding:.15rem .4rem;border-radius:5px;letter-spacing:.5px}
-.card-fav{position:absolute;top:.55rem;left:.55rem;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.1);color:var(--red3);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .25s;backdrop-filter:blur(4px)}
-.card:hover .card-fav{opacity:1}.card-fav.on{opacity:1;color:var(--red);background:rgba(229,9,20,.2)}
+.card-title{font-size:.75rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.22rem}
+.card-meta{font-size:.63rem;color:var(--t3);display:flex;gap:.45rem;align-items:center}
+.card-badge{position:absolute;top:.55rem;right:.55rem;background:linear-gradient(135deg,var(--red),#c0000a);color:#fff;font-size:.56rem;font-weight:700;padding:.16rem .42rem;border-radius:5px;letter-spacing:.3px}
+.card-fav{position:absolute;top:.55rem;left:.55rem;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.08);color:var(--t3);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .25s;border:none}
+.card:hover .card-fav{opacity:1}
+.card-fav:hover,.card-fav.on{color:var(--red)}
+.card-fav.on{opacity:1}
 
 /* RANK */
-.rank-card{flex-shrink:0;width:180px;cursor:pointer;display:flex;align-items:flex-end;scroll-snap-align:start;transition:transform .3s}
-.rank-card:hover{transform:translateY(-8px)}
-.rank-num{font-family:'Bebas Neue',sans-serif;font-size:8rem;font-weight:400;line-height:1;color:transparent;-webkit-text-stroke:3px var(--s3);margin-left:-20px;flex-shrink:0;transition:all .3s;letter-spacing:-4px}
-.rank-card:hover .rank-num{-webkit-text-stroke-color:var(--red);filter:drop-shadow(0 0 8px rgba(229,9,20,.3))}
-.rank-img{width:128px;height:192px;object-fit:cover;border-radius:10px;background:var(--s2);transition:box-shadow .3s}
-.rank-card:hover .rank-img{box-shadow:0 16px 48px rgba(229,9,20,.35)}
+.rank-card{flex-shrink:0;width:185px;cursor:pointer;display:flex;align-items:flex-end;scroll-snap-align:start;transition:transform .3s}
+.rank-card:hover{transform:translateY(-6px)}
+.rank-num{font-family:'Bebas Neue',sans-serif;font-size:8.5rem;line-height:1;color:transparent;-webkit-text-stroke:2px var(--s3);margin-left:-24px;flex-shrink:0;transition:all .28s;letter-spacing:-3px}
+.rank-card:hover .rank-num{-webkit-text-stroke-color:var(--red);filter:drop-shadow(0 0 12px rgba(229,9,20,.35))}
+.rank-img{width:132px;height:198px;object-fit:cover;border-radius:var(--r);background:var(--s2);transition:all .28s;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.rank-card:hover .rank-img{box-shadow:0 18px 55px rgba(229,9,20,.45)}
 
 /* WIDE */
-.wide-card{flex-shrink:0;width:280px;cursor:pointer;scroll-snap-align:start;transition:transform .3s;position:relative;border-radius:12px;overflow:hidden}
+.wide-card{flex-shrink:0;width:285px;cursor:pointer;scroll-snap-align:start;transition:all .3s;border-radius:var(--r);overflow:hidden;position:relative}
 .wide-card:hover{transform:translateY(-6px)}
-.wide-img{width:280px;height:158px;object-fit:cover;display:block;transition:transform .4s}
-.wide-card:hover .wide-img{transform:scale(1.05)}
-.wide-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,8,.9) 0%,transparent 55%);opacity:0;transition:opacity .3s}
+.wide-img{width:285px;height:160px;object-fit:cover;display:block;background:var(--s2);transition:transform .35s}
+.wide-card:hover .wide-img{transform:scale(1.04);box-shadow:0 14px 45px rgba(229,9,20,.35)}
+.wide-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,12,.95) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:.75rem;opacity:0;transition:opacity .28s}
 .wide-card:hover .wide-ov{opacity:1}
-.wide-info{position:absolute;bottom:0;left:0;right:0;padding:.7rem .8rem;transform:translateY(6px);opacity:0;transition:all .3s}
-.wide-card:hover .wide-info{opacity:1;transform:translateY(0)}
-.wide-title-static{font-size:.8rem;font-weight:700;padding:.5rem .2rem .1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wide-meta{font-size:.65rem;color:var(--t3);padding:0 .2rem .3rem}
-.wide-play{font-size:.75rem;color:#fff;font-weight:700;display:flex;align-items:center;gap:.3rem}
+.wide-play{width:36px;height:36px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:.75rem;margin-bottom:.4rem;box-shadow:0 0 16px rgba(229,9,20,.5)}
+.wide-title{font-size:.8rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:.55rem .2rem .15rem}
+.wide-meta{font-size:.66rem;color:var(--t3);padding:0 .2rem;display:flex;gap:.5rem}
+
+/* FEATURED BIG CARD */
+.feat-card{flex-shrink:0;width:360px;cursor:pointer;scroll-snap-align:start;position:relative;border-radius:14px;overflow:hidden;transition:all .3s}
+.feat-card:hover{transform:translateY(-7px);box-shadow:0 20px 60px rgba(229,9,20,.3)}
+.feat-img{width:360px;height:210px;object-fit:cover;display:block;background:var(--s2);transition:transform .4s}
+.feat-card:hover .feat-img{transform:scale(1.05)}
+.feat-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,12,.97) 0%,rgba(7,7,12,.2) 55%,transparent 100%)}
+.feat-body{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.1rem}
+.feat-title{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:1px;margin-bottom:.3rem}
+.feat-meta{font-size:.68rem;color:var(--t3);display:flex;gap:.5rem;align-items:center}
+.feat-play{position:absolute;top:.75rem;left:.75rem;width:40px;height:40px;border-radius:50%;background:rgba(229,9,20,.88);display:flex;align-items:center;justify-content:center;opacity:0;transition:all .28s;font-size:.85rem;box-shadow:0 0 20px rgba(229,9,20,.55)}
+.feat-card:hover .feat-play{opacity:1;transform:scale(1.1)}
 
 /* SKEL */
 .skel{background:linear-gradient(90deg,var(--s2) 25%,var(--s3) 50%,var(--s2) 75%);background-size:200% 100%;animation:sh 1.6s ease infinite;border-radius:var(--r)}
 @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
+/* GENRE CHIPS */
+.genre-strip{display:flex;gap:.55rem;padding:.3rem 3rem .8rem;overflow-x:auto;scrollbar-width:none}
+.genre-strip::-webkit-scrollbar{display:none}
+.g-chip{flex-shrink:0;padding:.42rem 1.1rem;background:var(--s1);border:1px solid var(--s2);border-radius:30px;font-size:.75rem;cursor:pointer;color:var(--t3);transition:all .25s;font-family:'Cairo',sans-serif}
+.g-chip:hover,.g-chip.a{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 4px 14px rgba(229,9,20,.35)}
+
 /* DETAIL */
-.det-hero{position:relative;height:65vh;min-height:440px;display:flex;align-items:flex-end;overflow:hidden}
+.det-hero{position:relative;height:65vh;min-height:430px;display:flex;align-items:flex-end;overflow:hidden}
 .det-bg{position:absolute;inset:0}
-.det-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.85)}
-.det-ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(6,6,8,.55) 40%,transparent 100%)}
-.det-c{position:relative;z-index:2;padding:3rem}
-.det-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:400;line-height:1;margin-bottom:.5rem;letter-spacing:2px}
-.det-body{display:grid;grid-template-columns:1fr 290px;gap:2rem;padding:2rem 2.5rem;max-width:1400px;margin:0 auto}
+.det-bg img{width:100%;height:100%;object-fit:cover}
+.det-ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(7,7,12,.6) 45%,transparent 100%)}
+.det-c{position:relative;z-index:2;padding:2.5rem 3rem}
+.det-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.8rem);line-height:1;margin-bottom:.55rem;letter-spacing:2px}
+.det-body{display:grid;grid-template-columns:1fr 290px;gap:2rem;padding:2rem 3rem;max-width:1400px;margin:0 auto}
 @media(max-width:880px){.det-body{grid-template-columns:1fr}}
 .det-desc{color:var(--t2);font-size:.9rem;line-height:1.8;margin-bottom:1.5rem;font-family:'Tajawal',sans-serif}
-.itag{background:var(--s2);border:1px solid var(--s3);border-radius:6px;padding:.28rem .65rem;font-size:.71rem;color:var(--t2)}
+.itag{background:var(--s2);border:1px solid var(--s3);border-radius:7px;padding:.28rem .65rem;font-size:.71rem;color:var(--t2)}
 .cast-row{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.7rem}
 .cast-item{display:flex;flex-direction:column;align-items:center;gap:.3rem;width:62px}
 .cast-img{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--s2);border:2px solid var(--s3)}
 .cast-nm{font-size:.6rem;text-align:center;color:var(--t2);line-height:1.2}
 .sb-card{background:var(--bg2);border:1px solid var(--s2);border-radius:var(--r2);padding:1.2rem;margin-bottom:.9rem}
-.sb-title{font-family:'Oswald',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.4px;margin-bottom:.9rem;color:var(--t2);text-transform:uppercase}
-.act-btn{display:block;width:100%;padding:.72rem;background:var(--s2);border:1px solid var(--s3);border-radius:8px;color:var(--t1);cursor:pointer;font-family:'Cairo',sans-serif;font-size:.8rem;text-align:center;margin-bottom:.5rem;transition:all .25s}
+.sb-title{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:1px;margin-bottom:.9rem;color:var(--t2)}
+.act-btn{display:block;width:100%;padding:.72rem;background:var(--s2);border:1px solid var(--s3);border-radius:9px;color:var(--t1);cursor:pointer;font-family:'Cairo',sans-serif;font-size:.8rem;text-align:center;margin-bottom:.5rem;transition:all .25s}
 .act-btn:hover{background:var(--s3);border-color:var(--red)}
 .act-btn.fav{background:var(--redbg);border-color:var(--redbr);color:var(--red3)}
 
 /* EPISODES */
 .season-tabs{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1.1rem}
-.s-tab{padding:.42rem 1rem;background:var(--s2);border:1px solid var(--s3);border-radius:6px;color:var(--t2);cursor:pointer;font-size:.76rem;font-family:'Cairo',sans-serif;transition:all .25s}
+.s-tab{padding:.42rem 1rem;background:var(--s2);border:1px solid var(--s3);border-radius:7px;color:var(--t2);cursor:pointer;font-size:.76rem;font-family:'Cairo',sans-serif;transition:all .25s}
 .s-tab:hover,.s-tab.a{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
 .ep-item{display:flex;align-items:center;gap:1rem;padding:.9rem;background:var(--bg2);border:1px solid var(--s2);border-radius:var(--r);cursor:pointer;margin-bottom:.55rem;transition:all .25s}
 .ep-item:hover{background:var(--s1);border-color:var(--s3);transform:translateX(-4px)}
-.ep-num{font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;color:var(--t4);width:30px;flex-shrink:0;text-align:center}
-.ep-thumb{width:120px;height:68px;object-fit:cover;border-radius:6px;background:var(--s2);flex-shrink:0}
+.ep-num{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--t4);width:30px;flex-shrink:0;text-align:center}
+.ep-thumb{width:120px;height:68px;object-fit:cover;border-radius:7px;background:var(--s2);flex-shrink:0}
 .ep-info{flex:1;min-width:0}
 .ep-title{font-weight:700;font-size:.84rem;margin-bottom:.18rem}
 .ep-desc{font-size:.72rem;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ep-dur{font-size:.67rem;color:var(--t4);margin-top:.18rem}
 .ep-actions{display:flex;gap:.4rem;flex-shrink:0}
-.ep-dl-btn{padding:.3rem .65rem;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);border-radius:6px;color:var(--cyan);font-size:.68rem;cursor:pointer;transition:all .22s;font-family:'Cairo',sans-serif;white-space:nowrap}
-.ep-dl-btn:hover{background:rgba(0,212,255,.2)}
+.ep-dl-btn{padding:.3rem .65rem;background:rgba(0,207,255,.08);border:1px solid rgba(0,207,255,.22);border-radius:6px;color:var(--cyan);font-size:.68rem;cursor:pointer;transition:all .22s;font-family:'Cairo',sans-serif;white-space:nowrap}
+.ep-dl-btn:hover{background:rgba(0,207,255,.18)}
 
-/* ══ PLAYER ══════════════════════════════════════════════ */
+/* PLAYER */
 .player-page{background:#000;min-height:100vh}
-.player-nav{display:flex;align-items:center;gap:1rem;padding:.75rem 1.5rem;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}
-.player-back{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--t1);padding:.4rem .9rem;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:'Cairo',sans-serif}
+.player-nav{display:flex;align-items:center;gap:1rem;padding:.75rem 1.5rem;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}
+.player-back{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--t1);padding:.4rem .9rem;border-radius:7px;cursor:pointer;font-size:.8rem;font-family:'Cairo',sans-serif;transition:all .22s}
 .player-back:hover{background:rgba(255,255,255,.16)}
 .player-outer{position:relative;width:100%;background:#000}
 .player-inner{position:relative;width:100%;aspect-ratio:16/9;max-height:80vh;overflow:hidden;background:#000}
@@ -229,67 +275,67 @@ body{background:var(--bg);color:var(--t1);font-family:'Cairo',sans-serif;overflo
 .pc-btn:hover{background:rgba(255,255,255,.22);transform:scale(1.05)}
 .pc-btn.main{background:var(--red);border-color:var(--red);padding:.55rem 1.4rem;font-size:.88rem;font-weight:700}
 .pc-btn.main:hover{background:var(--red2)}
-.pc-btn.dl{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.3);color:var(--cyan)}
-.pc-btn.dl:hover{background:rgba(0,212,255,.22)}
+.pc-btn.dl{background:rgba(0,207,255,.1);border-color:rgba(0,207,255,.3);color:var(--cyan)}
+.pc-btn.dl:hover{background:rgba(0,207,255,.22)}
 .player-progress-wrap{padding:.3rem 1.5rem .2rem;background:rgba(0,0,0,.85)}
 .player-progress{width:100%;height:4px;background:rgba(255,255,255,.15);border-radius:2px;cursor:pointer;position:relative}
 .player-progress-fill{height:100%;background:var(--red);border-radius:2px;transition:width .2s}
 .player-no-video{display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:16/9;background:var(--bg1);color:var(--t3);gap:1rem}
-.player-info{padding:1.5rem 2.5rem;max-width:980px}
+.player-info{padding:1.5rem 3rem;max-width:980px}
 
 /* SEARCH */
-.search-ov{position:fixed;inset:0;z-index:1000;background:rgba(5,5,16,.97);backdrop-filter:blur(24px);overflow-y:auto;padding:5rem 1.5rem 2rem}
+.search-ov{position:fixed;inset:0;z-index:1000;background:rgba(5,5,12,.97);backdrop-filter:blur(28px);overflow-y:auto;padding:5rem 1.5rem 2rem}
 .search-box{max-width:900px;margin:0 auto}
-.search-field{display:flex;align-items:center;gap:.8rem;background:var(--bg2);border:1px solid var(--s3);border-radius:12px;padding:.75rem 1.1rem;margin-bottom:1.6rem}
+.search-field{display:flex;align-items:center;gap:.8rem;background:var(--bg2);border:1px solid var(--s3);border-radius:14px;padding:.75rem 1.1rem;margin-bottom:1.6rem}
 .search-in{background:none;border:none;color:var(--t1);font-size:1.1rem;font-family:'Cairo',sans-serif;flex:1;outline:none}
 .s-lbl{font-size:.7rem;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.8rem}
-.s-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(142px,1fr));gap:1rem}
+.s-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}
 
 /* AUTH */
 .auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative}
-.auth-bg{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(229,9,20,.08) 0%,transparent 60%),linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);z-index:-1}
-.auth-box{background:rgba(15,15,34,.95);border:1px solid var(--s3);border-radius:18px;padding:2.8rem;width:100%;max-width:430px;backdrop-filter:blur(24px)}
-.auth-logo{font-family:'Oswald',sans-serif;font-size:2.1rem;font-weight:700;text-align:center;margin-bottom:.25rem}
+.auth-bg{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(229,9,20,.07) 0%,transparent 60%),linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);z-index:-1}
+.auth-box{background:rgba(13,13,20,.96);border:1px solid var(--s3);border-radius:20px;padding:2.8rem;width:100%;max-width:430px;backdrop-filter:blur(24px);box-shadow:0 30px 80px rgba(0,0,0,.9)}
+.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;text-align:center;margin-bottom:.25rem;letter-spacing:4px;background:linear-gradient(120deg,#fff,var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .auth-sub{text-align:center;font-size:.73rem;color:var(--t3);margin-bottom:1.8rem}
-.auth-tabs{display:flex;background:var(--s1);border-radius:9px;padding:.25rem;margin-bottom:1.5rem}
-.at{flex:1;padding:.55rem;border:none;background:transparent;color:var(--t2);cursor:pointer;font-family:'Cairo',sans-serif;font-size:.82rem;border-radius:7px;transition:all .22s}
-.at.a{background:var(--red);color:#fff;font-weight:700}
+.auth-tabs{display:flex;background:var(--s1);border-radius:10px;padding:.28rem;margin-bottom:1.5rem}
+.at{flex:1;padding:.55rem;border:none;background:transparent;color:var(--t2);cursor:pointer;font-family:'Cairo',sans-serif;font-size:.82rem;border-radius:8px;transition:all .22s}
+.at.a{background:var(--red);color:#fff;font-weight:700;box-shadow:0 2px 10px rgba(229,9,20,.4)}
 .fg{margin-bottom:1.1rem}
 .fl{display:block;font-size:.68rem;color:var(--t3);margin-bottom:.38rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.fi{width:100%;background:var(--bg3);border:1px solid var(--s3);border-radius:9px;padding:.75rem 1rem;color:var(--t1);font-family:'Cairo',sans-serif;font-size:.9rem;outline:none;transition:border-color .25s;direction:ltr}
-.fi:focus{border-color:var(--red)}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--s3);border-radius:10px;padding:.75rem 1rem;color:var(--t1);font-family:'Cairo',sans-serif;font-size:.9rem;outline:none;transition:border-color .25s;direction:ltr}
+.fi:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(229,9,20,.12)}
 .fi-r{direction:rtl}
-.ferr{background:var(--redbg);border:1px solid var(--redbr);border-radius:8px;padding:.65rem .9rem;font-size:.78rem;color:var(--red3);margin-bottom:.9rem}
-.fok{background:rgba(29,185,84,.12);border:1px solid rgba(29,185,84,.3);border-radius:8px;padding:.65rem .9rem;font-size:.78rem;color:var(--green);margin-bottom:.9rem}
-.btn-auth{width:100%;background:var(--red);border:none;color:#fff;padding:.9rem;border-radius:9px;cursor:pointer;font-size:.92rem;font-family:'Cairo',sans-serif;font-weight:700;transition:background .25s;margin-top:.4rem}
-.btn-auth:hover{background:var(--red2)}
-.btn-auth:disabled{background:var(--s2);color:var(--t3);cursor:not-allowed}
+.ferr{background:var(--redbg);border:1px solid var(--redbr);border-radius:9px;padding:.65rem .9rem;font-size:.78rem;color:var(--red3);margin-bottom:.9rem}
+.fok{background:rgba(33,197,93,.1);border:1px solid rgba(33,197,93,.28);border-radius:9px;padding:.65rem .9rem;font-size:.78rem;color:var(--green);margin-bottom:.9rem}
+.btn-auth{width:100%;background:linear-gradient(135deg,var(--red),#b5000a);border:none;color:#fff;padding:.9rem;border-radius:10px;cursor:pointer;font-size:.92rem;font-family:'Cairo',sans-serif;font-weight:700;transition:all .25s;margin-top:.4rem;box-shadow:0 4px 18px rgba(229,9,20,.4)}
+.btn-auth:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(229,9,20,.6)}
+.btn-auth:disabled{background:var(--s2);color:var(--t3);cursor:not-allowed;transform:none;box-shadow:none}
 
 /* PROFILE */
-.prof-page{padding:5.5rem 2.5rem 3rem;max-width:1300px;margin:0 auto}
-.prof-cover{height:200px;border-radius:var(--r2);background:linear-gradient(135deg,var(--s3) 0%,var(--s1) 100%);position:relative;overflow:hidden;margin-bottom:4rem}
-.prof-av-wrap{position:absolute;bottom:-3rem;right:2rem}
-.prof-av{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid var(--bg);background:var(--s2)}
+.prof-page{padding:5.5rem 3rem 3rem;max-width:1300px;margin:0 auto}
+.prof-cover{height:210px;border-radius:var(--r2);background:linear-gradient(135deg,var(--s3) 0%,var(--s1) 100%);position:relative;overflow:hidden;margin-bottom:4rem}
+.prof-av-wrap{position:absolute;bottom:-3rem;right:2.5rem}
+.prof-av{width:95px;height:95px;border-radius:50%;object-fit:cover;border:4px solid var(--bg);background:var(--s2);box-shadow:0 4px 20px rgba(0,0,0,.5)}
 .p-tab-row{display:flex;gap:.4rem;border-bottom:1px solid var(--s2);margin-bottom:1.5rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.5rem}
-.p-tab{padding:.6rem 1.2rem;background:transparent;border:none;color:var(--t3);cursor:pointer;font-size:.8rem;font-family:'Cairo',sans-serif;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:.8rem;transition:color .2s}
+.p-tab{padding:.6rem 1.2rem;background:transparent;border:none;color:var(--t3);cursor:pointer;font-size:.8rem;font-family:'Cairo',sans-serif;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:.8rem;transition:all .22s}
 .p-tab:hover{color:var(--t1)}
-.p-tab.a{color:var(--t1);border-bottom-color:var(--red);font-weight:700}
+.p-tab.a{color:var(--gold2);border-bottom-color:var(--gold);font-weight:700}
 .stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem;margin-bottom:2rem}
 .stat-box{background:var(--bg2);border:1px solid var(--s2);border-radius:var(--r);padding:1.1rem;text-align:center}
-.stat-val{font-family:'Oswald',sans-serif;font-size:1.9rem;font-weight:700;color:var(--red3)}
-.stat-lbl{font-size:.7rem;color:var(--t3);margin-top:.2rem}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--red3);letter-spacing:1px}
+.stat-lbl{font-size:.7rem;color:var(--t3);margin-top:.15rem}
 .sett-form{background:var(--bg2);border:1px solid var(--s2);border-radius:var(--r2);padding:1.8rem;max-width:550px}
-.sett-form h3{font-family:'Oswald',sans-serif;font-size:.95rem;font-weight:600;margin-bottom:1.3rem;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+.sett-form h3{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;margin-bottom:1.3rem;color:var(--t2)}
 
-/* ══ ADMIN ══════════════════════════════════════════════ */
-.adm-page{padding:5.5rem 2.5rem 3rem;max-width:1500px;margin:0 auto}
+/* ADMIN */
+.adm-page{padding:5.5rem 3rem 3rem;max-width:1500px;margin:0 auto}
 .adm-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
-.adm-title{font-family:'Oswald',sans-serif;font-size:1.6rem;font-weight:700}
+.adm-title{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:2px}
 .adm-badge{background:var(--redbg);border:1px solid var(--redbr);color:var(--red3);padding:.28rem .85rem;border-radius:20px;font-size:.72rem;font-weight:700}
 .adm-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.5rem;border-bottom:1px solid var(--s2);padding-bottom:.8rem;overflow-x:auto;scrollbar-width:none}
 .a-tab{padding:.52rem 1.2rem;background:transparent;border:1px solid var(--s2);border-radius:8px;color:var(--t3);cursor:pointer;font-size:.78rem;font-family:'Cairo',sans-serif;transition:all .22s;white-space:nowrap}
 .a-tab:hover{color:var(--t1);border-color:var(--s3)}
-.a-tab.a{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+.a-tab.a{background:var(--red);border-color:var(--red);color:#fff;font-weight:700;box-shadow:0 2px 12px rgba(229,9,20,.35)}
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:1rem;margin-bottom:1.5rem}
 .adm-tw{background:var(--bg2);border:1px solid var(--s2);border-radius:var(--r2);overflow:hidden}
 table.at2{width:100%;border-collapse:collapse;font-size:.78rem}
@@ -297,70 +343,121 @@ table.at2 th{text-align:right;padding:.75rem 1rem;color:var(--t3);font-size:.67r
 table.at2 td{padding:.7rem 1rem;border-bottom:1px solid var(--s1);vertical-align:middle}
 table.at2 tr:last-child td{border-bottom:none}
 table.at2 tr:hover td{background:rgba(255,255,255,.018)}
-.a-thumb{width:38px;height:54px;object-fit:cover;border-radius:4px;background:var(--s2)}
+.a-thumb{width:38px;height:54px;object-fit:cover;border-radius:5px;background:var(--s2)}
 .a-tog{padding:.27rem .6rem;border-radius:5px;font-size:.66rem;cursor:pointer;border:1px solid;font-family:'Cairo',sans-serif;transition:all .2s}
 .a-tog.on{background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.3);color:var(--gold)}
 .a-tog.off{background:var(--s1);border-color:var(--s2);color:var(--t4)}
 .a-btn{padding:.3rem .7rem;border-radius:5px;font-size:.68rem;cursor:pointer;font-family:'Cairo',sans-serif;transition:all .2s;border:1px solid;white-space:nowrap}
-.a-edit{background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.2);color:var(--cyan)}
-.a-edit:hover{background:rgba(0,212,255,.18)}
+.a-edit{background:rgba(0,207,255,.08);border-color:rgba(0,207,255,.2);color:var(--cyan)}
+.a-edit:hover{background:rgba(0,207,255,.18)}
 .a-del{background:var(--redbg);border-color:var(--redbr);color:var(--red3)}
 .a-del:hover{background:rgba(229,9,20,.25)}
-.a-grn{background:rgba(29,185,84,.08);border-color:rgba(29,185,84,.25);color:var(--green)}
-.a-grn:hover{background:rgba(29,185,84,.2)}
+.a-grn{background:rgba(33,197,93,.08);border-color:rgba(33,197,93,.25);color:var(--green)}
+.a-grn:hover{background:rgba(33,197,93,.2)}
 .form-sec{background:var(--bg2);border:1px solid var(--s2);border-radius:var(--r2);padding:1.8rem}
-.form-sec h3{font-family:'Oswald',sans-serif;font-size:1rem;font-weight:600;margin-bottom:1.3rem}
+.form-sec h3{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:1px;margin-bottom:1.3rem}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:580px){.form-grid{grid-template-columns:1fr}}
 .form-full{grid-column:1/-1}
-.ftarea{width:100%;background:var(--bg3);border:1px solid var(--s3);border-radius:9px;padding:.75rem 1rem;color:var(--t1);font-family:'Cairo',sans-serif;font-size:.88rem;outline:none;min-height:90px;resize:vertical;transition:border-color .25s;direction:rtl}
+.ftarea{width:100%;background:var(--bg3);border:1px solid var(--s3);border-radius:10px;padding:.75rem 1rem;color:var(--t1);font-family:'Cairo',sans-serif;font-size:.88rem;outline:none;min-height:90px;resize:vertical;transition:border-color .25s;direction:rtl}
 .ftarea:focus{border-color:var(--red)}
-.fsel{width:100%;background:var(--bg3);border:1px solid var(--s3);border-radius:9px;padding:.75rem 1rem;color:var(--t1);font-family:'Cairo',sans-serif;font-size:.88rem;outline:none;cursor:pointer}
+.fsel{width:100%;background:var(--bg3);border:1px solid var(--s3);border-radius:10px;padding:.75rem 1rem;color:var(--t1);font-family:'Cairo',sans-serif;font-size:.88rem;outline:none;cursor:pointer}
 .fcheck-row{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
 .fcheck{display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.8rem;color:var(--t2)}
 .fcheck input{accent-color:var(--red)}
-
-/* MODAL */
-.modal-bd{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:flex;align-items:flex-start;justify-content:center;padding:3rem 1rem 2rem;overflow-y:auto}
-.modal-box{background:var(--bg2);border:1px solid var(--s3);border-radius:16px;width:100%;max-width:780px;padding:1.8rem;animation:mIn .25s ease}
+.modal-bd{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);display:flex;align-items:flex-start;justify-content:center;padding:3rem 1rem 2rem;overflow-y:auto}
+.modal-box{background:var(--bg2);border:1px solid var(--s3);border-radius:18px;width:100%;max-width:780px;padding:1.8rem;animation:mIn .25s ease}
 .modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem}
-.modal-hd h3{font-family:'Oswald',sans-serif;font-size:1.05rem;font-weight:600}
+.modal-hd h3{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px}
 .modal-x{background:var(--s2);border:none;color:var(--t2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
 .modal-x:hover{background:var(--s3)}
-.confirm-box{background:var(--bg2);border:1px solid var(--s3);border-radius:14px;padding:2rem;max-width:380px;width:100%;text-align:center}
-
-/* TOAST */
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--s3);border-radius:10px;padding:.75rem 1.4rem;font-size:.82rem;z-index:9999;box-shadow:var(--shadow);animation:tIn .3s ease;white-space:nowrap}
+.confirm-box{background:var(--bg2);border:1px solid var(--s3);border-radius:16px;padding:2rem;max-width:380px;width:100%;text-align:center}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--s3);border-radius:10px;padding:.75rem 1.4rem;font-size:.82rem;z-index:9999;box-shadow:0 8px 40px rgba(0,0,0,.8);animation:tIn .3s ease;white-space:nowrap}
 @keyframes tIn{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.toast.ok{border-color:rgba(29,185,84,.4);color:var(--green)}
+.toast.ok{border-color:rgba(33,197,93,.4);color:var(--green)}
 .toast.err{border-color:var(--redbr);color:var(--red3)}
 .spinner{width:38px;height:38px;border:3px solid var(--s2);border-top-color:var(--red);border-radius:50%;animation:sp .75s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-.spin-sm{width:16px;height:16px;border:2px solid var(--s2);border-top-color:var(--red);border-radius:50%;animation:sp .75s linear infinite;display:inline-block}
+.spin-sm{width:16px;height:16px;border:2px solid var(--s2);border-top-color:var(--gold);border-radius:50%;animation:sp .75s linear infinite;display:inline-block}
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1rem;color:var(--t3);text-align:center}
-.loading-sc{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;z-index:9999}
-.loading-logo{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;font-weight:400;letter-spacing:6px;background:linear-gradient(135deg,#fff 0%,var(--red) 60%,#ff4444 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 1.8s ease infinite;filter:drop-shadow(0 0 20px rgba(229,9,20,.3))}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.loading-sc{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;z-index:9999}
+.loading-logo{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:4px;animation:pulse 1.6s ease infinite;background:linear-gradient(120deg,#fff,var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+@keyframes pulse{0%,100%{opacity:1;filter:drop-shadow(0 0 8px rgba(229,9,20,.4))}50%{opacity:.3;filter:drop-shadow(0 0 0px rgba(229,9,20,0))}}
 .c-page{padding:5.5rem 3rem 3rem;max-width:1400px;margin:0 auto}
-.c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(162px,1fr));gap:1.2rem}
-.chip{padding:.4rem 1rem;background:var(--s2);border:1px solid var(--s3);border-radius:20px;font-size:.74rem;cursor:pointer;color:var(--t3);transition:all .22s;font-family:'Cairo',sans-serif;letter-spacing:.3px}
-.chip:hover,.chip.a{background:var(--red);border-color:var(--red);color:#fff}
-.footer{background:rgba(6,6,8,.98);border-top:1px solid rgba(255,255,255,.04);padding:4rem 3rem 2rem;margin-top:5rem;position:relative;overflow:hidden}
-.footer::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(229,9,20,.04) 0%,transparent 60%);pointer-events:none}
-.ft-grid{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2.5rem}
+.c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:1.1rem}
+.chip{padding:.38rem .9rem;background:var(--s2);border:1px solid var(--s3);border-radius:20px;font-size:.74rem;cursor:pointer;color:var(--t2);transition:all .22s;font-family:'Cairo',sans-serif}
+.chip:hover,.chip.a{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 3px 12px rgba(229,9,20,.35)}
+.footer{background:var(--bg1);border-top:1px solid var(--s2);padding:3rem 3rem 1.5rem;margin-top:4rem}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
 @media(max-width:720px){.ft-grid{grid-template-columns:1fr 1fr}}
-.ft-logo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;font-weight:400;letter-spacing:3px;background:linear-gradient(135deg,#fff 0%,var(--red) 60%,#ff4444 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.7rem}
-.ft-link{display:block;font-size:.76rem;color:var(--t4);cursor:pointer;margin-bottom:.5rem;transition:color .2s;letter-spacing:.2px}
+.ft-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;margin-bottom:.6rem;background:linear-gradient(120deg,#fff,var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.ft-link{display:block;font-size:.77rem;color:var(--t3);cursor:pointer;margin-bottom:.4rem;transition:color .2s}
 .ft-link:hover{color:var(--t1)}
-.ft-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.04);flex-wrap:wrap;gap:.5rem}
-
-/* ══ EP MANAGER (admin) ══════════════════════════════════ */
+.ft-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid var(--s2);flex-wrap:wrap;gap:.5rem}
 .ep-mgr{background:var(--bg3);border:1px solid var(--s2);border-radius:var(--r);margin-bottom:.5rem;overflow:hidden}
 .ep-mgr-head{display:flex;align-items:center;gap:.8rem;padding:.75rem .9rem;cursor:pointer;transition:background .22s}
 .ep-mgr-head:hover{background:var(--s1)}
 .ep-mgr-body{padding:.75rem .9rem;border-top:1px solid var(--s2)}
 .ep-url-row{display:flex;gap:.5rem;align-items:center;margin-top:.5rem}
 .ep-url-row .fi{flex:1}
+
+/* ══ MOBILE ══════════════════════════════════════════════ */
+@media(max-width:768px){
+  .nav{padding:.7rem 1.2rem}
+  .nav-links{display:none}
+  .logo{font-size:1.5rem;letter-spacing:2px}
+  .hero-c{padding:3rem 1.2rem 2rem}
+  .hero-title{font-size:clamp(2rem,10vw,3.5rem)}
+  .hero-desc{font-size:.82rem;max-width:100%}
+  .btn-play{padding:.72rem 1.4rem;font-size:.82rem}
+  .btn-ol{padding:.72rem 1.2rem;font-size:.82rem}
+  .row-hd{padding:.5rem 1.2rem .8rem}
+  .slider{padding:.3rem 1.2rem 1rem;gap:.7rem}
+  .card{width:130px}.card-img{width:130px;height:195px}
+  .rank-card{width:145px}.rank-num{font-size:6rem}.rank-img{width:100px;height:150px}
+  .wide-card{width:220px}.wide-img{width:220px;height:124px}
+  .c-page{padding:4.5rem 1.2rem 2rem}
+  .c-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.8rem}
+  .det-c{padding:1.5rem 1.2rem}
+  .det-title{font-size:clamp(1.5rem,7vw,2.8rem)}
+  .det-body-grid{grid-template-columns:1fr!important;padding:1.2rem!important}
+  .det-sidebar{display:none}
+  .player-nav{padding:.6rem 1rem}
+  .player-controls-row{flex-wrap:wrap;gap:.5rem}
+  .adm-page{padding:4.5rem 1rem 2rem}
+  .adm-tabs{gap:.3rem}
+  .a-tab{padding:.4rem .7rem;font-size:.7rem}
+  .form-grid{grid-template-columns:1fr!important}
+  .ft-grid{grid-template-columns:1fr!important}
+  .auth-box{padding:2rem 1.4rem;margin:1rem}
+  .mob-menu-btn{display:flex!important}
+  .mob-nav{display:flex!important}
+}
+@media(min-width:769px){
+  .mob-menu-btn{display:none!important}
+  .mob-nav{display:none!important}
+}
+/* COMMENTS */
+.comments-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--s2)}
+.comment-item{display:flex;gap:.8rem;padding:.9rem;background:var(--bg2);border:1px solid var(--s2);border-radius:10px;margin-bottom:.6rem;position:relative;transition:border-color .2s}
+.comment-item:hover{border-color:var(--s3)}
+.comment-av{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--s3)}
+.comment-body{flex:1;min-width:0}
+.comment-user{font-size:.76rem;font-weight:700;color:var(--gold);margin-bottom:.2rem}
+.comment-text{font-size:.82rem;color:var(--t2);line-height:1.6;font-family:'Tajawal',sans-serif}
+.comment-date{font-size:.62rem;color:var(--t4);margin-top:.3rem}
+.comment-del{position:absolute;top:.7rem;left:.7rem;background:var(--redbg);border:1px solid var(--redbr);color:var(--red3);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.comment-item:hover .comment-del{opacity:1}
+.comment-input-row{display:flex;gap:.7rem;margin-bottom:1.2rem;align-items:flex-start}
+.comment-ta{flex:1;background:var(--bg3);border:1px solid var(--s3);border-radius:10px;padding:.7rem 1rem;color:var(--t1);font-family:'Cairo',sans-serif;font-size:.84rem;outline:none;resize:none;min-height:60px;transition:border-color .25s;direction:rtl}
+.comment-ta:focus{border-color:var(--gold)}
+.comment-send{background:linear-gradient(135deg,var(--gold2) 0%,var(--gold) 60%,#d4a000 100%);border:none;color:#000;position:relative;overflow:hidden;padding:.65rem 1.2rem;border-radius:9px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:.8rem;font-weight:700;transition:all .25s;white-space:nowrap;flex-shrink:0}
+.comment-send:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,197,24,.4)}
+/* BROWSE PAGE */
+.browse-hero{background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);padding:6rem 3rem 3rem;text-align:center;position:relative;overflow:hidden}
+.browse-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(245,197,24,.08) 0%,transparent 60%)}
+.browse-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,4rem);letter-spacing:4px;background:linear-gradient(135deg,#fff 0%,var(--gold2) 40%,var(--gold) 70%,#d4a000 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(245,197,24,.3))}
+
 `;
 
 /* ═══════════ DB LAYER ════════════════════════════════════ */
@@ -412,12 +509,12 @@ const DB = {
   },
   async getContent(id) {
     const { data, error } = await sb.from('content')
-      .select(`*, seasons(*, episodes(*))`)
+      .select('*, seasons(*, episodes(*))')
       .eq('id', id).single();
     if (error) throw error;
     if (data?.seasons) {
-      data.seasons.sort((a, b) => a.season_num - b.season_num);
-      data.seasons.forEach(s => s.episodes?.sort((a, b) => a.ep_num - b.ep_num));
+      data.seasons.sort((a,b) => a.season_num - b.season_num);
+      data.seasons.forEach(s => s.episodes?.sort((a,b) => a.ep_num - b.ep_num));
     }
     return data;
   },
@@ -511,7 +608,208 @@ const DB = {
   async toggleUserAdmin(uid, current) {
     await sb.from('profiles').update({ is_admin: !current }).eq('id', uid);
   },
+  async getComments(contentId, episodeId = null) {
+    let q = sb.from('comments').select('*, profiles(username, avatar_url)')
+      .eq('content_id', contentId).order('created_at', { ascending: false });
+    if (episodeId) q = q.eq('episode_id', episodeId);
+    else q = q.is('episode_id', null);
+    const { data } = await q;
+    return data || [];
+  },
+  async addComment(uid, contentId, episodeId, text) {
+    const { data, error } = await sb.from('comments')
+      .insert({ user_id: uid, content_id: contentId, episode_id: episodeId || null, text })
+      .select('*, profiles(username, avatar_url)').single();
+    if (error) throw error;
+    return data;
+  },
+  async deleteComment(id) {
+    const { error } = await sb.from('comments').delete().eq('id', id);
+    if (error) throw error;
+  },
 };
+
+
+/* ═══════════ AUTH PAGE ══════════════════════════════════ */
+function AuthPage({ onAuth }) {
+  const [tab, setTab] = useState('login');
+  const [f, setF] = useState({ email:'', password:'', username:'', confirm:'' });
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState('');
+  const [ok, setOk] = useState('');
+  const inp = (k,v) => { setF(p=>({...p,[k]:v})); setErr(''); };
+
+  const submit = async () => {
+    setErr(''); setOk('');
+    if (!f.email.trim()) { setErr('يرجى إدخال البريد الإلكتروني'); return; }
+    if (!f.password) { setErr('يرجى إدخال كلمة المرور'); return; }
+    if (tab==='register') {
+      if (!f.username.trim()) { setErr('يرجى إدخال اسم المستخدم'); return; }
+      if (f.password !== f.confirm) { setErr('كلمة المرور غير متطابقة'); return; }
+      if (f.password.length < 6) { setErr('كلمة المرور 6 أحرف على الأقل'); return; }
+    }
+    setLoading(true);
+    try {
+      if (tab === 'login') {
+        const data = await DB.login(f.email, f.password);
+        if (data?.user) { const p = await DB.getProfile(data.user.id); onAuth(data.user, p); }
+        else setErr('فشل تسجيل الدخول، تحقق من بياناتك');
+      } else {
+        const data = await DB.register(f.email, f.password, f.username.trim());
+        if (data?.user?.identities?.length === 0) { setErr('هذا البريد مسجل مسبقاً'); setLoading(false); return; }
+        // Try auto-login
+        try {
+          const login = await DB.login(f.email, f.password);
+          if (login?.user) { const p = await DB.getProfile(login.user.id); onAuth(login.user, p); }
+          else setOk('تم إنشاء الحساب! يرجى تسجيل الدخول');
+        } catch(_) { setOk('تم إنشاء الحساب! يرجى تسجيل الدخول الآن'); setTab('login'); }
+      }
+    } catch(e) { setErr(e.message || 'حدث خطأ، حاول مرة أخرى'); }
+    setLoading(false);
+  };
+
+  return (
+    <div style={{ minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:'2rem',background:'radial-gradient(ellipse at 30% 50%,rgba(245,197,24,.05) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(229,9,20,.06) 0%,transparent 50%),var(--bg)' }}>
+      <div style={{ width:'100%',maxWidth:440 }}>
+        {/* Logo */}
+        <div style={{ textAlign:'center',marginBottom:'2rem' }}>
+          <div style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'3rem',letterSpacing:'5px',background:'linear-gradient(135deg,#fff 0%,var(--red) 60%,#ff4444 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',filter:'drop-shadow(0 0 15px rgba(229,9,20,.4))' }}>FLIXTN</div>
+          <div style={{ fontSize:'.72rem',color:'var(--t4)',letterSpacing:'2px',marginTop:'.2rem' }}>السينما العربية والتونسية</div>
+        </div>
+
+        <div style={{ background:'rgba(19,19,31,.97)',border:'1px solid var(--s3)',borderRadius:20,padding:'2.5rem',backdropFilter:'blur(24px)',boxShadow:'0 30px 80px rgba(0,0,0,.8)' }}>
+          {/* Tabs */}
+          <div style={{ display:'flex',background:'var(--s1)',borderRadius:10,padding:'.25rem',marginBottom:'1.6rem' }}>
+            {[['login','تسجيل الدخول'],['register','إنشاء حساب']].map(([k,l])=>(
+              <button key={k} onClick={()=>{setTab(k);setErr('');setOk('');}} style={{ flex:1,padding:'.6rem',border:'none',background:tab===k?'linear-gradient(135deg,var(--gold),#d4a000)':'transparent',color:tab===k?'#000':'var(--t3)',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.84rem',borderRadius:8,transition:'all .22s',fontWeight:tab===k?700:400 }}>{l}</button>
+            ))}
+          </div>
+
+          {err && <div style={{ background:'var(--redbg)',border:'1px solid var(--redbr)',borderRadius:9,padding:'.65rem .9rem',fontSize:'.78rem',color:'var(--red3)',marginBottom:'1rem',display:'flex',alignItems:'center',gap:'.4rem' }}>⚠ {err}</div>}
+          {ok && <div style={{ background:'rgba(29,185,84,.1)',border:'1px solid rgba(29,185,84,.3)',borderRadius:9,padding:'.65rem .9rem',fontSize:'.78rem',color:'var(--green)',marginBottom:'1rem' }}>✓ {ok}</div>}
+
+          {tab==='register' && (
+            <div style={{ marginBottom:'1rem' }}>
+              <label style={{ display:'block',fontSize:'.68rem',color:'var(--t3)',marginBottom:'.35rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.5px' }}>اسم المستخدم</label>
+              <input value={f.username} onChange={e=>inp('username',e.target.value)}
+                style={{ width:'100%',background:'var(--bg3)',border:'1px solid var(--s3)',borderRadius:9,padding:'.75rem 1rem',color:'var(--t1)',fontFamily:"'Cairo',sans-serif",fontSize:'.9rem',outline:'none',direction:'rtl',transition:'border-color .25s' }}
+                onFocus={e=>e.target.style.borderColor='var(--gold)'} onBlur={e=>e.target.style.borderColor='var(--s3)'}
+                placeholder="اسمك هنا" />
+            </div>
+          )}
+          <div style={{ marginBottom:'1rem' }}>
+            <label style={{ display:'block',fontSize:'.68rem',color:'var(--t3)',marginBottom:'.35rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.5px' }}>البريد الإلكتروني</label>
+            <input type="email" value={f.email} onChange={e=>inp('email',e.target.value)}
+              style={{ width:'100%',background:'var(--bg3)',border:'1px solid var(--s3)',borderRadius:9,padding:'.75rem 1rem',color:'var(--t1)',fontFamily:"'Cairo',sans-serif",fontSize:'.9rem',outline:'none',direction:'ltr',transition:'border-color .25s' }}
+              onFocus={e=>e.target.style.borderColor='var(--gold)'} onBlur={e=>e.target.style.borderColor='var(--s3)'}
+              placeholder="email@example.com" onKeyDown={e=>e.key==='Enter'&&submit()} />
+          </div>
+          <div style={{ marginBottom:tab==='register'?'1rem':'1.4rem' }}>
+            <label style={{ display:'block',fontSize:'.68rem',color:'var(--t3)',marginBottom:'.35rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.5px' }}>كلمة المرور</label>
+            <input type="password" value={f.password} onChange={e=>inp('password',e.target.value)}
+              style={{ width:'100%',background:'var(--bg3)',border:'1px solid var(--s3)',borderRadius:9,padding:'.75rem 1rem',color:'var(--t1)',fontFamily:"'Cairo',sans-serif",fontSize:'.9rem',outline:'none',direction:'ltr',transition:'border-color .25s' }}
+              onFocus={e=>e.target.style.borderColor='var(--gold)'} onBlur={e=>e.target.style.borderColor='var(--s3)'}
+              placeholder="••••••••" onKeyDown={e=>e.key==='Enter'&&submit()} />
+          </div>
+          {tab==='register' && (
+            <div style={{ marginBottom:'1.4rem' }}>
+              <label style={{ display:'block',fontSize:'.68rem',color:'var(--t3)',marginBottom:'.35rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.5px' }}>تأكيد كلمة المرور</label>
+              <input type="password" value={f.confirm} onChange={e=>inp('confirm',e.target.value)}
+                style={{ width:'100%',background:'var(--bg3)',border:'1px solid var(--s3)',borderRadius:9,padding:'.75rem 1rem',color:'var(--t1)',fontFamily:"'Cairo',sans-serif",fontSize:'.9rem',outline:'none',direction:'ltr',transition:'border-color .25s' }}
+                onFocus={e=>e.target.style.borderColor='var(--gold)'} onBlur={e=>e.target.style.borderColor='var(--s3)'}
+                placeholder="••••••••" onKeyDown={e=>e.key==='Enter'&&submit()} />
+            </div>
+          )}
+          <button onClick={submit} disabled={loading}
+            style={{ width:'100%',background:loading?'var(--s2)':'linear-gradient(135deg,var(--gold2) 0%,var(--gold) 50%,#d4a000 100%)',border:'none',color:loading?'var(--t3)':'#000',padding:'.9rem',borderRadius:10,cursor:loading?'not-allowed':'pointer',fontSize:'.92rem',fontFamily:"'Cairo',sans-serif",fontWeight:800,transition:'all .25s',boxShadow:loading?'none':'0 4px 24px rgba(245,197,24,.4)' }}>
+            {loading ? <span style={{ display:'flex',alignItems:'center',justifyContent:'center',gap:'.5rem' }}><div style={{ width:16,height:16,border:'2px solid rgba(255,255,255,.3)',borderTopColor:'#fff',borderRadius:'50%',animation:'sp .75s linear infinite' }} />جاري...</span>
+              : tab==='login' ? '🔐 دخول' : '✨ إنشاء الحساب'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════ COMMENTS SECTION ════════════════════════════ */
+function CommentsSection({ contentId, episodeId, user, profile, isAdmin }) {
+  const [comments, setComments] = useState([]);
+  const [text, setText] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    DB.getComments(contentId, episodeId).then(d => { setComments(d); setLoading(false); }).catch(()=>setLoading(false));
+  }, [contentId, episodeId]);
+
+  const send = async () => {
+    if (!text.trim() || !user) return;
+    setSending(true);
+    try {
+      const c = await DB.addComment(user.id, contentId, episodeId, text.trim());
+      // Supabase returns profiles join; if missing, fill locally
+      if (!c.profiles) {
+        c.profiles = {
+          username: profile?.username || user.email?.split('@')[0] || 'مستخدم',
+          avatar_url: profile?.avatar_url || null,
+        };
+      }
+      setComments(p => [c, ...p]);
+      setText('');
+    } catch(e) { console.error(e); }
+    setSending(false);
+  };
+
+  const del = async (id, uid) => {
+    if (uid !== user?.id && !isAdmin) return;
+    await DB.deleteComment(id);
+    setComments(p => p.filter(c => c.id !== id));
+  };
+
+  return (
+    <div className="comments-section">
+      <div style={{ display:'flex',alignItems:'center',gap:'.6rem',marginBottom:'1.2rem' }}>
+        <div style={{ width:3,height:20,background:'linear-gradient(180deg,var(--gold2),var(--gold))',borderRadius:2,boxShadow:'0 0 8px rgba(245,197,24,.5)' }} />
+        <span style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.1rem',letterSpacing:'2px',color:'var(--gold)' }}>التعليقات</span>
+        <span style={{ fontSize:'.72rem',color:'var(--t4)',background:'var(--s2)',padding:'.15rem .5rem',borderRadius:20 }}>{comments.length}</span>
+      </div>
+
+      {user ? (
+        <div className="comment-input-row">
+          <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`} alt=""
+            style={{ width:38,height:38,borderRadius:'50%',border:'2px solid var(--s3)',flexShrink:0 }} />
+          <textarea className="comment-ta" value={text} onChange={e=>setText(e.target.value)}
+            placeholder="اكتب تعليقك هنا..." rows={2}
+            onKeyDown={e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); }}} />
+          <button className="comment-send" onClick={send} disabled={sending||!text.trim()}>
+            {sending ? '...' : 'إرسال'}
+          </button>
+        </div>
+      ) : (
+        <div style={{ padding:'1rem',background:'var(--bg2)',border:'1px dashed var(--s3)',borderRadius:10,fontSize:'.8rem',color:'var(--t4)',textAlign:'center',marginBottom:'1rem' }}>
+          سجّل دخولك لتتمكن من التعليق
+        </div>
+      )}
+
+      {loading ? <div style={{ padding:'1rem',textAlign:'center' }}><div className="spin-sm" /></div>
+      : comments.length === 0 ? (
+        <div style={{ padding:'1.5rem',textAlign:'center',color:'var(--t4)',fontSize:'.8rem' }}>لا توجد تعليقات بعد — كن أول من يعلّق!</div>
+      ) : comments.map(c => (
+        <div key={c.id} className="comment-item">
+          <img className="comment-av" src={c.profiles?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${c.user_id}`} alt="" />
+          <div className="comment-body">
+            <div className="comment-user">{c.profiles?.username || c.username_cache || 'مستخدم'}</div>
+            <div className="comment-text">{c.text}</div>
+            <div className="comment-date">{new Date(c.created_at).toLocaleDateString('ar-TN', { year:'numeric',month:'short',day:'numeric' })}</div>
+          </div>
+          {(c.user_id === user?.id || isAdmin) && (
+            <button className="comment-del" onClick={() => del(c.id, c.user_id)} title="حذف">✕</button>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 /* ═══════════ TINY COMPONENTS ════════════════════════════ */
 function Toast({ msg, type = '', onClose }) {
@@ -534,366 +832,32 @@ function Confirm({ msg, onYes, onNo }) {
 }
 function Spin({ sm }) { return <div className={sm ? 'spin-sm' : 'spinner'} />; }
 
+
 function MovieCard({ item, onClick, onFav, isFav, showType }) {
-  const poster = item.poster_url || item.poster || `https://picsum.photos/seed/${item.id}/160/240`;
+  const poster = item.poster_url || item.poster || `https://picsum.photos/seed/${item.id}/162/243`;
   return (
     <div className="card" onClick={() => onClick(item)}>
-      <img className="card-img" src={poster} alt={item.title} loading="lazy" onError={e => e.target.src = `https://picsum.photos/seed/${item.id}/160/240`} />
-      <div className="card-ov" /><div className="card-play">▶</div>
-      <div className="card-info">
-        <div className="card-title">{item.title}</div>
-        <div className="card-meta">
-          <span style={{ color: '#f5c518' }}>★{item.rating}</span>
-          <span>{item.year}</span>
-          {showType && <span style={{ color: item.type === 'movie' ? 'var(--red3)' : 'var(--cyan)' }}>{item.type === 'movie' ? 'فيلم' : 'مسلسل'}</span>}
+      <div className="card-wrap">
+        <img className="card-img" src={poster} alt={item.title} loading="lazy"
+          onError={e=>e.target.src=`https://picsum.photos/seed/${item.id}/162/243`}/>
+        <div className="card-ov"/>
+        <div className="card-play">▶</div>
+        <div className="card-info">
+          <div className="card-title">{item.title}</div>
+          <div className="card-meta">
+            <span style={{color:'#f5c518'}}>★{item.rating}</span>
+            <span>{item.year}</span>
+          </div>
         </div>
+        {item.is_trending && <div className="card-badge">🔥 رائج</div>}
+        {showType && <div className="card-type">{item.type==='movie'?'فيلم':'مسلسل'}</div>}
       </div>
-      {item.is_trending && <div className="card-badge">🔥</div>}
-      {onFav && <button className={`card-fav ${isFav ? 'on' : ''}`} onClick={e => { e.stopPropagation(); onFav(item); }}>{isFav ? '❤' : '♡'}</button>}
-    </div>
-  );
-}
-
-/* ═══════════ AUTH PAGE ═══════════════════════════════════ */
-function AuthPage({ onAuth }) {
-  const [tab, setTab] = useState('login');
-  const [f, setF] = useState({ email: '', password: '', username: '', confirm: '' });
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState('');
-  const inp = (k, v) => { setF(p => ({ ...p, [k]: v })); setErr(''); };
-
-  const submit = async () => {
-    setErr('');
-    if (!f.email || !f.password) { setErr('يرجى ملء جميع الحقول'); return; }
-    if (tab === 'register') {
-      if (!f.username) { setErr('يرجى إدخال اسم المستخدم'); return; }
-      if (f.password !== f.confirm) { setErr('كلمة المرور غير متطابقة'); return; }
-      if (f.password.length < 6) { setErr('كلمة المرور 6 أحرف على الأقل'); return; }
-    }
-    setLoading(true);
-    try {
-      if (tab === 'login') {
-        const data = await DB.login(f.email, f.password);
-        if (data.user) { const p = await DB.getProfile(data.user.id); onAuth(data.user, p); }
-      } else {
-        await DB.register(f.email, f.password, f.username);
-        const data = await DB.login(f.email, f.password);
-        if (data.user) { const p = await DB.getProfile(data.user.id); onAuth(data.user, p); }
-      }
-    } catch (e) { setErr(e.message); }
-    setLoading(false);
-  };
-
-  return (
-    <div className="auth-page">
-      <div className="auth-bg" />
-      <div className="auth-box">
-        <div className="auth-logo"><span style={{ color:'#fff' }}>FLIX</span><span style={{ color:'var(--red)' }}>TN</span></div>
-        <div className="auth-sub">السينما العربية والتونسية والعالمية</div>
-        <div className="auth-tabs">
-          <button className={`at ${tab==='login'?'a':''}`} onClick={() => { setTab('login'); setErr(''); }}>تسجيل الدخول</button>
-          <button className={`at ${tab==='register'?'a':''}`} onClick={() => { setTab('register'); setErr(''); }}>إنشاء حساب</button>
-        </div>
-        {err && <div className="ferr">⚠ {err}</div>}
-        {tab === 'register' && <div className="fg"><label className="fl">اسم المستخدم</label><input className="fi fi-r" value={f.username} onChange={e => inp('username', e.target.value)} placeholder="اسمك" /></div>}
-        <div className="fg"><label className="fl">البريد الإلكتروني</label><input className="fi" type="email" value={f.email} onChange={e => inp('email', e.target.value)} placeholder="email@example.com" /></div>
-        <div className="fg"><label className="fl">كلمة المرور</label><input className="fi" type="password" value={f.password} onChange={e => inp('password', e.target.value)} placeholder="••••••••" onKeyDown={e => e.key==='Enter'&&submit()} /></div>
-        {tab === 'register' && <div className="fg"><label className="fl">تأكيد كلمة المرور</label><input className="fi" type="password" value={f.confirm} onChange={e => inp('confirm', e.target.value)} placeholder="••••••••" onKeyDown={e => e.key==='Enter'&&submit()} /></div>}
-        <button className="btn-auth" onClick={submit} disabled={loading}>
-          {loading ? <span style={{ display:'flex',alignItems:'center',justifyContent:'center',gap:'.4rem' }}><Spin sm />جاري...</span> : tab==='login'?'دخول':'إنشاء الحساب'}
+      {onFav && (
+        <button className={`card-fav ${isFav?'on':''}`}
+          onClick={e=>{e.stopPropagation();onFav(item);}}>
+          {isFav?'❤':'♡'}
         </button>
-      </div>
-    </div>
-  );
-}
-
-/* ═══════════ PLAYER PAGE (with +10/-10) ══════════════════ */
-function PlayerPage({ item, episode, onBack }) {
-  const videoRef = useRef(null);
-  const [isIframe, setIsIframe] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [err, setErr] = useState(false);
-
-  const rawUrl = episode?.video_url || item?.video_url;
-  const isDirect = rawUrl && /\.(mp4|webm|ogg)(\?|$)/i.test(rawUrl);
-
-  const getEmbed = (url) => {
-    if (!url) return null;
-    if (url.includes('/embed/') || url.includes('player.vimeo') || url.includes('dailymotion.com/embed')) return url;
-    const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    if (yt) return `https://www.youtube.com/embed/${yt[1]}?autoplay=1&rel=0&controls=1`;
-    const dm = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-    if (dm) return `https://www.dailymotion.com/embed/video/${dm[1]}?autoplay=1`;
-    const vi = url.match(/vimeo\.com\/(\d+)/);
-    if (vi) return `https://player.vimeo.com/video/${vi[1]}?autoplay=1`;
-    return url;
-  };
-
-  const embedUrl = !isDirect ? getEmbed(rawUrl) : null;
-  const showIframe = !isDirect && embedUrl && !err;
-  const title = episode ? `${item?.title} — ${episode.title}` : item?.title;
-
-  // Video controls (only for direct video)
-  const seek = (sec) => {
-    if (videoRef.current) { videoRef.current.currentTime += sec; }
-  };
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) { videoRef.current.play(); setPlaying(true); }
-      else { videoRef.current.pause(); setPlaying(false); }
-    }
-  };
-
-  useEffect(() => {
-    setIsIframe(!isDirect && !!embedUrl);
-  }, [rawUrl]);
-
-  return (
-    <div className="player-page">
-      <div className="player-nav">
-        <button className="player-back" onClick={onBack}>← رجوع</button>
-        <span style={{ fontWeight:700,flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',fontFamily:"'Cairo',sans-serif",fontSize:'.88rem' }}>{title}</span>
-        {rawUrl && <a href={rawUrl} target="_blank" rel="noreferrer" style={{ color:'var(--cyan)',fontSize:'.72rem',whiteSpace:'nowrap' }}>🔗 الرابط الأصلي</a>}
-      </div>
-
-      <div className="player-outer">
-        {/* VIDEO */}
-        {!rawUrl && (
-          <div className="player-no-video"><div style={{ fontSize:'3rem',opacity:.25 }}>🎬</div><div>لا يوجد رابط فيديو</div></div>
-        )}
-        {rawUrl && isDirect && (
-          <div className="player-inner">
-            <video ref={videoRef} controls autoPlay
-              onTimeUpdate={e => { setProgress(e.target.currentTime); setDuration(e.target.duration || 0); }}
-              onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
-              style={{ position:'absolute',inset:0,width:'100%',height:'100%',background:'#000' }}>
-              <source src={rawUrl} />
-            </video>
-          </div>
-        )}
-        {rawUrl && showIframe && (
-          <div className="player-inner">
-            <iframe key={embedUrl} src={embedUrl} title={title} allowFullScreen
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-              referrerPolicy="no-referrer-when-downgrade"
-              style={{ position:'absolute',inset:0,width:'100%',height:'100%',border:'none' }}
-              onError={() => setErr(true)} />
-          </div>
-        )}
-        {rawUrl && !isDirect && err && (
-          <div className="player-no-video">
-            <div style={{ fontSize:'2rem',opacity:.3 }}>⚠️</div>
-            <div>تعذّر تحميل الفيديو</div>
-            <a href={rawUrl} target="_blank" rel="noreferrer"
-              style={{ padding:'.6rem 1.3rem',background:'var(--red)',color:'#fff',borderRadius:8,textDecoration:'none',fontSize:'.82rem',fontFamily:"'Cairo',sans-serif" }}>
-              فتح في تبويب جديد
-            </a>
-          </div>
-        )}
-
-        {/* ── CONTROLS ── */}
-        {rawUrl && (
-          <>
-            {/* Progress bar — for direct video */}
-            {isDirect && duration > 0 && (
-              <div className="player-progress-wrap">
-                <div className="player-progress" onClick={e => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const pct = (e.clientX - rect.left) / rect.width;
-                  if (videoRef.current) videoRef.current.currentTime = pct * duration;
-                }}>
-                  <div className="player-progress-fill" style={{ width: `${(progress/duration)*100}%` }} />
-                </div>
-                <div style={{ display:'flex',justifyContent:'space-between',marginTop:'.3rem',fontSize:'.66rem',color:'var(--t3)' }}>
-                  <span>{Math.floor(progress/60)}:{String(Math.floor(progress%60)).padStart(2,'0')}</span>
-                  <span>{Math.floor(duration/60)}:{String(Math.floor(duration%60)).padStart(2,'0')}</span>
-                </div>
-              </div>
-            )}
-
-            {/* +10 / -10 buttons — always visible */}
-            <div className="player-controls">
-              <button className="pc-btn" onClick={() => seek(-10)} title="10 ثواني للخلف">
-                ⏪ <span>10-</span>
-              </button>
-              {isDirect && (
-                <button className="pc-btn main" onClick={togglePlay}>
-                  {playing ? '⏸ إيقاف' : '▶ تشغيل'}
-                </button>
-              )}
-              <button className="pc-btn" onClick={() => seek(10)} title="10 ثواني للأمام">
-                <span>10+</span> ⏩
-              </button>
-              {rawUrl && (
-                <a href={rawUrl} download target="_blank" rel="noreferrer" style={{ textDecoration:'none' }}>
-                  <button className="pc-btn dl">⬇ تحميل</button>
-                </a>
-              )}
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* INFO */}
-      {item && (
-        <div className="player-info">
-          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'.8rem' }}>
-            {item.genre?.map(g => <span key={g} className="gpill">{g}</span>)}
-            <span style={{ color:'var(--t3)',fontSize:'.78rem' }}>{item.year}</span>
-            <span style={{ color:'#f5c518',fontSize:'.8rem' }}>★ {item.rating}</span>
-          </div>
-          <h2 style={{ fontFamily:"'Oswald',sans-serif",fontSize:'1.3rem',fontWeight:600,marginBottom:'.6rem' }}>{title}</h2>
-          <p style={{ color:'var(--t2)',fontSize:'.86rem',lineHeight:1.75,fontFamily:"'Tajawal',sans-serif" }}>{episode?.description || item?.description}</p>
-        </div>
       )}
-    </div>
-  );
-}
-
-/* ═══════════ DETAIL PAGE ════════════════════════════════= */
-function DetailPage({ itemId, onPlay, onBack, user, favorites, onFavToggle, onSelectEp }) {
-  const [item, setItem] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [season, setSeason] = useState(0);
-  const favIds = new Set(favorites.map(f => f.content_id));
-
-  useEffect(() => {
-    setLoading(true); setSeason(0);
-    DB.getContent(itemId).then(d => { setItem(d); setLoading(false); }).catch(() => setLoading(false));
-  }, [itemId]);
-
-  if (loading) return (
-    <div>
-      <div style={{ height:'62vh' }} className="skel" />
-      <div style={{ padding:'2rem',display:'grid',gridTemplateColumns:'1fr 290px',gap:'2rem' }}>
-        <div><div style={{ height:20,borderRadius:6,marginBottom:'1rem' }} className="skel" /><div style={{ height:100,borderRadius:8 }} className="skel" /></div>
-        <div style={{ height:200,borderRadius:12 }} className="skel" />
-      </div>
-    </div>
-  );
-  if (!item) return <div className="empty" style={{ paddingTop:'8rem' }}><div style={{ fontSize:'3rem',opacity:.3 }}>⚠️</div><div>المحتوى غير موجود</div></div>;
-
-  const isSeries = item.type === 'series';
-  const isFav = favIds.has(item.id);
-  const seasons = item.seasons || [];
-  const catLabel = { arabic:'🇸🇦 عربي', tunisian:'🇹🇳 تونسي', international:'🌍 عالمي' }[item.category] || '';
-
-  return (
-    <div>
-      <div className="det-hero">
-        <div className="det-bg"><img src={item.backdrop_url || item.backdrop || item.poster_url || item.poster} alt={item.title} /></div>
-        <div className="det-ov" />
-        <div className="det-c">
-          <div style={{ display:'flex',gap:'.5rem',marginBottom:'.6rem',flexWrap:'wrap' }}>{item.genre?.map(g => <span key={g} className="gpill">{g}</span>)}</div>
-          <h1 className="det-title">{item.title}</h1>
-          {item.title_en && <div style={{ color:'var(--t3)',fontSize:'.88rem',marginBottom:'.4rem' }}>{item.title_en}</div>}
-          <div className="hero-meta">
-            <span style={{ color:'#f5c518',fontWeight:700 }}>★ {item.rating}</span>
-            <span style={{ color:'var(--t3)' }}>{item.year}</span>
-            {item.duration && <span style={{ color:'var(--t3)' }}>⏱ {item.duration}</span>}
-            {isSeries && <span style={{ color:'var(--cyan)' }}>{seasons.length} موسم</span>}
-          </div>
-        </div>
-      </div>
-
-      <div className="det-body">
-        <div>
-          <div style={{ display:'flex',gap:'.8rem',marginBottom:'1.8rem',flexWrap:'wrap' }}>
-            {!isSeries && <button className="btn-play" onClick={() => onPlay(item)}>▶ شاهد الفيلم</button>}
-            {isSeries && seasons[0]?.episodes?.[0] && <button className="btn-play" onClick={() => onSelectEp(item, seasons[0].episodes[0])}>▶ الحلقة الأولى</button>}
-            {user && (
-              <button className={`btn-ol act-btn ${isFav?'fav':''}`} style={{ padding:'.8rem 1.6rem',display:'inline-flex',alignItems:'center',gap:'.4rem' }} onClick={() => onFavToggle(item)}>
-                {isFav ? '❤ في المفضلة' : '♡ أضف للمفضلة'}
-              </button>
-            )}
-          </div>
-          <p className="det-desc">{item.description}</p>
-          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'1.5rem' }}>
-            <span className="itag">📅 {item.year}</span>
-            <span className="itag">⭐ {item.rating}/10</span>
-            {item.duration && <span className="itag">⏱ {item.duration}</span>}
-            <span className="itag">{catLabel}</span>
-            {item.director && <span className="itag">🎬 {item.director}</span>}
-          </div>
-          {item.cast_list?.length > 0 && (
-            <div style={{ marginBottom:'1.5rem' }}>
-              <div style={{ fontSize:'.68rem',color:'var(--t3)',fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'.7rem' }}>طاقم التمثيل</div>
-              <div className="cast-row">
-                {item.cast_list.map((c,i) => (
-                  <div key={i} className="cast-item">
-                    <img className="cast-img" src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${c}`} alt={c} />
-                    <span className="cast-nm">{c}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* SEASONS & EPISODES */}
-          {isSeries && (
-            <div style={{ marginTop:'1.5rem' }}>
-              <div style={{ fontSize:'.68rem',color:'var(--t3)',fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'.9rem' }}>المواسم والحلقات</div>
-              {seasons.length === 0 ? (
-                <div style={{ padding:'1.5rem',textAlign:'center',color:'var(--t4)',background:'var(--bg2)',borderRadius:8,border:'1px dashed var(--s3)',fontSize:'.82rem' }}>لا توجد حلقات متاحة</div>
-              ) : (
-                <>
-                  <div className="season-tabs">
-                    {seasons.map((s,i) => (
-                      <button key={s.id} className={`s-tab ${season===i?'a':''}`} onClick={() => setSeason(i)}>
-                        {s.title} <span style={{ opacity:.65,fontSize:'.65rem' }}>({s.episodes?.length||0})</span>
-                      </button>
-                    ))}
-                  </div>
-                  {(seasons[season]?.episodes||[]).map((ep,i) => (
-                    <div key={ep.id} className="ep-item">
-                      <span className="ep-num">{ep.ep_num||i+1}</span>
-                      {ep.thumb_url
-                        ? <img className="ep-thumb" src={ep.thumb_url} alt={ep.title} loading="lazy" onError={e=>e.target.style.display='none'} />
-                        : <div className="ep-thumb" style={{ display:'flex',alignItems:'center',justifyContent:'center',color:'var(--t4)',fontSize:'1.4rem',background:'var(--s2)' }}>▶</div>}
-                      <div className="ep-info" onClick={() => onSelectEp(item, ep)} style={{ cursor:'pointer' }}>
-                        <div className="ep-title">{ep.title}</div>
-                        {ep.description && <div className="ep-desc">{ep.description}</div>}
-                        <div style={{ display:'flex',gap:'.6rem',alignItems:'center',marginTop:'.18rem' }}>
-                          {ep.duration && <span className="ep-dur">⏱ {ep.duration}</span>}
-                          {ep.video_url && <span style={{ fontSize:'.64rem',color:'var(--green)' }}>🎬 متاح</span>}
-                        </div>
-                      </div>
-                      <div className="ep-actions">
-                        <button className="btn-play" style={{ padding:'.38rem .8rem',fontSize:'.75rem' }} onClick={() => onSelectEp(item, ep)}>▶ شاهد</button>
-                        {ep.video_url && (
-                          <a href={ep.video_url} download target="_blank" rel="noreferrer" style={{ textDecoration:'none' }}>
-                            <button className="ep-dl-btn">⬇ تحميل</button>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div>
-          <div className="sb-card">
-            <div className="sb-title">الإجراءات</div>
-            {!isSeries && (
-              <>
-                <button className="btn-play" style={{ width:'100%',justifyContent:'center',marginBottom:'.5rem' }} onClick={() => onPlay(item)}>▶ مشاهدة الفيلم</button>
-                {item.video_url && (
-                  <a href={item.video_url} download target="_blank" rel="noreferrer" style={{ textDecoration:'none' }}>
-                    <button className="act-btn">⬇ تحميل الفيلم</button>
-                  </a>
-                )}
-              </>
-            )}
-            {user && <button className={`act-btn ${isFav?'fav':''}`} onClick={() => onFavToggle(item)}>{isFav?'❤ إزالة من المفضلة':'♡ إضافة للمفضلة'}</button>}
-            <button className="act-btn" onClick={onBack}>← رجوع</button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
@@ -904,159 +868,267 @@ function HomePage({ movies, series, loading, onItemClick, onPlay, user, favorite
   const featured = all.filter(x => x.is_featured);
   const trending = all.filter(x => x.is_trending);
   const top10 = [...all].sort((a,b)=>(b.rating||0)-(a.rating||0)).slice(0,10);
-  const hero = featured[0] || trending[0] || all[0];
-  const favIds = new Set(favorites.map(f => f.content_id));
+  const heroList = featured.length ? featured : trending.length ? trending : all;
   const [heroIdx, setHeroIdx] = useState(0);
-  const heroItems = (featured.length > 0 ? featured : trending).slice(0, 5);
-  const curHero = heroItems[heroIdx] || hero;
+  const hero = heroList[heroIdx] || all[0];
+  const favIds = new Set(favorites.map(f => f.content_id));
 
   useEffect(() => {
-    if (heroItems.length <= 1) return;
-    const t = setInterval(() => setHeroIdx(i => (i + 1) % heroItems.length), 7000);
+    if (heroList.length <= 1) return;
+    const t = setInterval(() => setHeroIdx(i => (i+1) % Math.min(heroList.length, 6)), 7000);
     return () => clearInterval(t);
-  }, [heroItems.length]);
+  }, [heroList.length]);
 
   if (loading) return (
     <div>
-      <div style={{ height:'100vh',background:'var(--s1)' }} className="skel" />
-      {[1,2,3].map(i => (
-        <div key={i} className="row">
-          <div className="row-hd"><div style={{ width:180,height:20,borderRadius:6 }} className="skel" /></div>
-          <div className="slider">{Array.from({length:6}).map((_,j) => <div key={j} style={{ width:162,height:243,flexShrink:0 }} className="skel" />)}</div>
+      <div style={{height:'100vh'}} className="skel"/>
+      {[1,2,3].map(i=>(
+        <div key={i} className="section" style={{paddingTop:'.5rem'}}>
+          <div className="sec-hd"><div style={{width:180,height:22,borderRadius:6}} className="skel"/></div>
+          <div className="slider">{Array.from({length:6}).map((_,j)=>(
+            <div key={j} style={{width:162,height:243,flexShrink:0,borderRadius:12}} className="skel"/>
+          ))}</div>
         </div>
       ))}
     </div>
   );
+
   if (!hero) return (
-    <div className="empty" style={{ paddingTop:'10rem' }}>
-      <div style={{ fontSize:'4rem',opacity:.15,marginBottom:'1rem' }}>🎬</div>
-      <div style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.4rem',letterSpacing:'2px',color:'var(--t4)' }}>لا يوجد محتوى بعد</div>
-      <div style={{ fontSize:'.78rem',color:'var(--t4)',marginTop:'.5rem' }}>أضف من لوحة الإدارة</div>
+    <div className="empty" style={{paddingTop:'12rem',flexDirection:'column',gap:'1.2rem'}}>
+      <div style={{fontSize:'5rem',opacity:.12}}>🎬</div>
+      <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.4rem',letterSpacing:'3px',color:'var(--t3)'}}>لا يوجد محتوى بعد</div>
+      <div style={{fontSize:'.8rem',color:'var(--t4)'}}>أضف أفلاماً ومسلسلات من لوحة الإدارة</div>
     </div>
   );
 
-  const Row = ({ title, items, type='card', icon='' }) => items.length === 0 ? null : (
-    <div className="row">
-      <div className="row-hd">
-        <div className="row-hd-l"><div className="row-bar" /><span className="row-title">{icon} {title}</span></div>
-        <span className="row-more">عرض الكل ←</span>
-      </div>
-      <div className="slider">
-        {type === 'card' && items.map(it => <MovieCard key={it.id} item={it} onClick={onItemClick} showType onFav={user?onFavToggle:null} isFav={favIds.has(it.id)} />)}
-        {type === 'wide' && items.map(it => (
-          <div key={it.id} className="wide-card" onClick={() => onItemClick(it)}>
-            <img className="wide-img" src={it.backdrop_url||it.poster_url||it.poster} alt={it.title} loading="lazy" onError={e=>e.target.src=`https://picsum.photos/seed/${it.id}b/280/158`} />
-            <div className="wide-ov" />
-            <div style={{ padding:'.5rem .4rem .3rem' }}>
-              <div className="wide-title-static">{it.title}</div>
-              <div className="wide-meta">★{it.rating} · {it.year}</div>
+  const Section = ({ title, items, type='card', icon='' }) => {
+    if (!items || !items.length) return null;
+    return (
+      <div className="section">
+        <div className="sec-hd">
+          <div className="sec-hd-l">
+            <div className="sec-line"/>
+            <span className="sec-title">{icon} {title}</span>
+          </div>
+          <span className="sec-more">عرض الكل ›</span>
+        </div>
+        <div className="slider">
+          {type==='card' && items.map(it=>(
+            <MovieCard key={it.id} item={it} onClick={onItemClick} showType
+              onFav={user?onFavToggle:null} isFav={favIds.has(it.id)}/>
+          ))}
+          {type==='wide' && items.map(it=>(
+            <div key={it.id} className="wide-card" onClick={()=>onItemClick(it)}>
+              <div className="wide-wrap">
+                <img className="wide-img" src={it.backdrop_url||it.poster_url||it.poster} alt={it.title} loading="lazy"
+                  onError={e=>e.target.src=`https://picsum.photos/seed/${it.id}w/285/160`}/>
+                <div className="wide-ov"><div className="wide-play">▶</div></div>
+              </div>
+              <div className="wide-title">{it.title}</div>
+              <div className="wide-meta">
+                <span style={{color:'#f5c518'}}>★{it.rating}</span>
+                <span>{it.year}</span>
+                <span style={{color:it.type==='movie'?'var(--red3)':'var(--cyan)',fontSize:'.6rem'}}>{it.type==='movie'?'فيلم':'مسلسل'}</span>
+              </div>
             </div>
-            <div className="wide-info"><div className="wide-play">▶ شاهد الآن</div></div>
-          </div>
-        ))}
-        {type === 'rank' && items.map((it,i) => (
-          <div key={it.id} className="rank-card" onClick={() => onItemClick(it)}>
-            <span className="rank-num">{i+1}</span>
-            <img className="rank-img" src={it.poster_url||it.poster} alt={it.title} loading="lazy" onError={e=>e.target.src=`https://picsum.photos/seed/${it.id}/128/192`} />
-          </div>
-        ))}
+          ))}
+          {type==='feat' && items.map(it=>(
+            <div key={it.id} className="feat-card" onClick={()=>onItemClick(it)}>
+              <img className="feat-img" src={it.backdrop_url||it.poster_url||it.poster} alt={it.title} loading="lazy"
+                onError={e=>e.target.src=`https://picsum.photos/seed/${it.id}f/360/210`}/>
+              <div className="feat-ov"/>
+              <div className="feat-play">▶</div>
+              <div className="feat-body">
+                <div className="feat-title">{it.title}</div>
+                <div className="feat-meta">
+                  <span style={{color:'#f5c518'}}>★{it.rating}</span>
+                  <span>{it.year}</span>
+                  <span style={{color:'var(--red3)'}}>{it.type==='movie'?'فيلم':'مسلسل'}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+          {type==='rank' && items.map((it,i)=>(
+            <div key={it.id} className="rank-card" onClick={()=>onItemClick(it)}>
+              <span className="rank-num">{i+1}</span>
+              <img className="rank-img" src={it.poster_url||it.poster} alt={it.title} loading="lazy"
+                onError={e=>e.target.src=`https://picsum.photos/seed/${it.id}/132/198`}/>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
-  const catL = { arabic:'عربي', tunisian:'تونسي', international:'عالمي' };
+  const CatBanner = ({ flag, label, mCount, sCount, cat }) => {
+    const total = mCount + sCount;
+    if (!total) return null;
+    const colors = {arabic:'rgba(229,9,20,.18)',tunisian:'rgba(229,9,20,.12)',international:'rgba(100,100,200,.12)'};
+    return (
+      <div style={{padding:'0 3rem .5rem'}}>
+        <div style={{background:`linear-gradient(135deg,${colors[cat]||'rgba(229,9,20,.1)'} 0%,var(--s1) 100%)`,border:'1px solid var(--s2)',borderRadius:14,padding:'1.3rem 2rem',display:'flex',alignItems:'center',gap:'1.2rem',marginBottom:'1rem'}}>
+          <span style={{fontSize:'2rem'}}>{flag}</span>
+          <div style={{flex:1}}>
+            <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.25rem',letterSpacing:'2px'}}>{label}</div>
+            <div style={{fontSize:'.7rem',color:'var(--t3)',marginTop:'.12rem'}}>
+              {mCount>0?`${mCount} فيلم`:''}{mCount>0&&sCount>0?' · ':''}{sCount>0?`${sCount} مسلسل`:''}
+            </div>
+          </div>
+          <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'2rem',color:'var(--s3)',letterSpacing:'-1px'}}>{total}</div>
+        </div>
+      </div>
+    );
+  };
+
+  const arMovies = movies.filter(m=>m.category==='arabic');
+  const tnMovies = movies.filter(m=>m.category==='tunisian');
+  const intMovies = movies.filter(m=>m.category==='international');
+  const arSeries = series.filter(s=>s.category==='arabic');
+  const tnSeries = series.filter(s=>s.category==='tunisian');
 
   return (
     <div>
-      {/* ══ HERO ══ */}
+      {/* ─── HERO ─── */}
       <div className="hero">
-        <div className="hero-bg">
-          <img key={curHero?.id} src={curHero?.backdrop_url||curHero?.backdrop||curHero?.poster_url||curHero?.poster} alt={curHero?.title}
-            style={{ animation:'kb 24s ease infinite alternate,fadeImg .6s ease' }} />
+        <div className="hero-bg" style={{background:'var(--bg2)'}}>
+          <img key={hero.id}
+            src={
+              (hero.backdrop_url && hero.backdrop_url.length > 5 ? hero.backdrop_url : null) ||
+              (hero.backdrop && hero.backdrop.length > 5 ? hero.backdrop : null) ||
+              hero.poster_url || hero.poster
+            }
+            alt={hero.title}
+            style={{opacity:1,transition:'opacity .9s ease'}}
+            onError={e=>{if(!e.target.dataset.err){e.target.dataset.err=1;e.target.src=hero.poster_url||`https://picsum.photos/seed/${hero.id}/1920/1080`}}}/>
         </div>
-        <div className="hero-ov" /><div className="hero-ov2" /><div className="hero-ov3" />
-
+        <div className="hero-ov"/>
+        <div className="hero-ov2"/>
+        <div className="hero-ov3"/>
+        <div className="hero-fade"/>
         <div className="hero-c">
-          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'.9rem' }}>
-            {curHero?.genre?.slice(0,3).map(g => <span key={g} className="gpill">{g}</span>)}
-            {curHero?.is_trending && <span className="hero-badge">🔥 رائج</span>}
+          <div className="hero-live">
+            <span className="hero-live-dot"/>
+            {hero.type==='movie'?'🎬 فيلم':'📺 مسلسل'} · {hero.year}
           </div>
-          <h1 className="hero-title" style={{ animation:'heroIn .6s cubic-bezier(.4,0,.2,1) both' }}>{curHero?.title}</h1>
-          {curHero?.title_en && <div style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.1rem',letterSpacing:'3px',color:'var(--t3)',marginBottom:'.5rem' }}>{curHero.title_en}</div>}
+          <h1 className="hero-title">{hero.title_en || hero.title}</h1>
+          {hero.title_en && hero.title && (
+            <div style={{fontFamily:"'Cairo',sans-serif",fontSize:'1rem',color:'rgba(200,200,224,.7)',marginBottom:'.5rem',fontWeight:400,letterSpacing:'.5px'}}>
+              {hero.title}
+            </div>
+          )}
           <div className="hero-meta">
-            <div className="hero-rating">★ {curHero?.rating}</div>
-            <div className="hero-meta-dot" />
-            <span style={{ color:'var(--t3)' }}>{curHero?.year}</span>
-            {curHero?.duration && <><div className="hero-meta-dot" /><span style={{ color:'var(--t3)' }}>⏱ {curHero.duration}</span></>}
-            {curHero?.category && <><div className="hero-meta-dot" /><span style={{ color:'var(--t2)' }}>{catL[curHero.category]||curHero.category}</span></>}
+            <span className="hero-rating">★ {hero.rating}</span>
+            <span className="hero-sep"/>
+            {hero.duration && <><span style={{color:'var(--t3)'}}>⏱ {hero.duration}</span><span className="hero-sep"/></>}
+            {hero.genre?.slice(0,2).map(g=><span key={g} className="gpill">{g}</span>)}
           </div>
-          <p className="hero-desc">{curHero?.description?.slice(0,160)}{curHero?.description?.length > 160 ? '...' : ''}</p>
+          <p className="hero-desc">
+            {hero.description?.slice(0,155)}{hero.description?.length>155?'...':''}
+          </p>
           <div className="hero-btns">
-            <button className="btn-play" onClick={() => onPlay(curHero)}>
-              <span style={{ fontSize:'1rem' }}>▶</span> شاهد الآن
+            <button className="btn-play" onClick={()=>onPlay(hero)}>
+              <span className="btn-play-ico">▶</span>
+              {hero.type==='movie'?'شاهد الفيلم':'ابدأ المشاهدة'}
             </button>
-            <button className="btn-ol" onClick={() => onItemClick(curHero)}>
-              ℹ التفاصيل
-            </button>
+            <button className="btn-ol" onClick={()=>onItemClick(hero)}>ℹ التفاصيل</button>
             {user && (
-              <button onClick={() => onFavToggle(curHero)}
-                style={{ width:42,height:42,borderRadius:'50%',background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.15)',color:favIds.has(curHero?.id)?'var(--red)':'var(--t2)',cursor:'pointer',fontSize:'1.1rem',transition:'all .25s' }}>
-                {favIds.has(curHero?.id) ? '❤' : '♡'}
+              <button onClick={()=>onFavToggle(hero)}
+                style={{background:'none',border:'1px solid rgba(255,255,255,.14)',color:favIds.has(hero.id)?'var(--red3)':'var(--t3)',width:46,height:46,borderRadius:'50%',cursor:'pointer',fontSize:'1.1rem',display:'flex',alignItems:'center',justifyContent:'center',transition:'all .25s',backdropFilter:'blur(8px)'}}>
+                {favIds.has(hero.id)?'❤':'♡'}
               </button>
             )}
           </div>
         </div>
-
-        {/* Hero dots */}
-        {heroItems.length > 1 && (
-          <div className="hero-dots">
-            {heroItems.map((_,i) => <div key={i} className={`hero-dot ${i===heroIdx?'a':''}`} onClick={()=>setHeroIdx(i)} style={{ cursor:'pointer' }} />)}
+        {heroList.length > 1 && (
+          <div style={{position:'absolute',bottom:'2.8rem',left:'50%',transform:'translateX(-50%)',display:'flex',gap:'.5rem',zIndex:3}}>
+            {heroList.slice(0,6).map((_,i)=>(
+              <div key={i} onClick={()=>setHeroIdx(i)}
+                style={{height:3,borderRadius:2,background:i===heroIdx?'var(--red)':'rgba(255,255,255,.18)',cursor:'pointer',transition:'all .4s ease',width:i===heroIdx?42:26}}/>
+            ))}
           </div>
         )}
-
-        {/* Scroll indicator */}
-        <div style={{ position:'absolute',bottom:'1.5rem',left:'50%',transform:'translateX(-50%)',display:'flex',flexDirection:'column',alignItems:'center',gap:'.3rem',zIndex:5,animation:'bounce 2s ease infinite',opacity:.4 }}>
-          <div style={{ width:20,height:30,border:'1px solid rgba(255,255,255,.3)',borderRadius:10,display:'flex',justifyContent:'center',paddingTop:4 }}>
-            <div style={{ width:3,height:6,background:'rgba(255,255,255,.6)',borderRadius:2,animation:'scrollDot 2s ease infinite' }} />
-          </div>
-        </div>
-        <style>{`
-          @keyframes fadeImg{from{opacity:.4}to{opacity:1}}
-          @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
-          @keyframes scrollDot{0%{transform:translateY(0);opacity:1}100%{transform:translateY(10px);opacity:0}}
-        `}</style>
       </div>
 
-      {/* ══ CONTENT ROWS ══ */}
-      <div style={{ marginTop:'-2rem',position:'relative',zIndex:2 }}>
-        <Row title="رائج الآن" items={trending} type="wide" icon="🔥" />
-        <Row title="أفضل 10" items={top10} type="rank" icon="🏆" />
-        <Row title="آخر الأفلام" items={movies.slice(0,14)} type="card" icon="🎬" />
-        <Row title="المسلسلات" items={series.slice(0,12)} type="card" icon="📺" />
-        <Row title="أفلام عربية" items={movies.filter(m=>m.category==='arabic')} type="card" icon="🇸🇦" />
-        <Row title="أفلام تونسية" items={movies.filter(m=>m.category==='tunisian')} type="card" icon="🇹🇳" />
-        <Row title="أفلام عالمية" items={movies.filter(m=>m.category==='international')} type="card" icon="🌍" />
-      </div>
+      {/* ─── SECTIONS ─── */}
+      <Section title="رائج الآن" items={trending} type="wide" icon="🔥"/>
+      <Section title="الأكثر تقييماً" items={top10} type="rank" icon="🏆"/>
+      <Section title="مختارات مميزة" items={featured} type="feat" icon="⭐"/>
+      <Section title="أحدث الأفلام" items={movies.slice(0,14)} type="card" icon="🎬"/>
+      <Section title="المسلسلات" items={series.slice(0,12)} type="card" icon="📺"/>
+
+      <CatBanner flag="🇸🇦" label="المحتوى العربي" mCount={arMovies.length} sCount={arSeries.length} cat="arabic"/>
+      <Section title="أفلام عربية" items={arMovies} type="card" icon="🇸🇦"/>
+      <Section title="مسلسلات عربية" items={arSeries} type="card" icon="📺"/>
+
+      <CatBanner flag="🇹🇳" label="المحتوى التونسي" mCount={tnMovies.length} sCount={tnSeries.length} cat="tunisian"/>
+      <Section title="أفلام تونسية" items={tnMovies} type="card" icon="🇹🇳"/>
+      <Section title="مسلسلات تونسية" items={tnSeries} type="card" icon="📺"/>
+
+      <Section title="أفلام عالمية" items={intMovies} type="card" icon="🌍"/>
     </div>
   );
 }
 
 /* ═══════════ CONTENT LIST ════════════════════════════════ */
+/* ═══════════ CONTENT LIST ════════════════════════════════ */
+const GENRES = ['الكل','أكشن','دراما','كوميديا','رعب','رومانسي','خيال علمي','تشويق','وثائقي','رسوم متحركة','مغامرة','جريمة'];
+const GENRE_MAP_EN = {'أكشن':'Action','دراما':'Drama','كوميديا':'Comedy','رعب':'Horror','رومانسي':'Romance','خيال علمي':'Sci-Fi','تشويق':'Thriller','وثائقي':'Documentary','رسوم متحركة':'Animation','مغامرة':'Adventure','جريمة':'Crime'};
+
 function ContentListPage({ type, items, loading, onItemClick, user, favorites, onFavToggle }) {
   const [cat, setCat] = useState('الكل');
-  const cats = ['الكل','عربي','تونسي','عالمي'];
+  const [genre, setGenre] = useState('الكل');
+  const [sort, setSort] = useState('newest');
   const catMap = { 'عربي':'arabic','تونسي':'tunisian','عالمي':'international' };
   const favIds = new Set(favorites.map(f => f.content_id));
-  const filtered = cat === 'الكل' ? items : items.filter(m => m.category === catMap[cat]);
+
+  let filtered = cat === 'الكل' ? items : items.filter(m => m.category === catMap[cat]);
+  if (genre !== 'الكل') {
+    filtered = filtered.filter(m => m.genre?.some(g =>
+      g === genre || g === GENRE_MAP_EN[genre] || g.toLowerCase() === (GENRE_MAP_EN[genre]||'').toLowerCase()
+    ));
+  }
+  if (sort === 'rating') filtered = [...filtered].sort((a,b) => (b.rating||0)-(a.rating||0));
+  else if (sort === 'year') filtered = [...filtered].sort((a,b) => (b.year||0)-(a.year||0));
+  else filtered = [...filtered].sort((a,b) => new Date(b.created_at||0)-new Date(a.created_at||0));
+
   return (
     <div className="c-page">
-      <h1 style={{ fontFamily:"'Oswald',sans-serif",fontSize:'1.8rem',marginBottom:'1rem' }}>{type==='movie'?'🎬 الأفلام':'📺 المسلسلات'}</h1>
-      <div style={{ display:'flex',gap:'.45rem',flexWrap:'wrap',marginBottom:'1.5rem' }}>
-        {cats.map(c => <div key={c} className={`chip ${cat===c?'a':''}`} onClick={() => setCat(c)}>{c}</div>)}
+      <div style={{ marginBottom:'1.5rem' }}>
+        <h1 style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'2.5rem',letterSpacing:'3px',marginBottom:'.3rem' }}>
+          {type==='movie'?'🎬 الأفلام':'📺 المسلسلات'}
+        </h1>
+        <div style={{ fontSize:'.78rem',color:'var(--t4)' }}>{filtered.length} نتيجة</div>
       </div>
-      {loading ? <div className="c-grid">{Array.from({length:12}).map((_,i)=><div key={i} className="skel" style={{ height:237,borderRadius:10 }} />)}</div>
-      : filtered.length===0 ? <div className="empty"><div style={{ fontSize:'3rem',opacity:.3 }}>🎬</div><div style={{ marginTop:'1rem' }}>لا توجد نتائج</div></div>
-      : <div className="c-grid">{filtered.map(it=><MovieCard key={it.id} item={it} onClick={onItemClick} onFav={user?onFavToggle:null} isFav={favIds.has(it.id)} />)}</div>}
+
+      {/* Region filter */}
+      <div style={{ marginBottom:'1rem' }}>
+        <div style={{ fontSize:'.65rem',color:'var(--t4)',fontWeight:700,letterSpacing:'1px',marginBottom:'.5rem',textTransform:'uppercase' }}>المنطقة</div>
+        <div style={{ display:'flex',gap:'.4rem',flexWrap:'wrap' }}>
+          {['الكل','عربي','تونسي','عالمي'].map(c=><div key={c} className={`chip ${cat===c?'a':''}`} onClick={()=>setCat(c)}>{c}</div>)}
+        </div>
+      </div>
+
+      {/* Genre filter */}
+      <div style={{ marginBottom:'1.2rem' }}>
+        <div style={{ fontSize:'.65rem',color:'var(--t4)',fontWeight:700,letterSpacing:'1px',marginBottom:'.5rem',textTransform:'uppercase' }}>التصنيف</div>
+        <div style={{ display:'flex',gap:'.4rem',flexWrap:'wrap' }}>
+          {GENRES.map(g=><div key={g} className={`chip ${genre===g?'a':''}`} onClick={()=>setGenre(g)} style={{ fontSize:'.7rem' }}>{g}</div>)}
+        </div>
+      </div>
+
+      {/* Sort */}
+      <div style={{ display:'flex',gap:'.5rem',marginBottom:'1.5rem',alignItems:'center' }}>
+        <span style={{ fontSize:'.72rem',color:'var(--t4)' }}>ترتيب:</span>
+        {[['newest','الأحدث'],['rating','الأعلى تقييماً'],['year','السنة']].map(([k,l])=>(
+          <div key={k} className={`chip ${sort===k?'a':''}`} onClick={()=>setSort(k)} style={{ fontSize:'.68rem' }}>{l}</div>
+        ))}
+      </div>
+
+      {loading
+        ? <div className="c-grid">{Array.from({length:12}).map((_,i)=><div key={i} className="skel" style={{height:243,borderRadius:12}}/>)}</div>
+        : filtered.length===0
+          ? <div className="empty"><div style={{fontSize:'3rem',opacity:.2}}>🎬</div><div style={{marginTop:'1rem',color:'var(--t4)'}}>لا توجد نتائج</div></div>
+          : <div className="c-grid">{filtered.map(it=><MovieCard key={it.id} item={it} onClick={onItemClick} onFav={user?onFavToggle:null} isFav={favIds.has(it.id)} showType/>)}</div>}
     </div>
   );
 }
@@ -1066,33 +1138,87 @@ function SearchOverlay({ movies, series, onItemClick, onClose }) {
   const [q, setQ] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState('all');
   const timer = useRef(null);
   const all = [...movies, ...series];
+
   useEffect(() => {
     if (q.length < 2) { setResults([]); return; }
     clearTimeout(timer.current);
     timer.current = setTimeout(async () => {
       setLoading(true);
-      const r = await DB.searchContent(q).catch(() => []);
-      setResults(r); setLoading(false);
-    }, 320);
+      // Search locally first for speed
+      const lq = q.toLowerCase();
+      const local = all.filter(it =>
+        it.title?.toLowerCase().includes(lq) ||
+        it.title_en?.toLowerCase().includes(lq) ||
+        it.description?.toLowerCase().includes(lq) ||
+        it.description_en?.toLowerCase().includes(lq) ||
+        it.cast_list?.some(c => c.toLowerCase().includes(lq)) ||
+        it.genre?.some(g => g.toLowerCase().includes(lq)) ||
+        it.director?.toLowerCase().includes(lq)
+      );
+      // Also search DB
+      const db = await DB.searchContent(q).catch(() => []);
+      // Merge deduped
+      const ids = new Set(local.map(x=>x.id));
+      const merged = [...local, ...db.filter(x=>!ids.has(x.id))];
+      setResults(merged);
+      setLoading(false);
+    }, 280);
     return () => clearTimeout(timer.current);
   }, [q]);
+
+  const filtered = filter === 'all' ? results : results.filter(r => r.type === filter);
+  const trending = all.filter(x=>x.is_trending).slice(0,8);
+
   return (
     <div className="search-ov" onClick={e=>e.target===e.currentTarget&&onClose()}>
       <div className="search-box">
+        {/* Search input */}
         <div className="search-field">
-          <span>🔍</span>
-          <input className="search-in" autoFocus placeholder="ابحث..." value={q} onChange={e=>setQ(e.target.value)} />
+          <span style={{ fontSize:'1.2rem',opacity:.4 }}>🔍</span>
+          <input className="search-in" autoFocus placeholder="ابحث بالعنوان، الممثل، التصنيف..." value={q} onChange={e=>setQ(e.target.value)} />
           {loading && <Spin sm />}
-          <button style={{ background:'var(--s2)',border:'none',color:'var(--t2)',width:30,height:30,borderRadius:'50%',cursor:'pointer' }} onClick={onClose}>✕</button>
+          <button style={{ background:'var(--s2)',border:'1px solid var(--s3)',color:'var(--t3)',width:32,height:32,borderRadius:'50%',cursor:'pointer',fontSize:'.85rem',display:'flex',alignItems:'center',justifyContent:'center' }} onClick={onClose}>✕</button>
         </div>
+
+        {q.length >= 2 && (
+          <div style={{ display:'flex',gap:'.4rem',marginBottom:'1rem' }}>
+            {[['all','الكل'],['movie','أفلام'],['series','مسلسلات']].map(([k,l])=>(
+              <div key={k} className={`chip ${filter===k?'a':''}`} onClick={()=>setFilter(k)} style={{ fontSize:'.72rem' }}>{l}</div>
+            ))}
+            {!loading && <span style={{ fontSize:'.72rem',color:'var(--t4)',marginRight:'auto',alignSelf:'center' }}>{filtered.length} نتيجة</span>}
+          </div>
+        )}
+
         {q.length < 2 ? (
-          <><div className="s-lbl">الأكثر بحثاً</div><div className="s-grid">{all.filter(x=>x.is_trending).slice(0,10).map(it=><MovieCard key={it.id} item={it} onClick={i=>{onItemClick(i);onClose();}} showType />)}</div></>
-        ) : results.length === 0 && !loading ? (
-          <div className="empty"><div style={{ fontSize:'3rem',opacity:.3 }}>🔍</div><div style={{ marginTop:'1rem' }}>لا توجد نتائج</div></div>
+          <>
+            <div style={{ marginBottom:'.7rem' }}>
+              <div className="s-lbl">🔥 رائج الآن</div>
+              <div className="s-grid">{trending.map(it=><MovieCard key={it.id} item={it} onClick={i=>{onItemClick(i);onClose();}} showType />)}</div>
+            </div>
+            <div style={{ marginTop:'1.5rem' }}>
+              <div className="s-lbl">📂 تصفح التصنيفات</div>
+              <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap' }}>
+                {GENRES.filter(g=>g!=='الكل').map(g=>(
+                  <div key={g} onClick={()=>setQ(g)} style={{ padding:'.4rem .9rem',background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:20,fontSize:'.74rem',cursor:'pointer',color:'var(--t2)',transition:'all .2s' }}
+                    onMouseEnter={e=>{e.target.style.background='var(--red)';e.target.style.color='#fff';}}
+                    onMouseLeave={e=>{e.target.style.background='var(--s2)';e.target.style.color='var(--t2)';}}>
+                    {g}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        ) : filtered.length === 0 && !loading ? (
+          <div className="empty">
+            <div style={{ fontSize:'3rem',opacity:.15,marginBottom:'.8rem' }}>🔍</div>
+            <div style={{ color:'var(--t4)',fontSize:'.85rem' }}>لا توجد نتائج لـ "{q}"</div>
+            <div style={{ fontSize:'.72rem',color:'var(--t4)',marginTop:'.3rem' }}>جرب كلمة أخرى</div>
+          </div>
         ) : (
-          <><div className="s-lbl">{results.length} نتيجة</div><div className="s-grid">{results.map(it=><MovieCard key={it.id} item={it} onClick={i=>{onItemClick(i);onClose();}} showType />)}</div></>
+          <div className="s-grid">{filtered.map(it=><MovieCard key={it.id} item={it} onClick={i=>{onItemClick(i);onClose();}} showType />)}</div>
         )}
       </div>
     </div>
@@ -1197,12 +1323,23 @@ function ContentFormModal({ item, onClose, onSaved, showToast }) {
     year: item?.year||new Date().getFullYear(), rating: item?.rating||7.5,
     genre: (item?.genre||[]).join('، '), category: item?.category||'international',
     poster_url: item?.poster_url||item?.poster||'', backdrop_url: item?.backdrop_url||item?.backdrop||'',
-    description: item?.description||'', cast_list: (item?.cast_list||[]).join('، '),
+    description: item?.description||'', description_en: item?.description_en||'',
+    cast_list: (item?.cast_list||[]).join('، '),
     director: item?.director||'', duration: item?.duration||'',
     video_url: item?.video_url||'', trailer_url: item?.trailer_url||'',
     is_featured: item?.is_featured||false, is_trending: item?.is_trending||false, match_pct: item?.match_pct||90,
   });
   const inp = (k,v) => setF(p=>({...p,[k]:v}));
+  const [selGenres, setSelGenres] = useState(item?.genre||[]);
+  const toggleGenre = (g) => {
+    const en = GENRE_MAP_EN[g]||g;
+    setSelGenres(prev => {
+      const has = prev.includes(g)||prev.includes(en);
+      const next = has ? prev.filter(x=>x!==g&&x!==en) : [...prev,g];
+      setF(p=>({...p,genre:next.join('، ')}));
+      return next;
+    });
+  };
 
   const save = async () => {
     if (!f.title.trim()) { setErr('العنوان مطلوب'); return; }
@@ -1211,7 +1348,7 @@ function ContentFormModal({ item, onClose, onSaved, showToast }) {
       type, ...f,
       year: parseInt(f.year)||new Date().getFullYear(),
       rating: parseFloat(f.rating)||7.0,
-      genre: f.genre.split(/[,،]/).map(x=>x.trim()).filter(Boolean),
+      genre: selGenres.length > 0 ? selGenres : f.genre.split(/[,،]/).map(x=>x.trim()).filter(Boolean),
       cast_list: f.cast_list.split(/[,،]/).map(x=>x.trim()).filter(Boolean),
       poster_url: f.poster_url||`https://picsum.photos/seed/${Date.now()}/300/450`,
       backdrop_url: f.backdrop_url||`https://picsum.photos/seed/${Date.now()}b/1280/720`,
@@ -1238,26 +1375,42 @@ function ContentFormModal({ item, onClose, onSaved, showToast }) {
         )}
         {err && <div className="ferr">⚠ {err}</div>}
         <div className="form-grid">
-          <div className="fg"><label className="fl">العنوان *</label><input className="fi fi-r" value={f.title} onChange={e=>inp('title',e.target.value)} /></div>
-          <div className="fg"><label className="fl">English Title</label><input className="fi" value={f.title_en} onChange={e=>inp('title_en',e.target.value)} /></div>
+          <div className="fg"><label className="fl">العنوان العربي *</label><input className="fi fi-r" value={f.title} onChange={e=>inp('title',e.target.value)} placeholder="عنوان الفيلم" /></div>
+          <div className="fg"><label className="fl">English Title</label><input className="fi" value={f.title_en} onChange={e=>inp('title_en',e.target.value)} placeholder="Movie Title" /></div>
           <div className="fg"><label className="fl">السنة</label><input className="fi" value={f.year} onChange={e=>inp('year',e.target.value)} /></div>
           <div className="fg"><label className="fl">التقييم (0-10)</label><input className="fi" value={f.rating} onChange={e=>inp('rating',e.target.value)} /></div>
-          <div className="fg"><label className="fl">التصنيف</label>
+          <div className="fg"><label className="fl">المنطقة</label>
             <select className="fsel" value={f.category} onChange={e=>inp('category',e.target.value)}>
-              <option value="arabic">🇸🇦 عربي</option><option value="tunisian">🇹🇳 تونسي</option><option value="international">🌍 عالمي</option>
+              <option value="arabic">🇸🇦 عربي</option>
+              <option value="tunisian">🇹🇳 تونسي</option>
+              <option value="international">🌍 عالمي</option>
             </select>
           </div>
           {type==='movie'&&<div className="fg"><label className="fl">المدة</label><input className="fi" value={f.duration} onChange={e=>inp('duration',e.target.value)} placeholder="2س 15د" /></div>}
-          <div className="fg"><label className="fl">الأنواع (بفاصلة)</label><input className="fi fi-r" value={f.genre} onChange={e=>inp('genre',e.target.value)} placeholder="دراما، إثارة" /></div>
+          <div className="fg form-full">
+            <label className="fl">التصنيفات</label>
+            <div style={{ display:'flex',gap:'.4rem',flexWrap:'wrap',marginTop:'.3rem' }}>
+              {GENRES.filter(g=>g!=='الكل').map(g=>(
+                <div key={g} onClick={()=>toggleGenre(g)}
+                  style={{ padding:'.3rem .8rem',borderRadius:20,fontSize:'.72rem',cursor:'pointer',border:'1px solid',transition:'all .2s',
+                    background: selGenres.includes(g)||selGenres.includes(GENRE_MAP_EN[g]) ? 'var(--red)' : 'var(--s2)',
+                    borderColor: selGenres.includes(g)||selGenres.includes(GENRE_MAP_EN[g]) ? 'var(--red)' : 'var(--s3)',
+                    color: selGenres.includes(g)||selGenres.includes(GENRE_MAP_EN[g]) ? '#fff' : 'var(--t3)' }}>
+                  {g}
+                </div>
+              ))}
+            </div>
+          </div>
           <div className="fg"><label className="fl">المخرج</label><input className="fi fi-r" value={f.director} onChange={e=>inp('director',e.target.value)} /></div>
-          <div className="fg form-full"><label className="fl">طاقم التمثيل (بفاصلة)</label><input className="fi fi-r" value={f.cast_list} onChange={e=>inp('cast_list',e.target.value)} /></div>
-          {type==='movie'&&<div className="fg form-full"><label className="fl">رابط الفيديو (للمشاهدة)</label><input className="fi" value={f.video_url} onChange={e=>inp('video_url',e.target.value)} placeholder="https://youtube.com/watch?v=..." /></div>}
+          <div className="fg"><label className="fl">طاقم التمثيل (بفاصلة)</label><input className="fi fi-r" value={f.cast_list} onChange={e=>inp('cast_list',e.target.value)} /></div>
+          {type==='movie'&&<div className="fg form-full"><label className="fl">🔗 رابط الفيديو</label><input className="fi" value={f.video_url} onChange={e=>inp('video_url',e.target.value)} placeholder="https://youtube.com/watch?v=..." /></div>}
           <div className="fg"><label className="fl">رابط البوستر</label><input className="fi" value={f.poster_url} onChange={e=>inp('poster_url',e.target.value)} /></div>
           <div className="fg"><label className="fl">رابط الخلفية</label><input className="fi" value={f.backdrop_url} onChange={e=>inp('backdrop_url',e.target.value)} /></div>
-          <div className="fg form-full"><label className="fl">الوصف</label><textarea className="ftarea" value={f.description} onChange={e=>inp('description',e.target.value)} /></div>
+          <div className="fg form-full"><label className="fl">الوصف العربي</label><textarea className="ftarea" value={f.description} onChange={e=>inp('description',e.target.value)} placeholder="وصف الفيلم بالعربية..." /></div>
+          <div className="fg form-full"><label className="fl">English Description</label><textarea className="ftarea" style={{ direction:'ltr',textAlign:'left' }} value={f.description_en} onChange={e=>inp('description_en',e.target.value)} placeholder="Movie description in English..." /></div>
           <div className="fg form-full">
             <div className="fcheck-row">
-              <label className="fcheck"><input type="checkbox" checked={f.is_featured} onChange={e=>inp('is_featured',e.target.checked)} /> مميز في الرئيسية</label>
+              <label className="fcheck"><input type="checkbox" checked={f.is_featured} onChange={e=>inp('is_featured',e.target.checked)} /> ⭐ مميز في الرئيسية</label>
               <label className="fcheck"><input type="checkbox" checked={f.is_trending} onChange={e=>inp('is_trending',e.target.checked)} /> 🔥 رائج</label>
             </div>
           </div>
@@ -1705,6 +1858,396 @@ function AdminPage({ movies, series, goHome, onRefresh }) {
   );
 }
 
+
+/* ═══════════ BROWSE PAGE ════════════════════════════════ */
+function BrowsePage({ movies, series, loading, onItemClick, user, favorites, onFavToggle }) {
+  const [genre, setGenre] = useState('الكل');
+  const [region, setRegion] = useState('الكل');
+  const [type, setType] = useState('الكل');
+  const [sort, setSort] = useState('newest');
+  const [q, setQ] = useState('');
+  const favIds = new Set(favorites.map(f => f.content_id));
+  const regionMap = { 'عربي':'arabic','تونسي':'tunisian','عالمي':'international' };
+
+  let all = [...movies, ...series];
+  if (type !== 'الكل') all = all.filter(x => x.type === (type==='أفلام'?'movie':'series'));
+  if (region !== 'الكل') all = all.filter(x => x.category === regionMap[region]);
+  if (genre !== 'الكل') all = all.filter(x => x.genre?.some(g => g===genre || g===GENRE_MAP_EN[genre] || (GENRE_MAP_EN[genre]||'').toLowerCase()===g.toLowerCase()));
+  if (q.trim()) { const lq=q.toLowerCase(); all = all.filter(x => x.title?.toLowerCase().includes(lq)||x.title_en?.toLowerCase().includes(lq)); }
+  if (sort==='rating') all=[...all].sort((a,b)=>(b.rating||0)-(a.rating||0));
+  else if (sort==='year') all=[...all].sort((a,b)=>(b.year||0)-(a.year||0));
+  else all=[...all].sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+
+  return (
+    <div>
+      {/* Hero banner */}
+      <div className="browse-hero">
+        <div style={{ position:'relative',zIndex:1 }}>
+          <div className="browse-title">تصفح المحتوى</div>
+          <div style={{ fontSize:'.85rem',color:'var(--t3)',marginBottom:'1.5rem' }}>{all.length} عنوان متاح</div>
+          {/* Search */}
+          <div style={{ maxWidth:480,margin:'0 auto',display:'flex',alignItems:'center',gap:'.7rem',background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.12)',borderRadius:12,padding:'.7rem 1.1rem' }}>
+            <span style={{ opacity:.5,fontSize:'1.1rem' }}>🔍</span>
+            <input value={q} onChange={e=>setQ(e.target.value)} placeholder="ابحث عن فيلم أو مسلسل..."
+              style={{ flex:1,background:'none',border:'none',color:'var(--t1)',fontFamily:"'Cairo',sans-serif",fontSize:'.9rem',outline:'none',direction:'rtl' }} />
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding:'1.5rem 3rem 3rem',maxWidth:1500,margin:'0 auto' }}>
+        {/* Filters */}
+        <div style={{ display:'flex',gap:'1.5rem',flexWrap:'wrap',marginBottom:'1.5rem',paddingBottom:'1.2rem',borderBottom:'1px solid var(--s2)' }}>
+          <div>
+            <div style={{ fontSize:'.6rem',color:'var(--t4)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'.45rem' }}>النوع</div>
+            <div style={{ display:'flex',gap:'.35rem' }}>
+              {['الكل','أفلام','مسلسلات'].map(t=><div key={t} className={`chip ${type===t?'a':''}`} onClick={()=>setType(t)} style={{ fontSize:'.7rem' }}>{t}</div>)}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize:'.6rem',color:'var(--t4)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'.45rem' }}>المنطقة</div>
+            <div style={{ display:'flex',gap:'.35rem' }}>
+              {['الكل','عربي','تونسي','عالمي'].map(r=><div key={r} className={`chip ${region===r?'a':''}`} onClick={()=>setRegion(r)} style={{ fontSize:'.7rem' }}>{r}</div>)}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize:'.6rem',color:'var(--t4)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'.45rem' }}>التصنيف</div>
+            <div style={{ display:'flex',gap:'.35rem',flexWrap:'wrap',maxWidth:600 }}>
+              {GENRES.map(g=><div key={g} className={`chip ${genre===g?'a':''}`} onClick={()=>setGenre(g)} style={{ fontSize:'.68rem' }}>{g}</div>)}
+            </div>
+          </div>
+          <div style={{ marginRight:'auto' }}>
+            <div style={{ fontSize:'.6rem',color:'var(--t4)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'.45rem' }}>ترتيب</div>
+            <div style={{ display:'flex',gap:'.35rem' }}>
+              {[['newest','الأحدث'],['rating','التقييم'],['year','السنة']].map(([k,l])=><div key={k} className={`chip ${sort===k?'a':''}`} onClick={()=>setSort(k)} style={{ fontSize:'.7rem' }}>{l}</div>)}
+            </div>
+          </div>
+        </div>
+
+        {/* Results count */}
+        <div style={{ fontSize:'.75rem',color:'var(--t4)',marginBottom:'1.2rem' }}>
+          {all.length} نتيجة {q&&`لـ "${q}"`}
+        </div>
+
+        {loading
+          ? <div className="c-grid">{Array.from({length:18}).map((_,i)=><div key={i} className="skel" style={{height:243,borderRadius:12}}/>)}</div>
+          : all.length===0
+            ? <div style={{ padding:'4rem',textAlign:'center',color:'var(--t4)' }}><div style={{ fontSize:'4rem',opacity:.1,marginBottom:'1rem' }}>🎬</div><div>لا توجد نتائج</div></div>
+            : <div className="c-grid">{all.map(it=><MovieCard key={it.id} item={it} onClick={onItemClick} showType onFav={user?onFavToggle:null} isFav={favIds.has(it.id)} />)}</div>}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════ DETAIL PAGE ════════════════════════════════ */
+function DetailPage({ itemId, onPlay, onBack, user, profile, favorites, onFavToggle, onSelectEp }) {
+  const [item, setItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [season, setSeason] = useState(0);
+
+  const favIds = new Set(favorites.map(f => f.content_id));
+
+  useEffect(() => {
+    setLoading(true); setSeason(0);
+    DB.getContent(itemId).then(d => { setItem(d); setLoading(false); }).catch(() => setLoading(false));
+  }, [itemId]);
+
+  if (loading) return (
+    <div>
+      <div style={{ height:'65vh' }} className="skel" />
+      <div style={{ padding:'2rem 3rem',display:'grid',gridTemplateColumns:'1fr 280px',gap:'2rem' }}>
+        <div><div style={{ height:24,borderRadius:6,marginBottom:'1rem',width:'60%' }} className="skel" /><div style={{ height:120,borderRadius:8 }} className="skel" /></div>
+        <div style={{ height:220,borderRadius:12 }} className="skel" />
+      </div>
+    </div>
+  );
+  if (!item) return <div className="empty" style={{ paddingTop:'8rem' }}><div style={{ fontSize:'3rem',opacity:.2 }}>⚠️</div><div style={{ marginTop:'1rem',color:'var(--t4)' }}>المحتوى غير موجود</div></div>;
+
+  const isSeries = item.type === 'series';
+  const isFav = favIds.has(item.id);
+  const seasons = item.seasons || [];
+  const catLabel = { arabic:'🇸🇦 عربي', tunisian:'🇹🇳 تونسي', international:'🌍 عالمي' }[item.category] || '';
+
+  return (
+    <div>
+      {/* Hero */}
+      <div className="det-hero">
+        <div className="det-bg"><img src={item.backdrop_url || item.poster_url} alt={item.title} /></div>
+        <div className="det-ov" />
+        <div style={{ position:'absolute',inset:0,background:'linear-gradient(to left,transparent 40%,rgba(6,6,8,.7) 100%)' }} />
+        <div className="det-c">
+          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'.8rem' }}>
+            {item.genre?.map(g => <span key={g} className="gpill">{g}</span>)}
+          </div>
+          <h1 className="det-title">{item.title_en || item.title}</h1>
+          {item.title_en && item.title && (
+            <div style={{fontFamily:"'Cairo',sans-serif",fontSize:'1rem',color:'rgba(200,200,224,.65)',marginBottom:'.5rem',fontWeight:400}}>
+              {item.title}
+            </div>
+          )}
+          <div style={{ display:'flex',gap:'.8rem',alignItems:'center',flexWrap:'wrap',fontSize:'.8rem',marginBottom:'1.2rem' }}>
+            <span style={{ color:'#f5c518',fontWeight:700 }}>★ {item.rating}</span>
+            <span style={{ color:'var(--t4)' }}>·</span>
+            <span style={{ color:'var(--t3)' }}>{item.year}</span>
+            {item.duration && <><span style={{ color:'var(--t4)' }}>·</span><span style={{ color:'var(--t3)' }}>⏱ {item.duration}</span></>}
+            {isSeries && <><span style={{ color:'var(--t4)' }}>·</span><span style={{ color:'var(--cyan)' }}>{seasons.length} موسم</span></>}
+            <span style={{ color:'var(--t4)' }}>·</span><span style={{ color:'var(--t2)' }}>{catLabel}</span>
+          </div>
+          <div style={{ display:'flex',gap:'.8rem',flexWrap:'wrap' }}>
+            {!isSeries && <button className="btn-play" onClick={() => onPlay(item)}>▶ شاهد الفيلم</button>}
+            {isSeries && seasons[0]?.episodes?.[0] && <button className="btn-play" onClick={() => onSelectEp(item, seasons[0].episodes[0])}>▶ الحلقة الأولى</button>}
+            {user && (
+              <button onClick={() => onFavToggle(item)}
+                style={{ padding:'.85rem 1.6rem',background:isFav?'rgba(229,9,20,.15)':'rgba(255,255,255,.08)',border:`1px solid ${isFav?'rgba(229,9,20,.4)':'rgba(255,255,255,.15)'}`,borderRadius:10,color:isFav?'var(--red3)':'var(--t1)',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.88rem',fontWeight:600,transition:'all .25s' }}>
+                {isFav ? '❤ في المفضلة' : '♡ أضف للمفضلة'}
+              </button>
+            )}
+            <button onClick={onBack} style={{ padding:'.85rem 1.2rem',background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.1)',borderRadius:10,color:'var(--t2)',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.82rem',transition:'all .25s' }}>← رجوع</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className='det-body-grid' style={{ display:'grid',gridTemplateColumns:'1fr 300px',gap:'2rem',padding:'2rem 3rem',maxWidth:1400,margin:'0 auto' }}>
+        <div>
+          <p style={{ color:'var(--t2)',fontSize:'.9rem',lineHeight:1.85,marginBottom:'1.5rem',fontFamily:"'Tajawal',sans-serif" }}>
+            {item.description || 'لا يوجد وصف'}
+          </p>
+
+          {/* Info tags */}
+          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'1.5rem' }}>
+            <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>📅 {item.year}</span>
+            <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>⭐ {item.rating}/10</span>
+            {item.duration && <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>⏱ {item.duration}</span>}
+            <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>{catLabel}</span>
+            {item.director && <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>🎬 {item.director}</span>}
+          </div>
+
+          {/* Cast */}
+          {item.cast_list?.length > 0 && (
+            <div style={{ marginBottom:'1.5rem' }}>
+              <div style={{ fontSize:'.65rem',color:'var(--t4)',fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'.7rem' }}>طاقم التمثيل</div>
+              <div style={{ display:'flex',gap:'.8rem',flexWrap:'wrap' }}>
+                {item.cast_list.map((c,i) => (
+                  <div key={i} style={{ display:'flex',flexDirection:'column',alignItems:'center',gap:'.3rem',width:64 }}>
+                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${c}`} alt={c}
+                      style={{ width:52,height:52,borderRadius:'50%',background:'var(--s2)',border:'2px solid var(--s3)' }} />
+                    <span style={{ fontSize:'.6rem',textAlign:'center',color:'var(--t3)',lineHeight:1.2 }}>{c}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Comments */}
+          <CommentsSection contentId={item.id} episodeId={null} user={user} profile={profile} isAdmin={profile?.is_admin||false} />
+
+          {/* Episodes */}
+          {isSeries && (
+            <div>
+              <div style={{ fontSize:'.65rem',color:'var(--t4)',fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'1rem' }}>المواسم والحلقات</div>
+              {seasons.length === 0
+                ? <div style={{ padding:'1.5rem',textAlign:'center',color:'var(--t4)',background:'var(--bg2)',borderRadius:8,border:'1px dashed var(--s3)',fontSize:'.82rem' }}>لا توجد حلقات متاحة</div>
+                : <>
+                  <div style={{ display:'flex',gap:'.45rem',flexWrap:'wrap',marginBottom:'1.1rem' }}>
+                    {seasons.map((s,i) => (
+                      <button key={s.id} onClick={() => setSeason(i)}
+                        style={{ padding:'.42rem 1rem',background:season===i?'linear-gradient(135deg,var(--gold),#d4a000)':'var(--s2)',border:`1px solid ${season===i?'var(--gold)':'var(--s3)'}`,borderRadius:6,color:season===i?'#000':'var(--t2)',fontWeight:season===i?800:400,cursor:'pointer',fontSize:'.76rem',fontFamily:"'Cairo',sans-serif",transition:'all .22s',fontWeight:season===i?700:400 }}>
+                        {s.title} <span style={{ opacity:.65,fontSize:'.63rem' }}>({s.episodes?.length||0})</span>
+                      </button>
+                    ))}
+                  </div>
+                  {(seasons[season]?.episodes||[]).map((ep,i) => (
+                    <div key={ep.id} onClick={() => onSelectEp(item, ep)}
+                      style={{ display:'flex',alignItems:'center',gap:'1rem',padding:'.9rem',background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:10,marginBottom:'.55rem',cursor:'pointer',transition:'all .25s' }}
+                      onMouseEnter={e=>e.currentTarget.style.background='var(--s1)'}
+                      onMouseLeave={e=>e.currentTarget.style.background='var(--bg2)'}>
+                      <span style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.5rem',color:'var(--t4)',width:30,textAlign:'center',flexShrink:0 }}>{ep.ep_num||i+1}</span>
+                      {ep.thumb_url
+                        ? <img src={ep.thumb_url} alt={ep.title} style={{ width:120,height:68,objectFit:'cover',borderRadius:6,flexShrink:0 }} />
+                        : <div style={{ width:120,height:68,background:'var(--s2)',borderRadius:6,display:'flex',alignItems:'center',justifyContent:'center',color:'var(--t4)',flexShrink:0,fontSize:'1.4rem' }}>▶</div>}
+                      <div style={{ flex:1,minWidth:0 }}>
+                        <div style={{ fontWeight:700,fontSize:'.84rem',marginBottom:'.2rem' }}>{ep.title}</div>
+                        {ep.description && <div style={{ fontSize:'.72rem',color:'var(--t3)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>{ep.description}</div>}
+                        <div style={{ display:'flex',gap:'.6rem',marginTop:'.2rem' }}>
+                          {ep.duration && <span style={{ fontSize:'.66rem',color:'var(--t4)' }}>⏱ {ep.duration}</span>}
+                          {ep.video_url && <span style={{ fontSize:'.64rem',color:'var(--green)' }}>✓ متاح</span>}
+                        </div>
+                      </div>
+                      <div style={{ display:'flex',gap:'.4rem',flexShrink:0 }}>
+                        <button className="btn-play" style={{ padding:'.38rem .9rem',fontSize:'.74rem',background:'linear-gradient(135deg,var(--gold2),#d4a000)',color:'#000' }} onClick={e=>{e.stopPropagation();onSelectEp(item,ep);}}>▶</button>
+                        {ep.video_url && (
+                          <a href={ep.video_url} download target="_blank" rel="noreferrer" style={{ textDecoration:'none' }} onClick={e=>e.stopPropagation()}>
+                            <button style={{ padding:'.38rem .7rem',background:'rgba(0,212,255,.1)',border:'1px solid rgba(0,212,255,.25)',borderRadius:6,color:'var(--cyan)',fontSize:'.68rem',cursor:'pointer' }}>⬇</button>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </>}
+            </div>
+          )}
+        </div>
+
+        {/* Sidebar */}
+        <div className='det-sidebar'>
+          <div style={{ background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:14,overflow:'hidden',marginBottom:'1rem' }}>
+            <img src={item.poster_url} alt={item.title} style={{ width:'100%',aspectRatio:'2/3',objectFit:'cover',display:'block' }} onError={e=>e.target.style.display='none'} />
+          </div>
+          <div style={{ background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:14,padding:'1.2rem' }}>
+            {!isSeries && <button className="btn-play" style={{ width:'100%',justifyContent:'center',marginBottom:'.6rem' }} onClick={() => onPlay(item)}>▶ مشاهدة</button>}
+            {user && <button onClick={() => onFavToggle(item)}
+              style={{ width:'100%',padding:'.72rem',background:isFav?'var(--redbg)':'var(--s2)',border:`1px solid ${isFav?'var(--redbr)':'var(--s3)'}`,borderRadius:8,color:isFav?'var(--red3)':'var(--t1)',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.8rem',marginBottom:'.5rem',transition:'all .25s' }}>
+              {isFav ? '❤ إزالة من المفضلة' : '♡ إضافة للمفضلة'}
+            </button>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════ PLAYER PAGE (Secure) ════════════════════════ */
+function PlayerPage({ item, episode, onBack }) {
+  const videoRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [err, setErr] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const hideTimer = useRef(null);
+
+  const rawUrl = episode?.video_url || item?.video_url;
+  const isDirect = rawUrl && /\.(mp4|webm|ogg)(\?|$)/i.test(rawUrl);
+  const title = episode ? `${item?.title_en||item?.title} — ${episode.title}` : (item?.title_en||item?.title);
+
+  // Build secure embed URL — never expose raw link
+  const getSecureEmbed = (url) => {
+    if (!url) return null;
+    if (url.includes('/embed/') || url.includes('player.vimeo') || url.includes('dailymotion.com/embed')) return url;
+    const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if (yt) return `https://www.youtube-nocookie.com/embed/${yt[1]}?autoplay=1&rel=0&modestbranding=1&controls=1`;
+    const dm = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+    if (dm) return `https://www.dailymotion.com/embed/video/${dm[1]}?autoplay=1&sharing-enable=false`;
+    const vi = url.match(/vimeo\.com\/(\d+)/);
+    if (vi) return `https://player.vimeo.com/video/${vi[1]}?autoplay=1&dnt=1`;
+    return url;
+  };
+
+  const embedUrl = !isDirect ? getSecureEmbed(rawUrl) : null;
+
+  const seek = (sec) => { if (videoRef.current) videoRef.current.currentTime += sec; };
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) { videoRef.current.play(); setPlaying(true); }
+    else { videoRef.current.pause(); setPlaying(false); }
+  };
+  const resetHideTimer = () => {
+    setShowControls(true);
+    clearTimeout(hideTimer.current);
+    hideTimer.current = setTimeout(() => setShowControls(false), 3500);
+  };
+  useEffect(() => { resetHideTimer(); return () => clearTimeout(hideTimer.current); }, []);
+
+  return (
+    <div className="player-page" onMouseMove={resetHideTimer}>
+      {/* Nav */}
+      <div style={{ display:'flex',alignItems:'center',gap:'.9rem',padding:'.75rem 1.5rem',background:'rgba(0,0,0,.95)',backdropFilter:'blur(12px)',position:'sticky',top:0,zIndex:10,borderBottom:'1px solid rgba(255,255,255,.04)' }}>
+        <button onClick={onBack} style={{ background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',color:'var(--t1)',padding:'.4rem .9rem',borderRadius:7,cursor:'pointer',fontSize:'.8rem',fontFamily:"'Cairo',sans-serif",transition:'background .2s' }}>← رجوع</button>
+        <span style={{ fontWeight:700,flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',fontFamily:"'Cairo',sans-serif",fontSize:'.88rem' }}>{title}</span>
+        {/* NO download link shown - secure */}
+        <span style={{ fontSize:'.65rem',color:'var(--t4)',letterSpacing:'.5px' }}>🔒 محمي</span>
+      </div>
+
+      {/* Player */}
+      <div style={{ position:'relative',width:'100%',background:'#000' }}>
+        {!rawUrl && (
+          <div style={{ display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',aspectRatio:'16/9',background:'var(--bg1)',color:'var(--t4)',gap:'1rem' }}>
+            <div style={{ fontSize:'3rem',opacity:.15 }}>🎬</div>
+            <div style={{ fontSize:'.82rem' }}>لا يوجد رابط فيديو</div>
+          </div>
+        )}
+
+        {rawUrl && isDirect && (
+          <div style={{ position:'relative',width:'100%',aspectRatio:'16/9',maxHeight:'80vh',background:'#000',overflow:'hidden' }}>
+            <video ref={videoRef} autoPlay style={{ position:'absolute',inset:0,width:'100%',height:'100%' }}
+              onTimeUpdate={e => { setProgress(e.target.currentTime); setDuration(e.target.duration||0); }}
+              onPlay={()=>setPlaying(true)} onPause={()=>setPlaying(false)}>
+              <source src={rawUrl} />
+            </video>
+          </div>
+        )}
+
+        {rawUrl && !isDirect && embedUrl && !err && (
+          <div style={{ position:'relative',width:'100%',aspectRatio:'16/9',maxHeight:'80vh',background:'#000',overflow:'hidden' }}>
+            {/* Secure iframe - no-cookie YouTube, no direct URL visible */}
+            <iframe key={embedUrl} src={embedUrl} title={title} allowFullScreen
+              allow="autoplay; fullscreen; encrypted-media"
+              referrerPolicy="strict-origin"
+              sandbox="allow-scripts allow-same-origin allow-presentation allow-fullscreen"
+              style={{ position:'absolute',inset:0,width:'100%',height:'100%',border:'none' }}
+              onError={() => setErr(true)} />
+            {/* Block right-click on iframe area */}
+            <div style={{ position:'absolute',inset:0,zIndex:1,pointerEvents:'none' }} onContextMenu={e=>e.preventDefault()} />
+          </div>
+        )}
+
+        {rawUrl && !isDirect && err && (
+          <div style={{ display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',aspectRatio:'16/9',background:'var(--bg1)',color:'var(--t3)',gap:'1rem' }}>
+            <div style={{ fontSize:'2rem',opacity:.3 }}>⚠️</div>
+            <div style={{ fontSize:'.82rem' }}>تعذّر تحميل الفيديو</div>
+            <button onClick={()=>setErr(false)} style={{ padding:'.5rem 1.2rem',background:'var(--red)',border:'none',borderRadius:7,color:'#fff',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.78rem' }}>إعادة المحاولة</button>
+          </div>
+        )}
+
+        {/* Controls overlay */}
+        {rawUrl && (
+          <div style={{ background:'rgba(0,0,0,.85)',padding:'.8rem 1.5rem',transition:'opacity .35s',opacity:showControls?1:0 }}>
+            {/* Progress bar (direct video only) */}
+            {isDirect && duration > 0 && (
+              <div style={{ marginBottom:'.6rem' }}>
+                <div style={{ width:'100%',height:4,background:'rgba(255,255,255,.12)',borderRadius:2,cursor:'pointer',position:'relative' }}
+                  onClick={e => { const r=e.currentTarget.getBoundingClientRect(); if(videoRef.current) videoRef.current.currentTime=(e.clientX-r.left)/r.width*duration; }}>
+                  <div style={{ height:'100%',background:'var(--red)',borderRadius:2,width:`${(progress/duration)*100}%`,transition:'width .2s' }} />
+                </div>
+                <div style={{ display:'flex',justifyContent:'space-between',marginTop:'.3rem',fontSize:'.63rem',color:'var(--t4)' }}>
+                  <span>{Math.floor(progress/60)}:{String(Math.floor(progress%60)).padStart(2,'0')}</span>
+                  <span>{Math.floor(duration/60)}:{String(Math.floor(duration%60)).padStart(2,'0')}</span>
+                </div>
+              </div>
+            )}
+            <div style={{ display:'flex',alignItems:'center',justifyContent:'center',gap:'.7rem' }}>
+              <button onClick={()=>seek(-10)} style={{ background:'rgba(255,255,255,.09)',border:'1px solid rgba(255,255,255,.12)',color:'#fff',padding:'.5rem 1rem',borderRadius:8,cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.8rem',transition:'all .22s',display:'flex',alignItems:'center',gap:'.35rem' }}>
+                ⏪ <span>10-</span>
+              </button>
+              {isDirect && (
+                <button onClick={togglePlay} style={{ background:'var(--red)',border:'none',color:'#fff',padding:'.55rem 1.6rem',borderRadius:8,cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.88rem',fontWeight:700,transition:'all .22s' }}>
+                  {playing ? '⏸' : '▶'}
+                </button>
+              )}
+              <button onClick={()=>seek(10)} style={{ background:'rgba(255,255,255,.09)',border:'1px solid rgba(255,255,255,.12)',color:'#fff',padding:'.5rem 1rem',borderRadius:8,cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.8rem',transition:'all .22s',display:'flex',alignItems:'center',gap:'.35rem' }}>
+                <span>10+</span> ⏩
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Info */}
+      {item && (
+        <div style={{ padding:'1.5rem 2.5rem',maxWidth:980 }}>
+          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'.7rem' }}>
+            {item.genre?.map(g=><span key={g} className="gpill">{g}</span>)}
+            <span style={{ color:'var(--t4)',fontSize:'.75rem',alignSelf:'center' }}>{item.year}</span>
+            <span style={{ color:'#f5c518',fontSize:'.78rem',alignSelf:'center' }}>★ {item.rating}</span>
+          </div>
+          <h2 style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.5rem',letterSpacing:'2px',marginBottom:'.6rem' }}>{title}</h2>
+          <p style={{ color:'var(--t2)',fontSize:'.86rem',lineHeight:1.8,fontFamily:"'Tajawal',sans-serif" }}>{episode?.description || item?.description}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ═══════════ ROOT APP ════════════════════════════════════ */
 function App() {
   const [page, setPage]     = useState('home');
@@ -1793,13 +2336,15 @@ function App() {
           <div style={{display:'flex',alignItems:'center',gap:'2rem'}}>
             <div className="logo" onClick={()=>nav('home')}><span style={{color:'#fff'}}>FLIX</span><span style={{color:'var(--red)'}}>TN</span></div>
             <div className="nav-links">
-              {[['home','الرئيسية'],['movies','الأفلام'],['series','المسلسلات']].map(([k,l])=>(
+              {[['home','الرئيسية'],['browse','تصفح'],['movies','الأفلام'],['series','المسلسلات']].map(([k,l])=>(
                 <div key={k} className={`nl ${page===k?'a':''}`} onClick={()=>nav(k)}>{l}</div>
               ))}
               {isAdmin && <div className={`nl ${page==='admin'?'a':''}`} onClick={()=>nav('admin')}>⚙ الإدارة</div>}
             </div>
           </div>
-          <div className="nav-r">
+          <button className="mob-menu-btn" style={{ display:'none',background:'none',border:'1px solid var(--s3)',color:'var(--t2)',padding:'.4rem .7rem',borderRadius:7,cursor:'pointer',fontSize:'.85rem' }}
+              onClick={()=>document.getElementById('mob-nav')?.classList.toggle('open')}>☰</button>
+            <div className="nav-r">
             <button className="ni" onClick={()=>setSearchOpen(true)}>🔍</button>
             {user ? (
               <div className="av-wrap">
@@ -1833,7 +2378,8 @@ function App() {
       {page==='home'    && <HomePage movies={movies} series={series} loading={contentLoad} onItemClick={handleItemClick} onPlay={handlePlay} user={user} favorites={favorites} onFavToggle={handleFavToggle} />}
       {page==='movies'  && <ContentListPage type="movie"  items={movies} loading={contentLoad} onItemClick={handleItemClick} user={user} favorites={favorites} onFavToggle={handleFavToggle} />}
       {page==='series'  && <ContentListPage type="series" items={series} loading={contentLoad} onItemClick={handleItemClick} user={user} favorites={favorites} onFavToggle={handleFavToggle} />}
-      {page==='detail'  && selectedId && <DetailPage itemId={selectedId} onPlay={handlePlay} onBack={handleBack} user={user} favorites={favorites} onFavToggle={handleFavToggle} onSelectEp={handleSelectEp} />}
+      {page==='browse'  && <BrowsePage movies={movies} series={series} loading={contentLoad} onItemClick={handleItemClick} user={user} favorites={favorites} onFavToggle={handleFavToggle} />}
+      {page==='detail'  && selectedId && <DetailPage itemId={selectedId} onPlay={handlePlay} onBack={handleBack} user={user} profile={profile} favorites={favorites} onFavToggle={handleFavToggle} onSelectEp={handleSelectEp} />}
       {page==='player'  && playerItem  && <PlayerPage item={playerItem} episode={playerEp} onBack={handleBack} />}
       {page==='profile' && user        && <ProfilePage user={user} profile={profile} onLogout={handleLogout} onProfileUpdate={setProfile} movies={movies} series={series} />}
       {page==='admin'   && isAdmin     && <AdminPage movies={movies} series={series} goHome={()=>nav('home')} onRefresh={loadContent} />}
