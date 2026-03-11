@@ -2,13 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
   <title>FlixTN — السينما العربية والتونسية</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23f5c518'/><text y='68' x='50' font-size='52' font-family='Arial Black' font-weight='900' fill='black' text-anchor='middle'>FN</text></svg>"/>
   <meta name="theme-color" content="#f5c518"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:#06060a;color:#fff;-webkit-font-smoothing:antialiased}
+    body{background:#06060a;color:#fff;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
     #boot{position:fixed;inset:0;background:#06060a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;z-index:99999}
     .bl{font-size:3.5rem;font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,#fff 0%,#ffd700 40%,#e50914 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(245,197,24,.5));animation:p 1.8s ease infinite;font-family:Arial Black,sans-serif}
     @keyframes p{0%,100%{opacity:1}50%{opacity:.2}}
@@ -30,6 +32,7 @@
   <script src="https://unpkg.com/@babel/standalone@7.23.6/babel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
   <script type="text/babel" data-presets="react">
+
 /* ═══════════════════════════════════════════════════════════════
    FlixTN v4.0 — PRODUCTION COMPLETE
    ✅ Admin: إضافة فيلم/مسلسل + المواسم + الحلقات مع URL لكل حلقة
@@ -107,30 +110,42 @@ body{background:var(--bg);color:var(--t1);font-family:'Cairo',sans-serif;overflo
 /* HERO */
 .hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
 .hero-bg{position:absolute;inset:0;overflow:hidden}
+/* ── Blurred background layer (fills the space) ── */
+.hero-bg::before{
+  content:'';
+  position:absolute;inset:-40px;
+  background-image:var(--hero-src);
+  background-size:cover;
+  background-position:center;
+  filter:blur(28px) brightness(.4) saturate(1.2);
+  transform:scale(1.15);
+  transition:background-image .8s ease;
+}
+/* ── Main image — contained, full visible ── */
 .hero-bg img{
   position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%) scale(1.0);
-  width:100%;height:100%;
-  object-fit:cover;
-  object-position:center top;
-  image-rendering:auto;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center center;
+  filter:brightness(1.0) contrast(1.05) saturate(1.08);
+  transition:opacity .9s ease;
   animation:kb 30s ease-in-out infinite alternate;
-  filter:brightness(1.05) contrast(1.08) saturate(1.1);
-  transition:opacity .8s ease;
   will-change:transform;
+  z-index:1;
 }
 @keyframes kb{
-  0%{transform:translate(-50%,-50%) scale(1.0) translateX(0px)}
-  33%{transform:translate(-50%,-50%) scale(1.03) translateX(-8px)}
-  66%{transform:translate(-50%,-50%) scale(1.05) translateX(5px)}
-  100%{transform:translate(-50%,-50%) scale(1.07) translateX(-3px)}
+  0%  {transform:scale(1.0) translateX(0px)}
+  33% {transform:scale(1.02) translateX(-6px)}
+  66% {transform:scale(1.04) translateX(4px)}
+  100%{transform:scale(1.06) translateX(-2px)}
 }
-.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(8,8,15,.55) 30%,rgba(8,8,15,.1) 55%,transparent 100%)}
-.hero-ov2{position:absolute;inset:0;background:linear-gradient(to left,transparent 38%,rgba(8,8,15,.75) 75%,rgba(8,8,15,.92) 100%)}
-.hero-ov3{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(245,197,24,.05) 0%,transparent 50%)}
-.hero-fade{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,transparent 18%)}
-.hero-c{position:relative;z-index:2;padding:3.5rem 3.5rem 5.5rem;max-width:650px;animation:heroIn 1s cubic-bezier(.4,0,.2,1) both;margin-right:auto}
+.hero-ov{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,var(--bg) 0%,rgba(6,6,10,.7) 30%,rgba(6,6,10,.2) 60%,transparent 100%)}
+.hero-ov2{position:absolute;inset:0;z-index:2;background:linear-gradient(to left,transparent 35%,rgba(6,6,10,.8) 70%,rgba(6,6,10,.95) 100%)}
+.hero-ov3{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at 18% 65%,rgba(245,197,24,.06) 0%,transparent 50%)}
+.hero-fade{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,var(--bg) 0%,transparent 22%)}
+.hero-c{position:relative;z-index:5;padding:3.5rem 3.5rem 5.5rem;max-width:650px;animation:heroIn 1s cubic-bezier(.4,0,.2,1) both;margin-right:auto;padding-bottom:max(5.5rem,env(safe-area-inset-bottom,5.5rem))}
 @keyframes heroIn{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
 .hero-live{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,rgba(245,197,24,.18),rgba(245,197,24,.06));border:1px solid rgba(245,197,24,.4);color:var(--gold3);padding:.32rem 1rem;border-radius:30px;font-size:.68rem;font-weight:700;letter-spacing:.8px;margin-bottom:1.2rem;backdrop-filter:blur(10px);box-shadow:0 2px 14px rgba(245,197,24,.2)}
 .hero-live-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;animation:livepulse 1.8s ease infinite;box-shadow:0 0 0 0 rgba(245,197,24,.8)}
@@ -312,10 +327,13 @@ body{background:var(--bg);color:var(--t1);font-family:'Cairo',sans-serif;overflo
 .btn-auth:disabled{background:var(--s2);color:var(--t3);cursor:not-allowed;transform:none;box-shadow:none}
 
 /* PROFILE */
-.prof-page{padding:5.5rem 3rem 3rem;max-width:1300px;margin:0 auto}
-.prof-cover{height:210px;border-radius:var(--r2);background:linear-gradient(135deg,var(--s3) 0%,var(--s1) 100%);position:relative;overflow:hidden;margin-bottom:4rem}
-.prof-av-wrap{position:absolute;bottom:-3rem;right:2.5rem}
-.prof-av{width:95px;height:95px;border-radius:50%;object-fit:cover;border:4px solid var(--bg);background:var(--s2);box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.prof-page{padding:0;max-width:1300px;margin:0 auto;min-height:100vh;background:var(--bg)}
+/* ── HERO COVER ── */
+.prof-cover{height:200px;position:relative;overflow:hidden;background:linear-gradient(135deg,#1a0a0a 0%,#0a0a1a 100%)}
+.prof-cover-blur{position:absolute;inset:-20px;background-size:cover;background-position:center;filter:blur(20px) brightness(.35) saturate(1.3);transform:scale(1.1)}
+.prof-av-wrap{position:absolute;bottom:-42px;right:50%;transform:translateX(50%);z-index:3}
+@media(min-width:769px){.prof-av-wrap{right:3rem;transform:none}}
+.prof-av{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--bg);background:var(--s2);box-shadow:0 4px 24px rgba(0,0,0,.7);display:block}
 .p-tab-row{display:flex;gap:.4rem;border-bottom:1px solid var(--s2);margin-bottom:1.5rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.5rem}
 .p-tab{padding:.6rem 1.2rem;background:transparent;border:none;color:var(--t3);cursor:pointer;font-size:.8rem;font-family:'Cairo',sans-serif;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:.8rem;transition:all .22s}
 .p-tab:hover{color:var(--t1)}
@@ -402,40 +420,129 @@ table.at2 tr:hover td{background:rgba(255,255,255,.018)}
 .ep-url-row .fi{flex:1}
 
 /* ══ MOBILE ══════════════════════════════════════════════ */
+
+/* ══ MOBILE BOTTOM NAV ══════════════════════════════ */
+.mob-bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:rgba(10,10,16,.97);
+  backdrop-filter:blur(24px);
+  border-top:1px solid rgba(245,197,24,.12);
+  padding:.3rem 0 env(safe-area-inset-bottom,.3rem);
+  box-shadow:0 -4px 30px rgba(0,0,0,.6);
+}
+.mob-nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.2rem;padding:.45rem .2rem;background:none;border:none;cursor:pointer;
+  color:var(--t3);transition:all .2s;position:relative;
+  font-family:'Cairo',sans-serif;
+}
+.mob-nav-btn.a{color:var(--gold2)}
+.mob-nav-btn.a .mob-nav-ic{
+  background:linear-gradient(135deg,rgba(245,197,24,.18),rgba(245,197,24,.06));
+  border-radius:12px;padding:.28rem .7rem;
+  box-shadow:0 2px 12px rgba(245,197,24,.2);
+}
+.mob-nav-btn.a::after{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:28px;height:2.5px;background:var(--gold);border-radius:0 0 3px 3px;
+}
+.mob-nav-ic{font-size:1.35rem;line-height:1;transition:transform .2s;display:block;padding:.25rem .5rem;border-radius:10px}
+.mob-nav-btn:active .mob-nav-ic{transform:scale(.85)}
+.mob-nav-lb{font-size:.6rem;font-weight:600;letter-spacing:.3px;transition:color .2s}
+
 @media(max-width:768px){
-  .nav{padding:.7rem 1.2rem}
-  .nav-links{display:none}
+  /* Show bottom nav */
+  .mob-bottom-nav{display:flex}
+
+  /* Nav bar */
+  .nav{padding:.6rem 1rem}
+  .nav-links{display:none!important}
+  .nav-r .btn-in,.nav-r .btn-up{display:none}
   .logo{font-size:1.5rem;letter-spacing:2px}
-  .hero-c{padding:3rem 1.2rem 2rem}
-  .hero-title{font-size:clamp(2rem,10vw,3.5rem)}
-  .hero-desc{font-size:.82rem;max-width:100%}
-  .btn-play{padding:.72rem 1.4rem;font-size:.82rem}
-  .btn-ol{padding:.72rem 1.2rem;font-size:.82rem}
-  .row-hd{padding:.5rem 1.2rem .8rem}
-  .slider{padding:.3rem 1.2rem 1rem;gap:.7rem}
-  .card{width:130px}.card-img{width:130px;height:195px}
-  .rank-card{width:145px}.rank-num{font-size:6rem}.rank-img{width:100px;height:150px}
-  .wide-card{width:220px}.wide-img{width:220px;height:124px}
-  .c-page{padding:4.5rem 1.2rem 2rem}
-  .c-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.8rem}
-  .det-c{padding:1.5rem 1.2rem}
-  .det-title{font-size:clamp(1.5rem,7vw,2.8rem)}
-  .det-body-grid{grid-template-columns:1fr!important;padding:1.2rem!important}
+
+  /* Push content above bottom nav */
+  body > #root > div > *:not(.mob-bottom-nav):not(.nav):not(.toast-wrap) {
+    padding-bottom:0;
+  }
+
+  /* Hero */
+  .hero{height:85vh;min-height:500px}
+  .hero-c{padding:1.5rem 1.2rem 5.5rem}
+  .hero-title{font-size:clamp(1.8rem,9vw,3rem)}
+  .hero-desc{font-size:.8rem;max-width:100%;-webkit-line-clamp:3;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+  .hero-btns{gap:.7rem;flex-wrap:wrap}
+  .hero-btns .btn-play{flex:1;min-width:120px;justify-content:center;padding:.7rem 1rem;font-size:.82rem}
+  .hero-btns .btn-ol{padding:.7rem 1rem;font-size:.82rem}
+  .hero-meta{flex-wrap:wrap;gap:.4rem}
+  .hero-live{font-size:.62rem}
+
+  /* Rows */
+  .row-hd{padding:.5rem 1rem .7rem}
+  .row-title{font-size:.88rem}
+  .slider{padding:.3rem 1rem 1rem;gap:.65rem;scrollbar-width:none}
+  .slider::-webkit-scrollbar{display:none}
+
+  /* Cards — bigger and cleaner */
+  .card{width:120px}
+  .card-img{width:120px;height:180px;border-radius:10px}
+  .card-info{padding:.4rem .3rem .5rem}
+  .card-title{font-size:.72rem}
+
+  /* Wide cards */
+  .wide-card{width:200px}
+  .wide-img{width:200px;height:113px}
+
+  /* Rank */
+  .rank-card{width:130px}
+  .rank-num{font-size:5.5rem}
+  .rank-img{width:90px;height:135px}
+
+  /* Content page */
+  .c-page{padding:4.5rem 1rem 6rem}
+  .c-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.8rem}
+
+  /* Detail */
+  .det-c{padding:1.2rem 1rem 6rem}
+  .det-title{font-size:clamp(1.4rem,7vw,2.5rem)}
+  .det-body-grid{grid-template-columns:1fr!important;padding:1rem!important}
   .det-sidebar{display:none}
-  .player-nav{padding:.6rem 1rem}
+  .det-btns{flex-wrap:wrap;gap:.6rem}
+
+  /* Player */
+  .player-nav{padding:.5rem .8rem}
   .player-controls-row{flex-wrap:wrap;gap:.5rem}
-  .adm-page{padding:4.5rem 1rem 2rem}
-  .adm-tabs{gap:.3rem}
-  .a-tab{padding:.4rem .7rem;font-size:.7rem}
+
+  /* Admin */
+  .adm-page{padding:4.5rem .8rem 2rem}
+  .adm-tabs{gap:.3rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .a-tab{padding:.4rem .7rem;font-size:.7rem;white-space:nowrap}
   .form-grid{grid-template-columns:1fr!important}
-  .ft-grid{grid-template-columns:1fr!important}
-  .auth-box{padding:2rem 1.4rem;margin:1rem}
+
+  /* Footer — hidden on mobile (bottom nav replaces) */
+  .footer{display:none}
+
+  /* Auth */
+  .auth-box{padding:1.8rem 1.2rem;margin:.8rem}
+
+  /* Browse page */
+  .browse-title{font-size:clamp(1.8rem,8vw,3rem)}
+
+  /* Mobile nav hamburger */
   .mob-menu-btn{display:flex!important}
   .mob-nav{display:flex!important}
+
+  /* Comments */
+  .comments-section{padding-bottom:4rem}
+
+  /* Profile */
+  .p-tabs{overflow-x:auto;scrollbar-width:none}
+  .p-tab{white-space:nowrap;font-size:.78rem;padding:.6rem .9rem}
 }
 @media(min-width:769px){
   .mob-menu-btn{display:none!important}
   .mob-nav{display:none!important}
+  .mob-bottom-nav{display:none!important}
 }
 /* COMMENTS */
 .comments-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--s2)}
@@ -550,6 +657,10 @@ const DB = {
     const { error } = await sb.from('seasons').delete().eq('id', id);
     if (error) throw error;
   },
+  async updateSeason(id, title) {
+    const { error } = await sb.from('seasons').update({ title }).eq('id', id);
+    if (error) throw error;
+  },
   async createEpisode(seasonId, contentId, payload) {
     const { data, error } = await sb.from('episodes')
       .insert({ season_id: seasonId, content_id: contentId, ...payload }).select().single();
@@ -608,6 +719,9 @@ const DB = {
   async toggleUserAdmin(uid, current) {
     await sb.from('profiles').update({ is_admin: !current }).eq('id', uid);
   },
+  getActors() { try{return JSON.parse(localStorage.getItem("flixtn_actors")||"[]");}catch(_){return[];} },
+  saveActors(a){ localStorage.setItem("flixtn_actors",JSON.stringify(a)); },
+
   async getComments(contentId, episodeId = null) {
     let q = sb.from('comments').select('*, profiles(username, avatar_url)')
       .eq('content_id', contentId).order('created_at', { ascending: false });
@@ -990,17 +1104,19 @@ function HomePage({ movies, series, loading, onItemClick, onPlay, user, favorite
     <div>
       {/* ─── HERO ─── */}
       <div className="hero">
-        <div className="hero-bg" style={{background:'var(--bg2)'}}>
-          <img key={hero.id}
-            src={
-              (hero.backdrop_url && hero.backdrop_url.length > 5 ? hero.backdrop_url : null) ||
-              (hero.backdrop && hero.backdrop.length > 5 ? hero.backdrop : null) ||
-              hero.poster_url || hero.poster
-            }
-            alt={hero.title}
-            style={{opacity:1,transition:'opacity .9s ease'}}
-            onError={e=>{if(!e.target.dataset.err){e.target.dataset.err=1;e.target.src=hero.poster_url||`https://picsum.photos/seed/${hero.id}/1920/1080`}}}/>
-        </div>
+        {(()=>{
+          const heroImg = (hero.backdrop_url && hero.backdrop_url.length > 5 ? hero.backdrop_url : null) ||
+            (hero.backdrop && hero.backdrop.length > 5 ? hero.backdrop : null) ||
+            hero.poster_url || hero.poster;
+          return (
+            <div className="hero-bg"
+              style={{background:'var(--bg)',['--hero-src']:`url('${heroImg}')`}}>
+              <img key={hero.id} src={heroImg} alt={hero.title}
+                style={{opacity:1,transition:'opacity .9s ease'}}
+                onError={e=>{if(!e.target.dataset.err){e.target.dataset.err=1;e.target.src=hero.poster_url||`https://picsum.photos/seed/${hero.id}/1920/1080`}}}/>
+            </div>
+          );
+        })()}
         <div className="hero-ov"/>
         <div className="hero-ov2"/>
         <div className="hero-ov3"/>
@@ -1026,7 +1142,7 @@ function HomePage({ movies, series, loading, onItemClick, onPlay, user, favorite
             {hero.description?.slice(0,155)}{hero.description?.length>155?'...':''}
           </p>
           <div className="hero-btns">
-            <button className="btn-play" onClick={()=>onPlay(hero)}>
+            <button className="btn-play" onClick={()=>onItemClick(hero)}>
               <span className="btn-play-ico">▶</span>
               {hero.type==='movie'?'شاهد الفيلم':'ابدأ المشاهدة'}
             </button>
@@ -1050,6 +1166,7 @@ function HomePage({ movies, series, loading, onItemClick, onPlay, user, favorite
       </div>
 
       {/* ─── SECTIONS ─── */}
+      <FeaturedActorsRow />
       <Section title="رائج الآن" items={trending} type="wide" icon="🔥"/>
       <Section title="الأكثر تقييماً" items={top10} type="rank" icon="🏆"/>
       <Section title="مختارات مميزة" items={featured} type="feat" icon="⭐"/>
@@ -1227,21 +1344,22 @@ function SearchOverlay({ movies, series, onItemClick, onClose }) {
 
 /* ═══════════ PROFILE PAGE ════════════════════════════════ */
 function ProfilePage({ user, profile, onLogout, onProfileUpdate, movies, series }) {
-  const [tab, setTab] = useState('history');
-  const [favs, setFavs] = useState([]);
-  const [hist, setHist] = useState([]);
-  const [loadingData, setLoadingData] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [toast, setToast] = useState('');
-  const [editF, setEditF] = useState({ username: profile?.username||'', full_name: profile?.full_name||'' });
-  const [pwdF, setPwdF] = useState({ new:'', confirm:'' });
-  const [pwdErr, setPwdErr] = useState('');
+  const [tab, setTab]       = useState('favorites');
+  const [favs, setFavs]     = useState([]);
+  const [hist, setHist]     = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving]   = useState(false);
+  const [toast, setToast]     = useState('');
+  const [editF, setEditF]     = useState({ username: profile?.username||'', full_name: profile?.full_name||'' });
+  const [pwdF, setPwdF]       = useState({ new:'', confirm:'' });
+  const [pwdErr, setPwdErr]   = useState('');
+
   const showToast = m => { setToast(m); setTimeout(()=>setToast(''),3000); };
 
-  useEffect(() => {
+  useEffect(()=>{
     Promise.all([DB.getFavorites(user.id), DB.getHistory(user.id)])
-      .then(([f,h]) => { setFavs(f); setHist(h); setLoadingData(false); });
-  }, [user.id]);
+      .then(([f,h])=>{ setFavs(f); setHist(h); setLoading(false); });
+  },[user.id]);
 
   const saveProfile = async () => {
     setSaving(true);
@@ -1259,58 +1377,181 @@ function ProfilePage({ user, profile, onLogout, onProfileUpdate, movies, series 
     setSaving(false);
   };
 
+  const avatar = profile?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`;
+  const displayName = profile?.full_name || profile?.username || 'مستخدم';
+  const isAdmin = profile?.is_admin;
+
+  const TABS = [
+    {k:'favorites', ic:'❤', lb:'المفضلة', count: favs.length},
+    {k:'history',   ic:'🕓', lb:'شاهدت',  count: hist.length},
+    {k:'settings',  ic:'⚙',  lb:'الإعدادات'},
+    {k:'password',  ic:'🔒', lb:'كلمة المرور'},
+  ];
+
   return (
     <div className="prof-page">
-      {toast && <Toast msg={toast} type="ok" onClose={()=>setToast('')} />}
+      {toast && <Toast msg={toast} type="ok" onClose={()=>setToast('')}/>}
+
+      {/* ── COVER + AVATAR ── */}
       <div className="prof-cover">
-        <div style={{ position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(229,9,20,.3) 0%,transparent 60%)' }} />
+        <div className="prof-cover-blur" style={{backgroundImage:`url('${avatar}')`}}/>
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,var(--bg) 0%,rgba(6,6,10,.3) 50%,transparent 100%)',zIndex:2}}/>
         <div className="prof-av-wrap">
-          <img className="prof-av" src={profile?.avatar_url||`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`} alt="" />
+          <img className="prof-av" src={avatar} alt={displayName}
+            onError={e=>{if(!e.target.dataset.e){e.target.dataset.e=1;e.target.src=`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(displayName)}`;}}}/>
         </div>
       </div>
-      <div style={{ display:'flex',alignItems:'flex-start',justifyContent:'space-between',flexWrap:'wrap',gap:'1rem',marginBottom:'2rem' }}>
-        <div>
-          <div style={{ fontFamily:"'Oswald',sans-serif",fontSize:'1.5rem',fontWeight:700 }}>{profile?.full_name||profile?.username||'مستخدم'}</div>
-          <div style={{ fontSize:'.78rem',color:'var(--t3)',marginTop:'.2rem' }}>{user.email}</div>
-          <div style={{ marginTop:'.5rem' }}>
-            {profile?.is_admin
-              ? <span style={{ background:'var(--redbg)',border:'1px solid var(--redbr)',color:'var(--red3)',padding:'.22rem .65rem',borderRadius:20,fontSize:'.67rem',fontWeight:700 }}>👑 مدير النظام</span>
-              : <span style={{ background:'rgba(29,185,84,.12)',border:'1px solid rgba(29,185,84,.3)',color:'var(--green)',padding:'.22rem .65rem',borderRadius:20,fontSize:'.67rem',fontWeight:700 }}>✓ عضو نشط</span>}
-          </div>
+
+      {/* ── NAME + INFO ── */}
+      <div style={{paddingTop:'3.2rem',paddingBottom:'1.2rem',textAlign:'center',padding:'3.2rem 1.2rem 0',position:'relative',zIndex:2}}>
+        <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.7rem',letterSpacing:'2px',marginBottom:'.2rem'}}>{displayName}</div>
+        <div style={{fontSize:'.75rem',color:'var(--t3)',marginBottom:'.6rem'}}>{user.email}</div>
+        <div style={{display:'flex',justifyContent:'center',gap:'.5rem',flexWrap:'wrap',marginBottom:'1.2rem'}}>
+          {isAdmin
+            ? <span style={{background:'rgba(229,9,20,.12)',border:'1px solid rgba(229,9,20,.3)',color:'#ff6b75',padding:'.2rem .7rem',borderRadius:20,fontSize:'.67rem',fontWeight:700}}>👑 مدير النظام</span>
+            : <span style={{background:'rgba(33,197,93,.1)',border:'1px solid rgba(33,197,93,.25)',color:'#21c55d',padding:'.2rem .7rem',borderRadius:20,fontSize:'.67rem',fontWeight:700}}>✓ عضو نشط</span>
+          }
         </div>
-        <button onClick={onLogout} style={{ padding:'.55rem 1.2rem',background:'var(--redbg)',border:'1px solid var(--redbr)',borderRadius:8,color:'var(--red3)',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.8rem' }}>🚪 تسجيل الخروج</button>
+
+        {/* Stats row */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'.6rem',marginBottom:'1.5rem',maxWidth:400,margin:'0 auto 1.5rem'}}>
+          {[
+            {v: favs.length,  lb:'المفضلة'},
+            {v: hist.length,  lb:'شاهدت'},
+            {v: movies.length+series.length, lb:'محتوى'},
+          ].map(({v,lb})=>(
+            <div key={lb} style={{background:'var(--s1)',border:'1px solid var(--s2)',borderRadius:12,padding:'.8rem .5rem',textAlign:'center'}}>
+              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.6rem',color:'#f5c518',lineHeight:1}}>{v}</div>
+              <div style={{fontSize:'.65rem',color:'var(--t3)',marginTop:'.2rem'}}>{lb}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Logout button */}
+        <button onClick={onLogout}
+          style={{background:'rgba(229,9,20,.1)',border:'1px solid rgba(229,9,20,.25)',borderRadius:10,
+            color:'#ff6b75',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.8rem',
+            padding:'.5rem 1.4rem',marginBottom:'1.5rem',transition:'all .2s'}}
+          onMouseEnter={e=>{e.currentTarget.style.background='rgba(229,9,20,.2)'}}
+          onMouseLeave={e=>{e.currentTarget.style.background='rgba(229,9,20,.1)'}}>
+          🚪 تسجيل الخروج
+        </button>
       </div>
-      <div className="stat-row">
-        <div className="stat-box"><div className="stat-val">{favs.length}</div><div className="stat-lbl">المفضلة</div></div>
-        <div className="stat-box"><div className="stat-val">{hist.length}</div><div className="stat-lbl">شاهدت</div></div>
-        <div className="stat-box"><div className="stat-val">{movies.length+series.length}</div><div className="stat-lbl">محتوى متاح</div></div>
-      </div>
-      <div className="p-tab-row">
-        {[['history','🕓 سجل المشاهدة'],['favorites','❤ المفضلة'],['settings','⚙ الإعدادات'],['password','🔒 كلمة المرور']].map(([k,l])=>(
-          <button key={k} className={`p-tab ${tab===k?'a':''}`} onClick={()=>setTab(k)}>{l}</button>
+
+      {/* ── TABS ── */}
+      <div style={{display:'flex',borderBottom:'1px solid var(--s2)',overflowX:'auto',scrollbarWidth:'none',
+        position:'sticky',top:64,zIndex:10,background:'var(--bg)',backdropFilter:'blur(12px)'}}>
+        {TABS.map(({k,ic,lb,count})=>(
+          <button key={k} onClick={()=>setTab(k)}
+            style={{flex:1,minWidth:80,display:'flex',flexDirection:'column',alignItems:'center',
+              gap:'.15rem',padding:'.8rem .5rem',background:'none',border:'none',
+              borderBottom:`2px solid ${tab===k?'#f5c518':'transparent'}`,
+              color:tab===k?'#f5c518':'var(--t3)',cursor:'pointer',
+              transition:'all .2s',fontFamily:"'Cairo',sans-serif"}}>
+            <span style={{fontSize:'1.1rem'}}>{ic}</span>
+            <span style={{fontSize:'.62rem',fontWeight:600,letterSpacing:'.3px'}}>{lb}</span>
+            {count!==undefined&&<span style={{fontSize:'.55rem',background:tab===k?'rgba(245,197,24,.15)':'var(--s2)',
+              border:`1px solid ${tab===k?'rgba(245,197,24,.3)':'var(--s3)'}`,
+              borderRadius:10,padding:'.05rem .4rem',color:tab===k?'#f5c518':'var(--t4)',marginTop:'.1rem'}}>{count}</span>}
+          </button>
         ))}
       </div>
-      {tab==='history' && (loadingData?<div className="empty"><Spin /></div>:hist.length===0?<div className="empty"><div style={{fontSize:'3rem',opacity:.3}}>🕓</div><div style={{marginTop:'1rem'}}>لم تشاهد شيئاً بعد</div></div>:<div className="c-grid">{hist.map(h=>h.content&&<MovieCard key={h.id} item={h.content} onClick={()=>{}} showType />)}</div>)}
-      {tab==='favorites' && (loadingData?<div className="empty"><Spin /></div>:favs.length===0?<div className="empty"><div style={{fontSize:'3rem',opacity:.3}}>❤</div><div style={{marginTop:'1rem'}}>لا توجد مفضلات</div></div>:<div className="c-grid">{favs.map(f=>f.content&&<MovieCard key={f.id} item={f.content} onClick={()=>{}} showType />)}</div>)}
-      {tab==='settings' && (
-        <div className="sett-form"><h3>معلومات الحساب</h3>
-          <div className="fg"><label className="fl">اسم المستخدم</label><input className="fi fi-r" value={editF.username} onChange={e=>setEditF(p=>({...p,username:e.target.value}))} /></div>
-          <div className="fg"><label className="fl">الاسم الكامل</label><input className="fi fi-r" value={editF.full_name} onChange={e=>setEditF(p=>({...p,full_name:e.target.value}))} /></div>
-          <div className="fg"><label className="fl">البريد الإلكتروني</label><input className="fi" value={user.email} disabled style={{opacity:.5}} /></div>
-          <button className="btn-auth" onClick={saveProfile} disabled={saving}>{saving?<span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'.4rem'}}><Spin sm />جاري...</span>:'💾 حفظ'}</button>
-        </div>
-      )}
-      {tab==='password' && (
-        <div className="sett-form"><h3>تغيير كلمة المرور</h3>
-          {pwdErr && <div className="ferr">⚠ {pwdErr}</div>}
-          <div className="fg"><label className="fl">كلمة المرور الجديدة</label><input className="fi" type="password" value={pwdF.new} onChange={e=>setPwdF(p=>({...p,new:e.target.value}))} placeholder="••••••••" /></div>
-          <div className="fg"><label className="fl">تأكيد كلمة المرور</label><input className="fi" type="password" value={pwdF.confirm} onChange={e=>setPwdF(p=>({...p,confirm:e.target.value}))} placeholder="••••••••" /></div>
-          <button className="btn-auth" onClick={changePwd} disabled={saving}>{saving?<span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'.4rem'}}><Spin sm />جاري...</span>:'🔒 تغيير'}</button>
-        </div>
-      )}
+
+      {/* ── TAB CONTENT ── */}
+      <div style={{padding:'1.2rem 1rem 7rem'}}>
+
+        {/* FAVORITES */}
+        {tab==='favorites' && (
+          loading
+            ? <div className="empty"><Spin/></div>
+            : favs.length===0
+              ? <div className="empty" style={{paddingTop:'3rem'}}>
+                  <div style={{fontSize:'3rem',opacity:.2}}>❤</div>
+                  <div style={{marginTop:'1rem',color:'var(--t4)',fontFamily:"'Cairo',sans-serif",fontSize:'.85rem'}}>لا توجد مفضلات بعد</div>
+                </div>
+              : <div className="c-grid">{favs.map(f=>f.content&&<MovieCard key={f.id} item={f.content} onClick={()=>{}} showType/>)}</div>
+        )}
+
+        {/* HISTORY */}
+        {tab==='history' && (
+          loading
+            ? <div className="empty"><Spin/></div>
+            : hist.length===0
+              ? <div className="empty" style={{paddingTop:'3rem'}}>
+                  <div style={{fontSize:'3rem',opacity:.2}}>🕓</div>
+                  <div style={{marginTop:'1rem',color:'var(--t4)',fontFamily:"'Cairo',sans-serif",fontSize:'.85rem'}}>لم تشاهد شيئاً بعد</div>
+                </div>
+              : <div className="c-grid">{hist.map(h=>h.content&&<MovieCard key={h.id} item={h.content} onClick={()=>{}} showType/>)}</div>
+        )}
+
+        {/* SETTINGS */}
+        {tab==='settings' && (
+          <div style={{maxWidth:480,margin:'0 auto'}}>
+            <div style={{background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:16,padding:'1.5rem',marginBottom:'1rem'}}>
+              <div style={{display:'flex',alignItems:'center',gap:'.5rem',marginBottom:'1.2rem'}}>
+                <div style={{width:3,height:18,background:'linear-gradient(180deg,#f5c518,#d4a000)',borderRadius:2}}/>
+                <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1rem',letterSpacing:'2px'}}>معلومات الحساب</div>
+              </div>
+              <div style={{marginBottom:'.9rem'}}>
+                <label style={{fontSize:'.7rem',color:'var(--t3)',display:'block',marginBottom:'.4rem',letterSpacing:'.5px'}}>اسم المستخدم</label>
+                <input className="fi fi-r" value={editF.username} onChange={e=>setEditF(p=>({...p,username:e.target.value}))} style={{width:'100%'}}/>
+              </div>
+              <div style={{marginBottom:'.9rem'}}>
+                <label style={{fontSize:'.7rem',color:'var(--t3)',display:'block',marginBottom:'.4rem',letterSpacing:'.5px'}}>الاسم الكامل</label>
+                <input className="fi fi-r" value={editF.full_name} onChange={e=>setEditF(p=>({...p,full_name:e.target.value}))} style={{width:'100%'}}/>
+              </div>
+              <div style={{marginBottom:'1.2rem'}}>
+                <label style={{fontSize:'.7rem',color:'var(--t3)',display:'block',marginBottom:'.4rem',letterSpacing:'.5px'}}>البريد الإلكتروني</label>
+                <input className="fi" value={user.email} disabled style={{width:'100%',opacity:.45}}/>
+              </div>
+              <button onClick={saveProfile} disabled={saving}
+                style={{width:'100%',padding:'.9rem',
+                  background:saving?'var(--s2)':'linear-gradient(135deg,#f5c518,#d4a000)',
+                  border:'none',borderRadius:12,color:saving?'var(--t4)':'#000',
+                  cursor:saving?'not-allowed':'pointer',fontFamily:"'Cairo',sans-serif",
+                  fontSize:'.9rem',fontWeight:800,transition:'all .3s',
+                  display:'flex',alignItems:'center',justifyContent:'center',gap:'.5rem'}}>
+                {saving ? <><Spin sm/> جاري الحفظ...</> : '💾 حفظ التغييرات'}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* PASSWORD */}
+        {tab==='password' && (
+          <div style={{maxWidth:480,margin:'0 auto'}}>
+            <div style={{background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:16,padding:'1.5rem'}}>
+              <div style={{display:'flex',alignItems:'center',gap:'.5rem',marginBottom:'1.2rem'}}>
+                <div style={{width:3,height:18,background:'linear-gradient(180deg,#e50914,#ff4444)',borderRadius:2}}/>
+                <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1rem',letterSpacing:'2px'}}>تغيير كلمة المرور</div>
+              </div>
+              {pwdErr && <div style={{background:'rgba(229,9,20,.1)',border:'1px solid rgba(229,9,20,.25)',borderRadius:8,padding:'.7rem 1rem',marginBottom:'1rem',color:'#ff6b75',fontSize:'.8rem'}}>⚠ {pwdErr}</div>}
+              <div style={{marginBottom:'.9rem'}}>
+                <label style={{fontSize:'.7rem',color:'var(--t3)',display:'block',marginBottom:'.4rem'}}>كلمة المرور الجديدة</label>
+                <input className="fi" type="password" value={pwdF.new} onChange={e=>setPwdF(p=>({...p,new:e.target.value}))} placeholder="••••••••" style={{width:'100%'}}/>
+              </div>
+              <div style={{marginBottom:'1.2rem'}}>
+                <label style={{fontSize:'.7rem',color:'var(--t3)',display:'block',marginBottom:'.4rem'}}>تأكيد كلمة المرور</label>
+                <input className="fi" type="password" value={pwdF.confirm} onChange={e=>setPwdF(p=>({...p,confirm:e.target.value}))} placeholder="••••••••" style={{width:'100%'}}/>
+              </div>
+              <button onClick={changePwd} disabled={saving}
+                style={{width:'100%',padding:'.9rem',
+                  background:saving?'var(--s2)':'linear-gradient(135deg,#e50914,#ff2233)',
+                  border:'none',borderRadius:12,color:'#fff',
+                  cursor:saving?'not-allowed':'pointer',fontFamily:"'Cairo',sans-serif",
+                  fontSize:'.9rem',fontWeight:800,transition:'all .3s',
+                  display:'flex',alignItems:'center',justifyContent:'center',gap:'.5rem',
+                  boxShadow:saving?'none':'0 4px 16px rgba(229,9,20,.4)'}}>
+                {saving ? <><Spin sm/> جاري...</> : '🔒 تغيير كلمة المرور'}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
 
 /* ═══════════ ADMIN — CONTENT FORM ═══════════════════════ */
 function ContentFormModal({ item, onClose, onSaved, showToast }) {
@@ -1433,6 +1674,7 @@ function SeasonsModal({ series, onClose, showToast }) {
   const [newSTitle, setNewSTitle] = useState('');
   const [addingEp, setAddingEp]   = useState(false);
   const [editingEp, setEditingEp] = useState(null);
+  const [editingSeason, setEditingSeason] = useState(null); // {id, title}
   const [loading, setLoading]     = useState(false);
   const [loadingFull, setLoadingFull] = useState(true);
   const [epF, setEpF] = useState({ title:'',ep_num:1,description:'',duration:'',thumb_url:'',video_url:'' });
@@ -1462,6 +1704,18 @@ function SeasonsModal({ series, onClose, showToast }) {
     const updated = seasons.filter(s=>s.id!==sid);
     setSeasons(updated); setSelS(0);
     showToast('تم حذف الموسم');
+  };
+
+  const saveSeason = async () => {
+    if (!editingSeason?.title?.trim()) return;
+    setLoading(true);
+    try {
+      await DB.updateSeason(editingSeason.id, editingSeason.title.trim());
+      setSeasons(p => p.map(s => s.id===editingSeason.id ? {...s, title:editingSeason.title.trim()} : s));
+      setEditingSeason(null);
+      showToast('✓ تم تعديل اسم الموسم');
+    } catch(e) { showToast('خطأ: '+e.message); }
+    setLoading(false);
   };
 
   const addEp = async () => {
@@ -1531,11 +1785,41 @@ function SeasonsModal({ series, onClose, showToast }) {
             {/* Season tabs */}
             <div className="season-tabs">
               {seasons.map((s,i)=>(
-                <div key={s.id} style={{ display:'flex',alignItems:'center',gap:'.2rem' }}>
-                  <button className={`s-tab ${selS===i?'a':''}`} onClick={()=>setSelS(i)}>
-                    {s.title} <span style={{ opacity:.65,fontSize:'.63rem' }}>({s.episodes?.length||0} حلقة)</span>
-                  </button>
-                  <button onClick={()=>delSeason(s.id)} style={{ background:'none',border:'none',color:'var(--red3)',cursor:'pointer',fontSize:'.8rem',padding:'.2rem',opacity:.6 }}>🗑</button>
+                <div key={s.id} style={{ display:'flex',alignItems:'center',gap:'.2rem',marginBottom:'.3rem' }}>
+                  {editingSeason?.id === s.id ? (
+                    <div style={{ display:'flex',gap:'.3rem',alignItems:'center' }}>
+                      <input className="fi fi-r" value={editingSeason.title}
+                        onChange={e=>setEditingSeason(p=>({...p,title:e.target.value}))}
+                        onKeyDown={e=>{if(e.key==='Enter')saveSeason();if(e.key==='Escape')setEditingSeason(null);}}
+                        style={{ fontSize:'.76rem',padding:'.35rem .7rem',height:'auto',width:160 }}
+                        autoFocus />
+                      <button onClick={saveSeason} disabled={loading}
+                        style={{ background:'linear-gradient(135deg,var(--gold),#d4a000)',border:'none',color:'#000',padding:'.32rem .7rem',borderRadius:6,cursor:'pointer',fontSize:'.72rem',fontFamily:"'Cairo',sans-serif",fontWeight:700 }}>
+                        {loading?'...':'حفظ'}
+                      </button>
+                      <button onClick={()=>setEditingSeason(null)}
+                        style={{ background:'var(--s2)',border:'1px solid var(--s3)',color:'var(--t3)',padding:'.32rem .6rem',borderRadius:6,cursor:'pointer',fontSize:'.72rem' }}>
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <button className={`s-tab ${selS===i?'a':''}`} onClick={()=>setSelS(i)}>
+                        {s.title} <span style={{ opacity:.65,fontSize:'.63rem' }}>({s.episodes?.length||0})</span>
+                      </button>
+                      <button onClick={()=>setEditingSeason({id:s.id,title:s.title})}
+                        title="تعديل الاسم"
+                        style={{ background:'none',border:'none',color:'var(--gold)',cursor:'pointer',fontSize:'.78rem',padding:'.2rem .3rem',opacity:.7,transition:'opacity .2s' }}
+                        onMouseEnter={e=>e.target.style.opacity=1} onMouseLeave={e=>e.target.style.opacity=.7}>
+                        ✏️
+                      </button>
+                      <button onClick={()=>delSeason(s.id)}
+                        style={{ background:'none',border:'none',color:'var(--red3)',cursor:'pointer',fontSize:'.78rem',padding:'.2rem .3rem',opacity:.6,transition:'opacity .2s' }}
+                        onMouseEnter={e=>e.target.style.opacity=1} onMouseLeave={e=>e.target.style.opacity=.6}>
+                        🗑
+                      </button>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -1645,6 +1929,8 @@ function EpEditInline({ ep, onSave, onCancel, loading }) {
 /* ═══════════ ADMIN PAGE ══════════════════════════════════ */
 function AdminPage({ movies, series, goHome, onRefresh }) {
   const [tab, setTab]           = useState('stats');
+  const [actors, setActors]     = useState(()=>DB.getActors());
+  const [actorF, setActorF]     = useState({name:'',role:'',photo:'',nationality:'',birth:'',known:'',bio:''});
   const [users, setUsers]       = useState([]);
   const [editItem, setEditItem]  = useState(null);
   const [seasonsItem, setSeasonsItem] = useState(null);
@@ -1703,7 +1989,7 @@ function AdminPage({ movies, series, goHome, onRefresh }) {
       </div>
 
       <div className="adm-tabs">
-        {[['stats','📊 إحصائيات'],['movies','🎬 الأفلام'],['series','📺 المسلسلات'],['users','👥 المستخدمون'],['add','➕ إضافة']].map(([k,l])=>(
+        {[['stats','📊 إحصائيات'],['movies','🎬 الأفلام'],['series','📺 المسلسلات'],['actors','⭐ الممثلون'],['users','👥 المستخدمون'],['add','➕ إضافة']].map(([k,l])=>(
           <button key={k} className={`a-tab ${tab===k?'a':''}`} onClick={()=>setTab(k)}>{l}</button>
         ))}
       </div>
@@ -1800,6 +2086,58 @@ function AdminPage({ movies, series, goHome, onRefresh }) {
               ))}</tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {tab==='actors'&&(
+        <div>
+          <div style={{display:'flex',alignItems:'center',gap:'.6rem',marginBottom:'1.2rem'}}>
+            <div style={{width:3,height:20,background:'linear-gradient(180deg,#ffd700,#f5c518)',borderRadius:2}}/>
+            <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.1rem',letterSpacing:'2px'}}>إدارة الممثلين المميزين</div>
+          </div>
+          <div style={{background:'var(--bg3)',border:'1px solid var(--s3)',borderRadius:12,padding:'1.2rem',marginBottom:'1.5rem'}}>
+            <div style={{fontWeight:700,fontSize:'.82rem',color:'#f5c518',marginBottom:'1rem'}}>➕ إضافة ممثل</div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'.7rem',marginBottom:'.7rem'}}>
+              <div>
+                <label style={{fontSize:'.68rem',color:'var(--t3)',display:'block',marginBottom:'.4rem'}}>الاسم *</label>
+                <input className="fi fi-r" value={actorF.name} onChange={e=>setActorF(p=>({...p,name:e.target.value}))} placeholder="Leonardo DiCaprio" style={{width:'100%'}}/>
+              </div>
+              <div>
+                <label style={{fontSize:'.68rem',color:'var(--t3)',display:'block',marginBottom:'.4rem'}}>التخصص</label>
+                <input className="fi fi-r" value={actorF.role} onChange={e=>setActorF(p=>({...p,role:e.target.value}))} placeholder="ممثل، مخرج..." style={{width:'100%'}}/>
+              </div>
+            </div>
+            <div style={{display:'flex',gap:'.7rem',alignItems:'flex-end'}}>
+              <div style={{flex:1}}>
+                <label style={{fontSize:'.68rem',color:'var(--t3)',display:'block',marginBottom:'.4rem'}}>رابط الصورة</label>
+                <input className="fi" value={actorF.photo} onChange={e=>setActorF(p=>({...p,photo:e.target.value}))} placeholder="https://..." style={{width:'100%',direction:'ltr'}}/>
+              </div>
+              <button onClick={()=>{
+                if(!actorF.name.trim())return;
+                const u=[...actors,{...actorF,id:Date.now()}];
+                DB.saveActors(u);setActors(u);setActorF({name:'',role:'',photo:''});
+              }} style={{background:'linear-gradient(135deg,#f5c518,#d4a000)',border:'none',color:'#000',
+                padding:'.55rem 1.2rem',borderRadius:8,cursor:'pointer',fontSize:'.8rem',
+                fontFamily:"'Cairo',sans-serif",fontWeight:800,whiteSpace:'nowrap',height:38}}>+ إضافة</button>
+            </div>
+          </div>
+          {actors.length===0
+            ?<div style={{padding:'2rem',textAlign:'center',color:'var(--t4)',background:'var(--bg3)',borderRadius:8,border:'1px dashed var(--s3)',fontSize:'.82rem'}}>لا يوجد ممثلون — أضف أول ممثل ⬆</div>
+            :<div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(145px,1fr))',gap:'1rem'}}>
+              {actors.map((a,i)=>(
+                <div key={a.id||i} style={{background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:12,padding:'1rem',textAlign:'center',position:'relative'}}>
+                  <button onClick={()=>{const u=actors.filter((_,j)=>j!==i);DB.saveActors(u);setActors(u);}}
+                    style={{position:'absolute',top:4,left:4,background:'rgba(229,9,20,.2)',border:'none',borderRadius:6,color:'#ff6b75',cursor:'pointer',fontSize:'.65rem',padding:'.2rem .4rem'}}>✕</button>
+                  {i<3&&<div style={{position:'absolute',top:5,right:5,background:'linear-gradient(135deg,#ffd700,#d4a000)',borderRadius:20,padding:'.12rem .45rem',fontSize:'.6rem',fontWeight:800,color:'#000'}}>#{i+1}</div>}
+                  <img src={a.photo||'https://api.dicebear.com/7.x/avataaars/svg?seed='+encodeURIComponent(a.name)} alt={a.name}
+                    style={{width:58,height:58,borderRadius:'50%',objectFit:'cover',border:'2px solid var(--s3)',background:'var(--s2)',marginBottom:'.55rem',display:'block',margin:'0 auto .55rem'}}
+                    onError={e=>{if(!e.target.dataset.e){e.target.dataset.e=1;e.target.src='https://api.dicebear.com/7.x/initials/svg?seed='+encodeURIComponent(a.name);}}}/>
+                  <div style={{fontWeight:700,fontSize:'.8rem',marginBottom:'.12rem'}}>{a.name}</div>
+                  {a.role&&<div style={{fontSize:'.63rem',color:'#f5c518',opacity:.8}}>{a.role}</div>}
+                </div>
+              ))}
+            </div>
+          }
         </div>
       )}
 
@@ -1940,188 +2278,234 @@ function BrowsePage({ movies, series, loading, onItemClick, user, favorites, onF
 
 /* ═══════════ DETAIL PAGE ════════════════════════════════ */
 function DetailPage({ itemId, onPlay, onBack, user, profile, favorites, onFavToggle, onSelectEp }) {
-  const [item, setItem] = useState(null);
+  const [item, setItem]     = useState(null);
   const [loading, setLoading] = useState(true);
-  const [season, setSeason] = useState(0);
+  const [season, setSeason]   = useState(0);
+  const [liked, setLiked]     = useState(false);
+  const [shared, setShared]   = useState(false);
+  const favIds = new Set(favorites.map(f=>f.content_id));
 
-  const favIds = new Set(favorites.map(f => f.content_id));
-
-  useEffect(() => {
+  useEffect(()=>{
     setLoading(true); setSeason(0);
-    DB.getContent(itemId).then(d => { setItem(d); setLoading(false); }).catch(() => setLoading(false));
-  }, [itemId]);
+    DB.getContent(itemId).then(d=>{setItem(d);setLoading(false);}).catch(()=>setLoading(false));
+  },[itemId]);
 
-  if (loading) return (
-    <div>
-      <div style={{ height:'65vh' }} className="skel" />
-      <div style={{ padding:'2rem 3rem',display:'grid',gridTemplateColumns:'1fr 280px',gap:'2rem' }}>
-        <div><div style={{ height:24,borderRadius:6,marginBottom:'1rem',width:'60%' }} className="skel" /><div style={{ height:120,borderRadius:8 }} className="skel" /></div>
-        <div style={{ height:220,borderRadius:12 }} className="skel" />
-      </div>
-    </div>
-  );
-  if (!item) return <div className="empty" style={{ paddingTop:'8rem' }}><div style={{ fontSize:'3rem',opacity:.2 }}>⚠️</div><div style={{ marginTop:'1rem',color:'var(--t4)' }}>المحتوى غير موجود</div></div>;
+  const handleShare = ()=>{
+    if(navigator.share) navigator.share({title:item?.title_en||item?.title,url:window.location.href});
+    else{navigator.clipboard?.writeText(window.location.href);setShared(true);setTimeout(()=>setShared(false),2000);}
+  };
 
-  const isSeries = item.type === 'series';
-  const isFav = favIds.has(item.id);
-  const seasons = item.seasons || [];
-  const catLabel = { arabic:'🇸🇦 عربي', tunisian:'🇹🇳 تونسي', international:'🌍 عالمي' }[item.category] || '';
+  const Stars = ({r})=>{
+    const v = parseFloat(r)/2;
+    return [1,2,3,4,5].map(i=>(
+      <span key={i} style={{color:i<=Math.round(v)?'#f5c518':'rgba(255,255,255,.18)',fontSize:'1.1rem'}}>★</span>
+    ));
+  };
 
-  return (
-    <div>
-      {/* Hero */}
-      <div className="det-hero">
-        <div className="det-bg"><img src={item.backdrop_url || item.poster_url} alt={item.title} /></div>
-        <div className="det-ov" />
-        <div style={{ position:'absolute',inset:0,background:'linear-gradient(to left,transparent 40%,rgba(6,6,8,.7) 100%)' }} />
-        <div className="det-c">
-          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'.8rem' }}>
-            {item.genre?.map(g => <span key={g} className="gpill">{g}</span>)}
+  if(loading) return(<div><div style={{height:'75vh'}} className="skel"/><div style={{padding:'2rem'}}><div style={{height:24,borderRadius:6,width:'55%'}} className="skel"/></div></div>);
+  if(!item) return(<div className="empty" style={{paddingTop:'8rem'}}><div style={{fontSize:'3rem',opacity:.2}}>⚠️</div><div style={{marginTop:'1rem',color:'var(--t4)'}}>المحتوى غير موجود</div></div>);
+
+  const isSeries=item.type==='series';
+  const isFav=favIds.has(item.id);
+  const seasons=item.seasons||[];
+
+  return(
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingBottom:'5rem'}}>
+
+      {/* ══ HERO ══ */}
+      <div style={{position:'relative',height:'75vh',minHeight:460,overflow:'hidden'}}>
+        <img src={item.backdrop_url||item.poster_url} alt=""
+          style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',objectPosition:'center top',filter:'brightness(.5) saturate(1.1)'}}/>
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,var(--bg) 0%,rgba(6,6,10,.3) 45%,transparent 100%)'}}/>
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(to right,rgba(6,6,10,.85) 25%,transparent 75%)'}}/>
+
+        {/* Back button */}
+        <button onClick={onBack} style={{position:'absolute',top:'5.5rem',right:'1.4rem',zIndex:10,
+          background:'rgba(0,0,0,.55)',border:'1px solid rgba(255,255,255,.15)',borderRadius:50,
+          width:42,height:42,display:'flex',alignItems:'center',justifyContent:'center',
+          cursor:'pointer',color:'#fff',fontSize:'1.1rem',backdropFilter:'blur(10px)'}}>←</button>
+
+        {/* Content bottom-left */}
+        <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'1.5rem 2rem 2.5rem',maxWidth:820}}>
+          <div style={{display:'flex',gap:'.4rem',flexWrap:'wrap',marginBottom:'.7rem'}}>
+            {item.genre?.slice(0,3).map(g=>(
+              <span key={g} style={{background:'rgba(245,197,24,.12)',border:'1px solid rgba(245,197,24,.3)',
+                color:'#ffec6e',borderRadius:20,padding:'.18rem .65rem',fontSize:'.63rem',fontWeight:700}}>{g}</span>
+            ))}
           </div>
-          <h1 className="det-title">{item.title_en || item.title}</h1>
-          {item.title_en && item.title && (
-            <div style={{fontFamily:"'Cairo',sans-serif",fontSize:'1rem',color:'rgba(200,200,224,.65)',marginBottom:'.5rem',fontWeight:400}}>
-              {item.title}
-            </div>
+
+          <h1 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'clamp(2.2rem,7vw,5rem)',
+            lineHeight:.95,letterSpacing:'2px',color:'#fff',textShadow:'0 2px 24px rgba(0,0,0,.9)',marginBottom:'.3rem'}}>
+            {item.title_en||item.title}
+          </h1>
+          {item.title_en&&item.title&&(
+            <div style={{color:'rgba(220,210,180,.55)',fontSize:'.9rem',fontFamily:"'Cairo',sans-serif",marginBottom:'.8rem'}}>{item.title}</div>
           )}
-          <div style={{ display:'flex',gap:'.8rem',alignItems:'center',flexWrap:'wrap',fontSize:'.8rem',marginBottom:'1.2rem' }}>
-            <span style={{ color:'#f5c518',fontWeight:700 }}>★ {item.rating}</span>
-            <span style={{ color:'var(--t4)' }}>·</span>
-            <span style={{ color:'var(--t3)' }}>{item.year}</span>
-            {item.duration && <><span style={{ color:'var(--t4)' }}>·</span><span style={{ color:'var(--t3)' }}>⏱ {item.duration}</span></>}
-            {isSeries && <><span style={{ color:'var(--t4)' }}>·</span><span style={{ color:'var(--cyan)' }}>{seasons.length} موسم</span></>}
-            <span style={{ color:'var(--t4)' }}>·</span><span style={{ color:'var(--t2)' }}>{catLabel}</span>
+
+          {/* Rating row */}
+          <div style={{display:'flex',alignItems:'center',gap:'.8rem',marginBottom:'1rem',flexWrap:'wrap'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'.35rem'}}>
+              <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.6rem',color:'#ffd700',letterSpacing:'1px'}}>{item.rating}</span>
+              <div style={{display:'flex',gap:'.02rem'}}><Stars r={item.rating}/></div>
+            </div>
+            {[item.year, item.duration, isSeries?seasons.length+' موسم':null].filter(Boolean).map((m,i)=>(
+              <span key={i} style={{background:'rgba(255,255,255,.1)',border:'1px solid rgba(255,255,255,.12)',
+                borderRadius:8,padding:'.18rem .65rem',fontSize:'.7rem',color:'rgba(200,200,200,.9)'}}>{m}</span>
+            ))}
+            <span style={{background:'rgba(245,197,24,.92)',borderRadius:6,padding:'.18rem .6rem',
+              fontSize:'.7rem',fontWeight:800,color:'#000',letterSpacing:'.5px'}}>{item.rating} IMDb</span>
           </div>
-          <div style={{ display:'flex',gap:'.8rem',flexWrap:'wrap' }}>
-            {!isSeries && <button className="btn-play" onClick={() => onPlay(item)}>▶ شاهد الفيلم</button>}
-            {isSeries && seasons[0]?.episodes?.[0] && <button className="btn-play" onClick={() => onSelectEp(item, seasons[0].episodes[0])}>▶ الحلقة الأولى</button>}
-            {user && (
-              <button onClick={() => onFavToggle(item)}
-                style={{ padding:'.85rem 1.6rem',background:isFav?'rgba(229,9,20,.15)':'rgba(255,255,255,.08)',border:`1px solid ${isFav?'rgba(229,9,20,.4)':'rgba(255,255,255,.15)'}`,borderRadius:10,color:isFav?'var(--red3)':'var(--t1)',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.88rem',fontWeight:600,transition:'all .25s' }}>
-                {isFav ? '❤ في المفضلة' : '♡ أضف للمفضلة'}
-              </button>
-            )}
-            <button onClick={onBack} style={{ padding:'.85rem 1.2rem',background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.1)',borderRadius:10,color:'var(--t2)',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.82rem',transition:'all .25s' }}>← رجوع</button>
-          </div>
+
+          <button className="btn-play" onClick={()=>isSeries&&seasons[0]?.episodes?.[0]?onSelectEp(item,seasons[0].episodes[0]):onPlay(item)}
+            style={{padding:'.85rem 2.5rem',fontSize:'1rem'}}>
+            ▶ شاهد الآن
+          </button>
         </div>
       </div>
 
-      {/* Body */}
-      <div className='det-body-grid' style={{ display:'grid',gridTemplateColumns:'1fr 300px',gap:'2rem',padding:'2rem 3rem',maxWidth:1400,margin:'0 auto' }}>
-        <div>
-          <p style={{ color:'var(--t2)',fontSize:'.9rem',lineHeight:1.85,marginBottom:'1.5rem',fontFamily:"'Tajawal',sans-serif" }}>
-            {item.description || 'لا يوجد وصف'}
-          </p>
+      {/* ══ ACTION BAR ══ */}
+      <div style={{borderTop:'1px solid var(--s2)',borderBottom:'1px solid var(--s2)',
+        padding:'.4rem 1rem',display:'flex',justifyContent:'center',background:'var(--bg1)'}}>
+        {[
+          {ic:'♡',lb:'المفضلة',active:isFav,fn:()=>user&&onFavToggle(item)},
+          {ic:'⚑',lb:'إبلاغ',active:false,fn:()=>{}},
+          {ic:'👍',lb:'أعجبني',active:liked,fn:()=>user&&setLiked(p=>!p)},
+          {ic:'⇧',lb:shared?'✓ نُسخ':'مشاركة',active:shared,fn:handleShare},
+        ].map(({ic,lb,active,fn})=>(
+          <button key={lb} onClick={fn}
+            style={{flex:1,maxWidth:110,display:'flex',flexDirection:'column',alignItems:'center',gap:'.2rem',
+              background:'none',border:'none',cursor:'pointer',color:active?'#ffd700':'var(--t3)',
+              transition:'color .2s',padding:'.5rem',borderRadius:10}}
+            onMouseEnter={e=>e.currentTarget.style.color='#fff'}
+            onMouseLeave={e=>e.currentTarget.style.color=active?'#ffd700':'var(--t3)'}>
+            <span style={{fontSize:'1.35rem',lineHeight:1}}>{ic}</span>
+            <span style={{fontSize:'.62rem',fontFamily:"'Cairo',sans-serif"}}>{lb}</span>
+          </button>
+        ))}
+      </div>
 
-          {/* Info tags */}
-          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'1.5rem' }}>
-            <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>📅 {item.year}</span>
-            <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>⭐ {item.rating}/10</span>
-            {item.duration && <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>⏱ {item.duration}</span>}
-            <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>{catLabel}</span>
-            {item.director && <span style={{ background:'var(--s2)',border:'1px solid var(--s3)',borderRadius:7,padding:'.28rem .7rem',fontSize:'.72rem',color:'var(--t2)' }}>🎬 {item.director}</span>}
-          </div>
-
-          {/* Cast */}
-          {item.cast_list?.length > 0 && (
-            <div style={{ marginBottom:'1.5rem' }}>
-              <div style={{ fontSize:'.65rem',color:'var(--t4)',fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'.7rem' }}>طاقم التمثيل</div>
-              <div style={{ display:'flex',gap:'.8rem',flexWrap:'wrap' }}>
-                {item.cast_list.map((c,i) => (
-                  <div key={i} style={{ display:'flex',flexDirection:'column',alignItems:'center',gap:'.3rem',width:64 }}>
-                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${c}`} alt={c}
-                      style={{ width:52,height:52,borderRadius:'50%',background:'var(--s2)',border:'2px solid var(--s3)' }} />
-                    <span style={{ fontSize:'.6rem',textAlign:'center',color:'var(--t3)',lineHeight:1.2 }}>{c}</span>
-                  </div>
-                ))}
+      {/* ══ CAST ROW ══ */}
+      {item.cast_list?.length>0&&(
+        <div style={{padding:'1.2rem 1.5rem .8rem',borderBottom:'1px solid var(--s2)',background:'var(--bg1)'}}>
+          <div style={{display:'flex',gap:'1.2rem',overflowX:'auto',paddingBottom:'.5rem',scrollbarWidth:'none'}}>
+            {item.cast_list.map((c,i)=>(
+              <div key={i} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'.4rem',flexShrink:0,width:72}}>
+                <img src={'https://api.dicebear.com/7.x/avataaars/svg?seed='+encodeURIComponent(c)}
+                  alt={c} style={{width:64,height:64,borderRadius:'50%',border:'2px solid var(--s3)',background:'var(--s2)',transition:'border-color .2s'}}
+                  onMouseEnter={e=>e.target.style.borderColor='#f5c518'}
+                  onMouseLeave={e=>e.target.style.borderColor='var(--s3)'}
+                  onError={e=>{if(!e.target.dataset.e){e.target.dataset.e=1;e.target.src='https://api.dicebear.com/7.x/initials/svg?seed='+encodeURIComponent(c);}}}/>
+                <span style={{fontSize:'.6rem',textAlign:'center',color:'var(--t2)',lineHeight:1.25,
+                  overflow:'hidden',display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical'}}>{c}</span>
               </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ══ BODY ══ */}
+      <div style={{padding:'1.5rem',maxWidth:980,margin:'0 auto'}}>
+        <p style={{color:'var(--t2)',fontSize:'.9rem',lineHeight:1.9,marginBottom:'1.5rem',fontFamily:"'Tajawal',sans-serif"}}>
+          {item.description||'لا يوجد وصف'}
+        </p>
+
+        <div style={{display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'1.5rem'}}>
+          {[['📅',item.year],['⭐',item.rating+'/10'],
+            item.duration?['⏱',item.duration]:null,
+            item.director?['🎬',item.director]:null
+          ].filter(Boolean).map(([ic,v])=>(
+            <span key={v} style={{background:'var(--s1)',border:'1px solid var(--s3)',borderRadius:8,
+              padding:'.28rem .8rem',fontSize:'.74rem',color:'var(--t2)',display:'flex',alignItems:'center',gap:'.3rem'}}>
+              {ic} {v}
+            </span>
+          ))}
+        </div>
+
+        {/* Episodes */}
+        {isSeries&&(
+          <div style={{marginBottom:'1.5rem'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'.6rem',marginBottom:'.9rem'}}>
+              <div style={{width:3,height:20,background:'linear-gradient(180deg,#ffd700,#f5c518)',borderRadius:2}}/>
+              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.1rem',letterSpacing:'2px'}}>المواسم والحلقات</div>
             </div>
-          )}
-
-          {/* Comments */}
-          <CommentsSection contentId={item.id} episodeId={null} user={user} profile={profile} isAdmin={profile?.is_admin||false} />
-
-          {/* Episodes */}
-          {isSeries && (
-            <div>
-              <div style={{ fontSize:'.65rem',color:'var(--t4)',fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'1rem' }}>المواسم والحلقات</div>
-              {seasons.length === 0
-                ? <div style={{ padding:'1.5rem',textAlign:'center',color:'var(--t4)',background:'var(--bg2)',borderRadius:8,border:'1px dashed var(--s3)',fontSize:'.82rem' }}>لا توجد حلقات متاحة</div>
-                : <>
-                  <div style={{ display:'flex',gap:'.45rem',flexWrap:'wrap',marginBottom:'1.1rem' }}>
-                    {seasons.map((s,i) => (
-                      <button key={s.id} onClick={() => setSeason(i)}
-                        style={{ padding:'.42rem 1rem',background:season===i?'linear-gradient(135deg,var(--gold),#d4a000)':'var(--s2)',border:`1px solid ${season===i?'var(--gold)':'var(--s3)'}`,borderRadius:6,color:season===i?'#000':'var(--t2)',fontWeight:season===i?800:400,cursor:'pointer',fontSize:'.76rem',fontFamily:"'Cairo',sans-serif",transition:'all .22s',fontWeight:season===i?700:400 }}>
-                        {s.title} <span style={{ opacity:.65,fontSize:'.63rem' }}>({s.episodes?.length||0})</span>
-                      </button>
-                    ))}
-                  </div>
-                  {(seasons[season]?.episodes||[]).map((ep,i) => (
-                    <div key={ep.id} onClick={() => onSelectEp(item, ep)}
-                      style={{ display:'flex',alignItems:'center',gap:'1rem',padding:'.9rem',background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:10,marginBottom:'.55rem',cursor:'pointer',transition:'all .25s' }}
-                      onMouseEnter={e=>e.currentTarget.style.background='var(--s1)'}
-                      onMouseLeave={e=>e.currentTarget.style.background='var(--bg2)'}>
-                      <span style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.5rem',color:'var(--t4)',width:30,textAlign:'center',flexShrink:0 }}>{ep.ep_num||i+1}</span>
-                      {ep.thumb_url
-                        ? <img src={ep.thumb_url} alt={ep.title} style={{ width:120,height:68,objectFit:'cover',borderRadius:6,flexShrink:0 }} />
-                        : <div style={{ width:120,height:68,background:'var(--s2)',borderRadius:6,display:'flex',alignItems:'center',justifyContent:'center',color:'var(--t4)',flexShrink:0,fontSize:'1.4rem' }}>▶</div>}
-                      <div style={{ flex:1,minWidth:0 }}>
-                        <div style={{ fontWeight:700,fontSize:'.84rem',marginBottom:'.2rem' }}>{ep.title}</div>
-                        {ep.description && <div style={{ fontSize:'.72rem',color:'var(--t3)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>{ep.description}</div>}
-                        <div style={{ display:'flex',gap:'.6rem',marginTop:'.2rem' }}>
-                          {ep.duration && <span style={{ fontSize:'.66rem',color:'var(--t4)' }}>⏱ {ep.duration}</span>}
-                          {ep.video_url && <span style={{ fontSize:'.64rem',color:'var(--green)' }}>✓ متاح</span>}
-                        </div>
-                      </div>
-                      <div style={{ display:'flex',gap:'.4rem',flexShrink:0 }}>
-                        <button className="btn-play" style={{ padding:'.38rem .9rem',fontSize:'.74rem',background:'linear-gradient(135deg,var(--gold2),#d4a000)',color:'#000' }} onClick={e=>{e.stopPropagation();onSelectEp(item,ep);}}>▶</button>
-                        {ep.video_url && (
-                          <a href={ep.video_url} download target="_blank" rel="noreferrer" style={{ textDecoration:'none' }} onClick={e=>e.stopPropagation()}>
-                            <button style={{ padding:'.38rem .7rem',background:'rgba(0,212,255,.1)',border:'1px solid rgba(0,212,255,.25)',borderRadius:6,color:'var(--cyan)',fontSize:'.68rem',cursor:'pointer' }}>⬇</button>
-                          </a>
-                        )}
+            {seasons.length===0
+              ?<div style={{padding:'1.5rem',textAlign:'center',color:'var(--t4)',background:'var(--bg2)',borderRadius:8,border:'1px dashed var(--s3)',fontSize:'.82rem'}}>لا توجد حلقات متاحة</div>
+              :<>
+                <div style={{display:'flex',gap:'.45rem',flexWrap:'wrap',marginBottom:'1rem'}}>
+                  {seasons.map((s,i)=>(
+                    <button key={s.id} onClick={()=>setSeason(i)}
+                      style={{padding:'.42rem 1rem',
+                        background:season===i?'linear-gradient(135deg,#f5c518,#d4a000)':'var(--s1)',
+                        border:'1px solid '+(season===i?'#f5c518':'var(--s3)'),
+                        borderRadius:8,color:season===i?'#000':'var(--t3)',
+                        fontWeight:season===i?800:400,cursor:'pointer',
+                        fontSize:'.76rem',fontFamily:"'Cairo',sans-serif",transition:'all .22s',whiteSpace:'nowrap'}}>
+                      {s.title} <span style={{opacity:.6,fontSize:'.62rem'}}>({s.episodes?.length||0})</span>
+                    </button>
+                  ))}
+                </div>
+                {(seasons[season]?.episodes||[]).map((ep,i)=>(
+                  <div key={ep.id} onClick={()=>onSelectEp(item,ep)}
+                    style={{display:'flex',alignItems:'center',gap:'.9rem',padding:'.85rem',
+                      background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:12,
+                      marginBottom:'.5rem',cursor:'pointer',transition:'all .22s'}}
+                    onMouseEnter={e=>{e.currentTarget.style.background='var(--s1)';e.currentTarget.style.borderColor='var(--s3)'}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='var(--bg2)';e.currentTarget.style.borderColor='var(--s2)'}}>
+                    <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.4rem',color:'var(--t4)',width:28,textAlign:'center',flexShrink:0}}>{ep.ep_num||i+1}</span>
+                    {ep.thumb_url
+                      ?<img src={ep.thumb_url} alt={ep.title} style={{width:108,height:60,objectFit:'cover',borderRadius:7,flexShrink:0}}/>
+                      :<div style={{width:108,height:60,background:'var(--s2)',borderRadius:7,display:'flex',alignItems:'center',justifyContent:'center',color:'var(--t4)',flexShrink:0,fontSize:'1.4rem'}}>▶</div>}
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{fontWeight:700,fontSize:'.84rem',marginBottom:'.18rem'}}>{ep.title}</div>
+                      {ep.description&&<div style={{fontSize:'.72rem',color:'var(--t3)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{ep.description}</div>}
+                      <div style={{display:'flex',gap:'.6rem',marginTop:'.2rem'}}>
+                        {ep.duration&&<span style={{fontSize:'.66rem',color:'var(--t4)'}}>⏱ {ep.duration}</span>}
+                        {ep.video_url&&<span style={{fontSize:'.64rem',color:'var(--green)'}}>✓ متاح</span>}
                       </div>
                     </div>
-                  ))}
-                </>}
-            </div>
-          )}
-        </div>
+                    <div style={{display:'flex',gap:'.4rem',flexShrink:0}}>
+                      <button className="btn-play" style={{padding:'.4rem .9rem',fontSize:'.74rem'}}
+                        onClick={e=>{e.stopPropagation();onSelectEp(item,ep);}}>▶</button>
+                      {ep.video_url&&(
+                        <a href={ep.video_url} download target="_blank" rel="noreferrer" style={{textDecoration:'none'}} onClick={e=>e.stopPropagation()}>
+                          <button style={{padding:'.4rem .7rem',background:'rgba(0,212,255,.1)',border:'1px solid rgba(0,212,255,.25)',borderRadius:6,color:'var(--cyan)',fontSize:'.68rem',cursor:'pointer'}}>⬇</button>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </>
+            }
+          </div>
+        )}
 
-        {/* Sidebar */}
-        <div className='det-sidebar'>
-          <div style={{ background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:14,overflow:'hidden',marginBottom:'1rem' }}>
-            <img src={item.poster_url} alt={item.title} style={{ width:'100%',aspectRatio:'2/3',objectFit:'cover',display:'block' }} onError={e=>e.target.style.display='none'} />
-          </div>
-          <div style={{ background:'var(--bg2)',border:'1px solid var(--s2)',borderRadius:14,padding:'1.2rem' }}>
-            {!isSeries && <button className="btn-play" style={{ width:'100%',justifyContent:'center',marginBottom:'.6rem' }} onClick={() => onPlay(item)}>▶ مشاهدة</button>}
-            {user && <button onClick={() => onFavToggle(item)}
-              style={{ width:'100%',padding:'.72rem',background:isFav?'var(--redbg)':'var(--s2)',border:`1px solid ${isFav?'var(--redbr)':'var(--s3)'}`,borderRadius:8,color:isFav?'var(--red3)':'var(--t1)',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.8rem',marginBottom:'.5rem',transition:'all .25s' }}>
-              {isFav ? '❤ إزالة من المفضلة' : '♡ إضافة للمفضلة'}
-            </button>}
-          </div>
-        </div>
+        <CommentsSection contentId={item.id} episodeId={null} user={user} profile={profile} isAdmin={profile?.is_admin||false}/>
       </div>
     </div>
   );
 }
 
-/* ═══════════ PLAYER PAGE (Secure) ════════════════════════ */
 function PlayerPage({ item, episode, onBack }) {
-  const videoRef = useRef(null);
-  const [playing, setPlaying] = useState(false);
+  const videoRef   = useRef(null);
+  const wrapRef    = useRef(null);
+  const [playing, setPlaying]   = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [err, setErr] = useState(false);
-  const [showControls, setShowControls] = useState(true);
+  const [volume, setVolume]     = useState(1);
+  const [muted, setMuted]       = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [showCtrl, setShowCtrl] = useState(true);
+  const [tapFeedback, setTapFeedback] = useState(null); // {side:'left'|'right'|'center', key}
   const hideTimer = useRef(null);
+  const lastTap   = useRef({side:null, time:0});
 
-  const rawUrl = episode?.video_url || item?.video_url;
-  const isDirect = rawUrl && /\.(mp4|webm|ogg)(\?|$)/i.test(rawUrl);
-  const title = episode ? `${item?.title_en||item?.title} — ${episode.title}` : (item?.title_en||item?.title);
+  const rawUrl  = episode?.video_url || item?.video_url;
+  const isDirect = rawUrl && /\.(mp4|webm|ogg|mkv)(\?|$)/i.test(rawUrl);
+  const title   = episode
+    ? `${item?.title_en||item?.title} — ${episode.title}`
+    : (item?.title_en||item?.title);
 
-  // Build secure embed URL — never expose raw link
-  const getSecureEmbed = (url) => {
+  const getEmbed = (url) => {
     if (!url) return null;
     if (url.includes('/embed/') || url.includes('player.vimeo') || url.includes('dailymotion.com/embed')) return url;
     const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -2132,123 +2516,497 @@ function PlayerPage({ item, episode, onBack }) {
     if (vi) return `https://player.vimeo.com/video/${vi[1]}?autoplay=1&dnt=1`;
     return url;
   };
+  const embedUrl = !isDirect ? getEmbed(rawUrl) : null;
 
-  const embedUrl = !isDirect ? getSecureEmbed(rawUrl) : null;
-
-  const seek = (sec) => { if (videoRef.current) videoRef.current.currentTime += sec; };
+  // ── helpers ──
+  const v = () => videoRef.current;
+  const seek = (s) => { if(v()) v().currentTime = Math.max(0, Math.min(v().duration||0, v().currentTime+s)); };
   const togglePlay = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) { videoRef.current.play(); setPlaying(true); }
-    else { videoRef.current.pause(); setPlaying(false); }
+    if(!v()) return;
+    if(v().paused){ v().play(); setPlaying(true); }
+    else { v().pause(); setPlaying(false); }
   };
-  const resetHideTimer = () => {
-    setShowControls(true);
+  const showCtrlTemp = () => {
+    setShowCtrl(true);
     clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => setShowControls(false), 3500);
+    hideTimer.current = setTimeout(()=>setShowCtrl(false), 3500);
   };
-  useEffect(() => { resetHideTimer(); return () => clearTimeout(hideTimer.current); }, []);
+  useEffect(()=>{ showCtrlTemp(); return()=>clearTimeout(hideTimer.current); },[]);
+
+  // ── Double-tap to seek / single tap to play-pause ──
+  const handleVideoTap = (e) => {
+    const rect = wrapRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = e.clientX - rect.left;
+    const w = rect.width;
+    const side = x < w*0.35 ? 'left' : x > w*0.65 ? 'right' : 'center';
+    const now  = Date.now();
+    const prev = lastTap.current;
+    const isDouble = prev.side === side && (now - prev.time) < 350;
+    lastTap.current = { side, time: isDouble ? 0 : now };
+
+    if (isDouble) {
+      if (side === 'right') { seek(10); setTapFeedback({side:'right', key:now}); }
+      else if (side === 'left') { seek(-10); setTapFeedback({side:'left', key:now}); }
+    } else if (side === 'center') {
+      togglePlay();
+      setTapFeedback({side:'center', key:now});
+    } else {
+      // single tap on sides — show controls
+      showCtrlTemp();
+      setTapFeedback({side, key:now});
+    }
+    setTimeout(()=>setTapFeedback(null), 700);
+  };
+
+  const toggleFS = () => {
+    if(!document.fullscreenElement){ wrapRef.current?.requestFullscreen(); setFullscreen(true); }
+    else { document.exitFullscreen(); setFullscreen(false); }
+  };
+
+  const fmt = (s) => {
+    const h = Math.floor(s/3600);
+    const m = Math.floor((s%3600)/60);
+    const sec = Math.floor(s%60);
+    return h>0 ? `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}` : `${m}:${String(sec).padStart(2,'0')}`;
+  };
 
   return (
-    <div className="player-page" onMouseMove={resetHideTimer}>
-      {/* Nav */}
-      <div style={{ display:'flex',alignItems:'center',gap:'.9rem',padding:'.75rem 1.5rem',background:'rgba(0,0,0,.95)',backdropFilter:'blur(12px)',position:'sticky',top:0,zIndex:10,borderBottom:'1px solid rgba(255,255,255,.04)' }}>
-        <button onClick={onBack} style={{ background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',color:'var(--t1)',padding:'.4rem .9rem',borderRadius:7,cursor:'pointer',fontSize:'.8rem',fontFamily:"'Cairo',sans-serif",transition:'background .2s' }}>← رجوع</button>
-        <span style={{ fontWeight:700,flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',fontFamily:"'Cairo',sans-serif",fontSize:'.88rem' }}>{title}</span>
-        {/* NO download link shown - secure */}
-        <span style={{ fontSize:'.65rem',color:'var(--t4)',letterSpacing:'.5px' }}>🔒 محمي</span>
+    <div style={{background:'#000',minHeight:'100vh',display:'flex',flexDirection:'column'}}>
+
+      {/* ── TOP BAR ── */}
+      <div style={{display:'flex',alignItems:'center',gap:'.9rem',padding:'.6rem 1.2rem',
+        background:'linear-gradient(to bottom,rgba(0,0,0,.95),transparent)',
+        position:'absolute',top:0,left:0,right:0,zIndex:20}}>
+        <button onClick={onBack} style={{background:'rgba(255,255,255,.1)',border:'1px solid rgba(255,255,255,.15)',
+          color:'#fff',padding:'.4rem .9rem',borderRadius:8,cursor:'pointer',
+          fontFamily:"'Cairo',sans-serif",fontSize:'.8rem'}}>← رجوع</button>
+        <span style={{fontWeight:700,flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',
+          fontFamily:"'Cairo',sans-serif",fontSize:'.85rem',color:'rgba(255,255,255,.9)'}}>{title}</span>
+        <span style={{fontSize:'.6rem',color:'rgba(255,255,255,.25)',letterSpacing:'.5px'}}>🔒</span>
       </div>
 
-      {/* Player */}
-      <div style={{ position:'relative',width:'100%',background:'#000' }}>
+      {/* ── VIDEO WRAPPER ── */}
+      <div ref={wrapRef} style={{position:'relative',width:'100%',flex:1,background:'#000',
+        minHeight:'calc(100vh - 0px)',display:'flex',alignItems:'center',justifyContent:'center',
+        cursor:'pointer',userSelect:'none'}}
+        onMouseMove={showCtrlTemp}>
+
         {!rawUrl && (
-          <div style={{ display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',aspectRatio:'16/9',background:'var(--bg1)',color:'var(--t4)',gap:'1rem' }}>
-            <div style={{ fontSize:'3rem',opacity:.15 }}>🎬</div>
-            <div style={{ fontSize:'.82rem' }}>لا يوجد رابط فيديو</div>
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'1rem',color:'rgba(255,255,255,.3)'}}>
+            <span style={{fontSize:'4rem'}}>🎬</span>
+            <span style={{fontSize:'.85rem',fontFamily:"'Cairo',sans-serif"}}>لا يوجد رابط فيديو</span>
           </div>
         )}
 
+        {/* Direct video */}
         {rawUrl && isDirect && (
-          <div style={{ position:'relative',width:'100%',aspectRatio:'16/9',maxHeight:'80vh',background:'#000',overflow:'hidden' }}>
-            <video ref={videoRef} autoPlay style={{ position:'absolute',inset:0,width:'100%',height:'100%' }}
-              onTimeUpdate={e => { setProgress(e.target.currentTime); setDuration(e.target.duration||0); }}
-              onPlay={()=>setPlaying(true)} onPause={()=>setPlaying(false)}>
-              <source src={rawUrl} />
-            </video>
-          </div>
+          <video ref={videoRef} autoPlay
+            style={{width:'100%',maxHeight:'100vh',display:'block',background:'#000'}}
+            onTimeUpdate={e=>{setProgress(e.target.currentTime);setDuration(e.target.duration||0);}}
+            onPlay={()=>setPlaying(true)} onPause={()=>setPlaying(false)}
+            onVolumeChange={e=>{setVolume(e.target.volume);setMuted(e.target.muted);}}>
+            <source src={rawUrl}/>
+          </video>
         )}
 
-        {rawUrl && !isDirect && embedUrl && !err && (
-          <div style={{ position:'relative',width:'100%',aspectRatio:'16/9',maxHeight:'80vh',background:'#000',overflow:'hidden' }}>
-            {/* Secure iframe - no-cookie YouTube, no direct URL visible */}
-            <iframe key={embedUrl} src={embedUrl} title={title} allowFullScreen
-              allow="autoplay; fullscreen; encrypted-media"
-              referrerPolicy="strict-origin"
-              sandbox="allow-scripts allow-same-origin allow-presentation allow-fullscreen"
-              style={{ position:'absolute',inset:0,width:'100%',height:'100%',border:'none' }}
-              onError={() => setErr(true)} />
-            {/* Block right-click on iframe area */}
-            <div style={{ position:'absolute',inset:0,zIndex:1,pointerEvents:'none' }} onContextMenu={e=>e.preventDefault()} />
-          </div>
+        {/* Iframe embed */}
+        {rawUrl && !isDirect && embedUrl && (
+          <iframe src={embedUrl} title={title} allowFullScreen
+            allow="autoplay; fullscreen; encrypted-media"
+            referrerPolicy="strict-origin"
+            sandbox="allow-scripts allow-same-origin allow-presentation allow-fullscreen"
+            style={{width:'100%',height:'100vh',border:'none',display:'block'}}/>
         )}
 
-        {rawUrl && !isDirect && err && (
-          <div style={{ display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',aspectRatio:'16/9',background:'var(--bg1)',color:'var(--t3)',gap:'1rem' }}>
-            <div style={{ fontSize:'2rem',opacity:.3 }}>⚠️</div>
-            <div style={{ fontSize:'.82rem' }}>تعذّر تحميل الفيديو</div>
-            <button onClick={()=>setErr(false)} style={{ padding:'.5rem 1.2rem',background:'var(--red)',border:'none',borderRadius:7,color:'#fff',cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.78rem' }}>إعادة المحاولة</button>
-          </div>
+        {/* ── TAP ZONES (only for direct video) ── */}
+        {rawUrl && isDirect && (
+          <>
+            {/* Left zone */}
+            <div onClick={handleVideoTap}
+              style={{position:'absolute',left:0,top:0,width:'35%',height:'100%',zIndex:5}} />
+            {/* Center zone */}
+            <div onClick={handleVideoTap}
+              style={{position:'absolute',left:'35%',top:0,width:'30%',height:'100%',zIndex:5}} />
+            {/* Right zone */}
+            <div onClick={handleVideoTap}
+              style={{position:'absolute',right:0,top:0,width:'35%',height:'100%',zIndex:5}} />
+
+            {/* Tap feedback animations */}
+            {tapFeedback?.side==='left' && (
+              <div key={tapFeedback.key+'l'} style={{position:'absolute',left:'8%',top:'50%',transform:'translateY(-50%)',
+                zIndex:10,animation:'tapAnim .6s ease forwards',pointerEvents:'none',textAlign:'center'}}>
+                <div style={{fontSize:'2.5rem'}}>⏪</div>
+                <div style={{color:'#fff',fontFamily:"'Cairo',sans-serif",fontSize:'.85rem',marginTop:'.3rem',
+                  background:'rgba(0,0,0,.6)',borderRadius:8,padding:'.2rem .6rem'}}>- 10 ث</div>
+              </div>
+            )}
+            {tapFeedback?.side==='right' && (
+              <div key={tapFeedback.key+'r'} style={{position:'absolute',right:'8%',top:'50%',transform:'translateY(-50%)',
+                zIndex:10,animation:'tapAnim .6s ease forwards',pointerEvents:'none',textAlign:'center'}}>
+                <div style={{fontSize:'2.5rem'}}>⏩</div>
+                <div style={{color:'#fff',fontFamily:"'Cairo',sans-serif",fontSize:'.85rem',marginTop:'.3rem',
+                  background:'rgba(0,0,0,.6)',borderRadius:8,padding:'.2rem .6rem'}}>+ 10 ث</div>
+              </div>
+            )}
+            {tapFeedback?.side==='center' && (
+              <div key={tapFeedback.key+'c'} style={{position:'absolute',left:'50%',top:'50%',
+                transform:'translate(-50%,-50%)',zIndex:10,animation:'tapAnim .5s ease forwards',pointerEvents:'none'}}>
+                <div style={{fontSize:'3.5rem'}}>{playing?'⏸':'▶'}</div>
+              </div>
+            )}
+          </>
         )}
 
-        {/* Controls overlay */}
-        {rawUrl && (
-          <div style={{ background:'rgba(0,0,0,.85)',padding:'.8rem 1.5rem',transition:'opacity .35s',opacity:showControls?1:0 }}>
-            {/* Progress bar (direct video only) */}
-            {isDirect && duration > 0 && (
-              <div style={{ marginBottom:'.6rem' }}>
-                <div style={{ width:'100%',height:4,background:'rgba(255,255,255,.12)',borderRadius:2,cursor:'pointer',position:'relative' }}
-                  onClick={e => { const r=e.currentTarget.getBoundingClientRect(); if(videoRef.current) videoRef.current.currentTime=(e.clientX-r.left)/r.width*duration; }}>
-                  <div style={{ height:'100%',background:'var(--red)',borderRadius:2,width:`${(progress/duration)*100}%`,transition:'width .2s' }} />
+        {/* ── CONTROLS BAR (direct video only) ── */}
+        {rawUrl && isDirect && (
+          <div style={{position:'absolute',bottom:0,left:0,right:0,zIndex:15,
+            background:'linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.6) 60%,transparent 100%)',
+            padding:'2rem 1.2rem .8rem',transition:'opacity .35s',opacity:showCtrl?1:0}}>
+
+            {/* Progress bar */}
+            {duration>0 && (
+              <div style={{marginBottom:'.8rem'}}>
+                <div style={{width:'100%',height:4,background:'rgba(255,255,255,.2)',borderRadius:2,
+                  cursor:'pointer',position:'relative'}}
+                  onClick={e=>{
+                    const r=e.currentTarget.getBoundingClientRect();
+                    if(v()) v().currentTime=(e.clientX-r.left)/r.width*duration;
+                  }}>
+                  <div style={{height:'100%',background:'linear-gradient(to right,#e50914,#ff4444)',
+                    borderRadius:2,width:`${(progress/duration)*100}%`,transition:'width .15s',
+                    position:'relative'}}>
+                    <div style={{position:'absolute',right:-5,top:-4,width:12,height:12,
+                      background:'#fff',borderRadius:'50%',boxShadow:'0 0 6px rgba(229,9,20,.8)'}}/>
+                  </div>
                 </div>
-                <div style={{ display:'flex',justifyContent:'space-between',marginTop:'.3rem',fontSize:'.63rem',color:'var(--t4)' }}>
-                  <span>{Math.floor(progress/60)}:{String(Math.floor(progress%60)).padStart(2,'0')}</span>
-                  <span>{Math.floor(duration/60)}:{String(Math.floor(duration%60)).padStart(2,'0')}</span>
+                <div style={{display:'flex',justifyContent:'space-between',marginTop:'.35rem',
+                  fontSize:'.65rem',color:'rgba(255,255,255,.5)',fontFamily:'monospace'}}>
+                  <span>{fmt(progress)}</span>
+                  <span>{fmt(duration)}</span>
                 </div>
               </div>
             )}
-            <div style={{ display:'flex',alignItems:'center',justifyContent:'center',gap:'.7rem' }}>
-              <button onClick={()=>seek(-10)} style={{ background:'rgba(255,255,255,.09)',border:'1px solid rgba(255,255,255,.12)',color:'#fff',padding:'.5rem 1rem',borderRadius:8,cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.8rem',transition:'all .22s',display:'flex',alignItems:'center',gap:'.35rem' }}>
-                ⏪ <span>10-</span>
+
+            {/* Buttons row */}
+            <div style={{display:'flex',alignItems:'center',gap:'.6rem'}}>
+              {/* Seek back */}
+              <button onClick={()=>seek(-10)}
+                style={{background:'rgba(255,255,255,.1)',border:'1px solid rgba(255,255,255,.15)',
+                  color:'#fff',width:42,height:42,borderRadius:10,cursor:'pointer',
+                  display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',
+                  transition:'all .2s'}}
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.2)'}
+                onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}>
+                ⏪
               </button>
-              {isDirect && (
-                <button onClick={togglePlay} style={{ background:'var(--red)',border:'none',color:'#fff',padding:'.55rem 1.6rem',borderRadius:8,cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.88rem',fontWeight:700,transition:'all .22s' }}>
-                  {playing ? '⏸' : '▶'}
-                </button>
+
+              {/* Play/Pause */}
+              <button onClick={togglePlay}
+                style={{background:'linear-gradient(135deg,#e50914,#ff2233)',border:'none',
+                  color:'#fff',width:52,height:52,borderRadius:50,cursor:'pointer',
+                  display:'flex',alignItems:'center',justifyContent:'center',
+                  fontSize:'1.3rem',boxShadow:'0 4px 16px rgba(229,9,20,.5)',transition:'all .2s'}}
+                onMouseEnter={e=>e.currentTarget.style.transform='scale(1.1)'}
+                onMouseLeave={e=>e.currentTarget.style.transform='scale(1)'}>
+                {playing ? '⏸' : '▶'}
+              </button>
+
+              {/* Seek forward */}
+              <button onClick={()=>seek(10)}
+                style={{background:'rgba(255,255,255,.1)',border:'1px solid rgba(255,255,255,.15)',
+                  color:'#fff',width:42,height:42,borderRadius:10,cursor:'pointer',
+                  display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',
+                  transition:'all .2s'}}
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.2)'}
+                onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}>
+                ⏩
+              </button>
+
+              {/* Volume */}
+              <button onClick={()=>{ if(v()){v().muted=!v().muted;setMuted(!muted);} }}
+                style={{background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',
+                  color:'#fff',width:38,height:38,borderRadius:8,cursor:'pointer',
+                  display:'flex',alignItems:'center',justifyContent:'center',fontSize:'.95rem'}}>
+                {muted||volume===0 ? '🔇' : volume<0.5 ? '🔉' : '🔊'}
+              </button>
+              <input type="range" min="0" max="1" step="0.05" value={muted?0:volume}
+                onChange={e=>{if(v()){v().volume=e.target.value;v().muted=false;setVolume(e.target.value);setMuted(false);}}}
+                style={{width:70,accentColor:'#e50914',cursor:'pointer'}}/>
+
+              <div style={{flex:1}}/>
+
+              {/* Time display */}
+              {duration>0 && (
+                <span style={{fontSize:'.7rem',color:'rgba(255,255,255,.6)',fontFamily:'monospace',whiteSpace:'nowrap'}}>
+                  {fmt(progress)} / {fmt(duration)}
+                </span>
               )}
-              <button onClick={()=>seek(10)} style={{ background:'rgba(255,255,255,.09)',border:'1px solid rgba(255,255,255,.12)',color:'#fff',padding:'.5rem 1rem',borderRadius:8,cursor:'pointer',fontFamily:"'Cairo',sans-serif",fontSize:'.8rem',transition:'all .22s',display:'flex',alignItems:'center',gap:'.35rem' }}>
-                <span>10+</span> ⏩
+
+              {/* Fullscreen */}
+              <button onClick={toggleFS}
+                style={{background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',
+                  color:'#fff',width:38,height:38,borderRadius:8,cursor:'pointer',
+                  display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem'}}>
+                {fullscreen ? '⛶' : '⛶'}
               </button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Info */}
-      {item && (
-        <div style={{ padding:'1.5rem 2.5rem',maxWidth:980 }}>
-          <div style={{ display:'flex',gap:'.5rem',flexWrap:'wrap',marginBottom:'.7rem' }}>
-            {item.genre?.map(g=><span key={g} className="gpill">{g}</span>)}
-            <span style={{ color:'var(--t4)',fontSize:'.75rem',alignSelf:'center' }}>{item.year}</span>
-            <span style={{ color:'#f5c518',fontSize:'.78rem',alignSelf:'center' }}>★ {item.rating}</span>
-          </div>
-          <h2 style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.5rem',letterSpacing:'2px',marginBottom:'.6rem' }}>{title}</h2>
-          <p style={{ color:'var(--t2)',fontSize:'.86rem',lineHeight:1.8,fontFamily:"'Tajawal',sans-serif" }}>{episode?.description || item?.description}</p>
-        </div>
-      )}
+      {/* Tap animation keyframes */}
+      <style>{`
+        @keyframes tapAnim {
+          0%   { opacity:0; transform:translateY(-50%) scale(.6); }
+          30%  { opacity:1; transform:translateY(-50%) scale(1.1); }
+          70%  { opacity:1; transform:translateY(-50%) scale(1); }
+          100% { opacity:0; transform:translateY(-50%) scale(.9); }
+        }
+      `}</style>
     </div>
   );
 }
 
-/* ═══════════ ROOT APP ════════════════════════════════════ */
+function RequestPage({ user, profile, showToast }) {
+  const [type, setType]       = useState('movie');
+  const [title, setTitle]     = useState('');
+  const [titleAr, setTitleAr] = useState('');
+  const [year, setYear]       = useState('');
+  const [note, setNote]       = useState('');
+  const [sending, setSending] = useState(false);
+  const [sent, setSent]       = useState(false);
+
+  const TELEGRAM_BOT = '8627729282:AAEV9FQgSRWAbmw2j3RZAWHQ3-emDlt1lMw'; // ← ضع هنا
+  const TELEGRAM_CHAT = '7975539275';  // ← ضع هنا
+
+  const send = async () => {
+    if (!title.trim()) return;
+    setSending(true);
+    const who = profile?.username || user?.email || 'زائر';
+    const msg = `🎬 طلب محتوى جديد\n\n` +
+      `👤 المستخدم: ${who}\n` +
+      `📌 النوع: ${type === 'movie' ? '🎬 فيلم' : type === 'series' ? '📺 مسلسل' : '✨ أنمي'}\n` +
+      `🔤 العنوان الإنجليزي: ${title}\n` +
+      (titleAr ? `🔤 العنوان العربي: ${titleAr}\n` : '') +
+      (year ? `📅 السنة: ${year}\n` : '') +
+      (note ? `📝 ملاحظة: ${note}` : '');
+
+    try {
+      // Telegram
+      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT, text: msg })
+      });
+      setSent(true);
+      showToast('✓ تم إرسال طلبك!');
+      setTitle(''); setTitleAr(''); setYear(''); setNote('');
+      setTimeout(() => setSent(false), 4000);
+    } catch(e) {
+      showToast('تعذّر الإرسال، حاول لاحقاً', 'err');
+    }
+    setSending(false);
+  };
+
+  return (
+    <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:'5rem', paddingBottom:'6rem' }}>
+      <div style={{ maxWidth:520, margin:'0 auto', padding:'0 1.2rem' }}>
+
+        {/* Header */}
+        <div style={{ textAlign:'center', marginBottom:'2.5rem' }}>
+          <div style={{ fontSize:'3rem', marginBottom:'.5rem' }}>🎬</div>
+          <h1 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'clamp(2rem,8vw,3rem)',
+            letterSpacing:'3px', background:'linear-gradient(135deg,#fff 0%,var(--gold2) 50%,var(--red) 100%)',
+            WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', marginBottom:'.5rem' }}>
+            طلب محتوى
+          </h1>
+          <p style={{ color:'var(--t3)', fontSize:'.85rem', fontFamily:"'Tajawal',sans-serif" }}>
+            لا تجد فيلماً أو مسلسلاً؟ اطلبه وسنضيفه قريباً
+          </p>
+        </div>
+
+        {/* Form Card */}
+        <div style={{ background:'var(--bg2)', border:'1px solid var(--s2)', borderRadius:16,
+          padding:'1.8rem', boxShadow:'0 8px 40px rgba(0,0,0,.4)' }}>
+
+          {sent && (
+            <div style={{ background:'rgba(245,197,24,.1)', border:'1px solid rgba(245,197,24,.3)',
+              borderRadius:10, padding:'1rem', marginBottom:'1.2rem', textAlign:'center',
+              color:'var(--gold2)', fontSize:'.88rem' }}>
+              ✅ تم استلام طلبك! سنراجعه ونضيفه قريباً.
+            </div>
+          )}
+
+          {/* Type */}
+          <div style={{ marginBottom:'1.2rem' }}>
+            <label style={{ fontSize:'.72rem', color:'var(--gold)', letterSpacing:'1px',
+              textTransform:'uppercase', display:'block', marginBottom:'.6rem' }}>النوع *</label>
+            <div style={{ display:'flex', gap:'.6rem' }}>
+              {[['movie','🎬 فيلم'],['series','📺 مسلسل'],['anime','✨ أنمي']].map(([v,l])=>(
+                <button key={v} onClick={()=>setType(v)}
+                  style={{ flex:1, padding:'.65rem .4rem', border:`1px solid ${type===v?'var(--gold)':'var(--s3)'}`,
+                    borderRadius:10, background:type===v?'linear-gradient(135deg,var(--gold),#d4a000)':'var(--s1)',
+                    color:type===v?'#000':'var(--t3)', cursor:'pointer', fontSize:'.78rem',
+                    fontFamily:"'Cairo',sans-serif", fontWeight:type===v?700:400, transition:'all .2s' }}>
+                  {l}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* English Title */}
+          <div style={{ marginBottom:'1rem' }}>
+            <label style={{ fontSize:'.72rem', color:'var(--gold)', letterSpacing:'1px',
+              textTransform:'uppercase', display:'block', marginBottom:'.5rem' }}>ENGLISH TITLE *</label>
+            <input className="fi" value={title} onChange={e=>setTitle(e.target.value)}
+              placeholder="Ex: Inception, Breaking Bad..."
+              style={{ width:'100%', direction:'ltr', textAlign:'left', fontSize:'.9rem' }} />
+          </div>
+
+          {/* Arabic Title */}
+          <div style={{ marginBottom:'1rem' }}>
+            <label style={{ fontSize:'.72rem', color:'var(--t3)', letterSpacing:'1px',
+              display:'block', marginBottom:'.5rem' }}>العنوان العربي (اختياري)</label>
+            <input className="fi fi-r" value={titleAr} onChange={e=>setTitleAr(e.target.value)}
+              placeholder="مثال: البداية، بريكينج باد..."
+              style={{ width:'100%', fontSize:'.9rem' }} />
+          </div>
+
+          {/* Year */}
+          <div style={{ marginBottom:'1rem' }}>
+            <label style={{ fontSize:'.72rem', color:'var(--t3)', letterSpacing:'1px',
+              display:'block', marginBottom:'.5rem' }}>السنة (اختياري)</label>
+            <input className="fi" type="number" value={year} onChange={e=>setYear(e.target.value)}
+              placeholder="2024" min="1900" max="2030"
+              style={{ width:'100%', direction:'ltr', textAlign:'left' }} />
+          </div>
+
+          {/* Note */}
+          <div style={{ marginBottom:'1.5rem' }}>
+            <label style={{ fontSize:'.72rem', color:'var(--t3)', letterSpacing:'1px',
+              display:'block', marginBottom:'.5rem' }}>ملاحظة إضافية (اختياري)</label>
+            <textarea className="fi fi-r" value={note} onChange={e=>setNote(e.target.value)}
+              placeholder="أي تفاصيل إضافية تساعدنا في إيجاده..."
+              rows={3} style={{ width:'100%', resize:'vertical', fontSize:'.85rem',
+                fontFamily:"'Tajawal',sans-serif", lineHeight:1.7 }} />
+          </div>
+
+          {/* Submit */}
+          {!user ? (
+            <div style={{ textAlign:'center', color:'var(--t3)', fontSize:'.85rem',
+              padding:'1rem', background:'var(--bg3)', borderRadius:10 }}>
+              يرجى <strong style={{color:'var(--gold)'}}>تسجيل الدخول</strong> لإرسال طلب
+            </div>
+          ) : (
+            <button onClick={send} disabled={sending || !title.trim()}
+              style={{ width:'100%', padding:'1rem',
+                background:sending||!title.trim()?'var(--s2)':'linear-gradient(135deg,var(--gold2) 0%,var(--gold) 60%,#d4a000 100%)',
+                border:'none', color:sending||!title.trim()?'var(--t4)':'#000',
+                borderRadius:12, cursor:sending||!title.trim()?'not-allowed':'pointer',
+                fontSize:'1rem', fontFamily:"'Cairo',sans-serif", fontWeight:800,
+                transition:'all .3s', boxShadow:sending?'none':'0 4px 20px rgba(245,197,24,.35)',
+                display:'flex', alignItems:'center', justifyContent:'center', gap:'.6rem' }}>
+              {sending ? <><Spin sm /> جاري الإرسال...</> : '📤 إرسال الطلب'}
+            </button>
+          )}
+        </div>
+
+        {/* Info */}
+        <div style={{ marginTop:'1.5rem', display:'grid', gridTemplateColumns:'1fr 1fr',
+          gap:'.8rem' }}>
+          {[['⚡','سريع','يُراجع طلبك خلال 24 ساعة'],['🎯','دقيق','أضف العنوان الإنجليزي للنتيجة الأفضل']].map(([ic,t,d])=>(
+            <div key={t} style={{ background:'var(--bg2)', border:'1px solid var(--s2)', borderRadius:12,
+              padding:'1rem', textAlign:'center' }}>
+              <div style={{ fontSize:'1.5rem', marginBottom:'.3rem' }}>{ic}</div>
+              <div style={{ fontWeight:700, fontSize:'.82rem', color:'var(--t2)', marginBottom:'.2rem' }}>{t}</div>
+              <div style={{ fontSize:'.72rem', color:'var(--t3)' }}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ActorModal({ actor, onClose }) {
+  if (!actor) return null;
+  return (
+    <div onClick={onClose} style={{position:'fixed',inset:0,background:'rgba(0,0,0,.85)',zIndex:1000,
+      display:'flex',alignItems:'center',justifyContent:'center',backdropFilter:'blur(8px)',padding:'1rem'}}>
+      <div onClick={e=>e.stopPropagation()}
+        style={{background:'var(--bg2)',border:'1px solid var(--s3)',borderRadius:20,
+          padding:'2rem',maxWidth:380,width:'100%',textAlign:'center',
+          boxShadow:'0 20px 60px rgba(0,0,0,.8)',position:'relative'}}>
+        <button onClick={onClose} style={{position:'absolute',top:12,left:12,background:'rgba(255,255,255,.08)',
+          border:'none',color:'var(--t3)',width:32,height:32,borderRadius:'50%',cursor:'pointer',fontSize:'1.1rem'}}>✕</button>
+        <img src={actor.photo||'https://api.dicebear.com/7.x/avataaars/svg?seed='+encodeURIComponent(actor.name)}
+          alt={actor.name} style={{width:100,height:100,borderRadius:'50%',objectFit:'cover',
+            border:'3px solid #f5c518',marginBottom:'1rem',display:'block',margin:'0 auto 1rem',
+            boxShadow:'0 0 24px rgba(245,197,24,.3)'}}
+          onError={e=>{if(!e.target.dataset.e){e.target.dataset.e=1;e.target.src='https://api.dicebear.com/7.x/initials/svg?seed='+encodeURIComponent(actor.name);}}}/>
+        <h3 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.6rem',letterSpacing:'2px',marginBottom:'.3rem'}}>{actor.name}</h3>
+        {actor.role&&<div style={{color:'#f5c518',fontSize:'.8rem',marginBottom:'.8rem',fontWeight:600}}>{actor.role}</div>}
+        {actor.nationality&&<div style={{color:'var(--t3)',fontSize:'.75rem',marginBottom:'.4rem'}}>🌍 {actor.nationality}</div>}
+        {actor.birth&&<div style={{color:'var(--t3)',fontSize:'.75rem',marginBottom:'.4rem'}}>🎂 {actor.birth}</div>}
+        {actor.known&&<div style={{color:'var(--t3)',fontSize:'.75rem',marginBottom:'.8rem'}}>🎬 {actor.known}</div>}
+        {actor.bio&&<p style={{color:'var(--t2)',fontSize:'.8rem',lineHeight:1.75,fontFamily:"'Tajawal',sans-serif",textAlign:'right'}}>{actor.bio}</p>}
+      </div>
+    </div>
+  );
+}
+
+function FeaturedActorsRow() {
+  const [actors, setActors] = useState(()=>DB.getActors());
+  const [selected, setSelected] = useState(null);
+  // Refresh when admin saves
+  useEffect(()=>{
+    const interval = setInterval(()=>setActors(DB.getActors()), 3000);
+    return ()=>clearInterval(interval);
+  },[]);
+  if(!actors.length) return null;
+  return(
+    <>
+    {selected && <ActorModal actor={selected} onClose={()=>setSelected(null)}/>}
+    <div className="row" style={{marginBottom:'1rem'}}>
+      <div className="row-hd">
+        <div style={{display:'flex',alignItems:'center',gap:'.7rem'}}>
+          <div className="row-bar"/>
+          <div className="row-title">⭐ أفضل الممثلين</div>
+        </div>
+      </div>
+      <div style={{display:'flex',gap:'1.5rem',padding:'.3rem 3rem 1rem',overflowX:'auto',scrollbarWidth:'none',WebkitOverflowScrolling:'touch'}}>
+        {actors.map((a,i)=>(
+          <div key={a.id||i} onClick={()=>setSelected(a)}
+            style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'.45rem',flexShrink:0,width:82,cursor:'pointer'}}>
+            <div style={{position:'relative'}}>
+              <img src={a.photo||'https://api.dicebear.com/7.x/avataaars/svg?seed='+encodeURIComponent(a.name)}
+                alt={a.name} style={{width:70,height:70,borderRadius:'50%',objectFit:'cover',
+                  border:'2.5px solid var(--s3)',background:'var(--s2)',
+                  transition:'border-color .2s,transform .2s,box-shadow .2s',display:'block'}}
+                onMouseEnter={e=>{e.target.style.borderColor='#f5c518';e.target.style.transform='scale(1.1)';e.target.style.boxShadow='0 0 16px rgba(245,197,24,.4)'}}
+                onMouseLeave={e=>{e.target.style.borderColor='var(--s3)';e.target.style.transform='scale(1)';e.target.style.boxShadow='none'}}
+                onError={e=>{if(!e.target.dataset.e){e.target.dataset.e=1;e.target.src='https://api.dicebear.com/7.x/initials/svg?seed='+encodeURIComponent(a.name);}}}/>
+              {i<3&&<div style={{position:'absolute',bottom:1,right:1,width:19,height:19,
+                background:'linear-gradient(135deg,#ffd700,#d4a000)',borderRadius:'50%',
+                display:'flex',alignItems:'center',justifyContent:'center',fontSize:'.6rem',fontWeight:900,color:'#000',border:'2px solid var(--bg)'}}>
+                {i+1}
+              </div>}
+            </div>
+            <div style={{textAlign:'center'}}>
+              <div style={{fontSize:'.68rem',fontWeight:700,color:'var(--t1)',lineHeight:1.2,
+                overflow:'hidden',display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical'}}>{a.name}</div>
+              {a.role&&<div style={{fontSize:'.58rem',color:'#f5c518',opacity:.85,marginTop:'.1rem'}}>{a.role}</div>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    </>
+  );
+}
+
+
 function App() {
   const [page, setPage]     = useState('home');
   const [user, setUser]     = useState(null);
@@ -2336,7 +3094,7 @@ function App() {
           <div style={{display:'flex',alignItems:'center',gap:'2rem'}}>
             <div className="logo" onClick={()=>nav('home')}><span style={{color:'#fff'}}>FLIX</span><span style={{color:'var(--red)'}}>TN</span></div>
             <div className="nav-links">
-              {[['home','الرئيسية'],['browse','تصفح'],['movies','الأفلام'],['series','المسلسلات']].map(([k,l])=>(
+              {[['home','الرئيسية'],['browse','تصفح'],['movies','الأفلام'],['series','المسلسلات'],['request','طلب محتوى']].map(([k,l])=>(
                 <div key={k} className={`nl ${page===k?'a':''}`} onClick={()=>nav(k)}>{l}</div>
               ))}
               {isAdmin && <div className={`nl ${page==='admin'?'a':''}`} onClick={()=>nav('admin')}>⚙ الإدارة</div>}
@@ -2383,6 +3141,26 @@ function App() {
       {page==='player'  && playerItem  && <PlayerPage item={playerItem} episode={playerEp} onBack={handleBack} />}
       {page==='profile' && user        && <ProfilePage user={user} profile={profile} onLogout={handleLogout} onProfileUpdate={setProfile} movies={movies} series={series} />}
       {page==='admin'   && isAdmin     && <AdminPage movies={movies} series={series} goHome={()=>nav('home')} onRefresh={loadContent} />}
+      {page==='request' && <RequestPage user={user} profile={profile} showToast={showToast} />}
+
+      {/* ── MOBILE BOTTOM NAV ── */}
+      {!['auth','player'].includes(page) && (
+        <nav className="mob-bottom-nav">
+          {[
+            {k:'home',   ic:'🏠', lb:'الرئيسية'},
+            {k:'movies', ic:'🎬', lb:'أفلام'},
+            {k:'series', ic:'📺', lb:'مسلسلات'},
+            {k:'request',ic:'➕', lb:'طلب'},
+            {k: user?'profile':'auth', ic:'👤', lb:'حسابي'},
+          ].map(({k,ic,lb})=>(
+            <button key={k} className={`mob-nav-btn ${page===k?'a':''}`}
+              onClick={()=>nav(k)}>
+              <span className="mob-nav-ic">{ic}</span>
+              <span className="mob-nav-lb">{lb}</span>
+            </button>
+          ))}
+        </nav>
+      )}
 
       {showFoot && (
         <footer className="footer">
@@ -2400,6 +3178,7 @@ function App() {
     </div>
   );
 }
+
 
     document.getElementById('boot')?.remove();
     ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
