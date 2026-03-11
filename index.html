@@ -529,7 +529,6 @@ table.at2 tr:hover td{background:rgba(255,255,255,.018)}
   .browse-title{font-size:clamp(1.8rem,8vw,3rem)}
 
   /* Mobile nav hamburger */
-  .mob-menu-btn{display:flex!important}
   .mob-nav{display:flex!important}
 
   /* Comments */
@@ -540,7 +539,6 @@ table.at2 tr:hover td{background:rgba(255,255,255,.018)}
   .p-tab{white-space:nowrap;font-size:.78rem;padding:.6rem .9rem}
 }
 @media(min-width:769px){
-  .mob-menu-btn{display:none!important}
   .mob-nav{display:none!important}
   .mob-bottom-nav{display:none!important}
 }
@@ -3100,8 +3098,7 @@ function App() {
               {isAdmin && <div className={`nl ${page==='admin'?'a':''}`} onClick={()=>nav('admin')}>⚙ الإدارة</div>}
             </div>
           </div>
-          <button className="mob-menu-btn" style={{ display:'none',background:'none',border:'1px solid var(--s3)',color:'var(--t2)',padding:'.4rem .7rem',borderRadius:7,cursor:'pointer',fontSize:'.85rem' }}
-              onClick={()=>document.getElementById('mob-nav')?.classList.toggle('open')}>☰</button>
+
             <div className="nav-r">
             <button className="ni" onClick={()=>setSearchOpen(true)}>🔍</button>
             {user ? (
