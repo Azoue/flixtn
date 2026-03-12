@@ -2483,289 +2483,604 @@ function DetailPage({ itemId, onPlay, onBack, user, profile, favorites, onFavTog
   );
 }
 
+/* ═══════════════════════════════════════════════════════════
+   FlixTN — Custom HTML5 Player  (modular, RTL-aware)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── CSS injected once ── */
+/* ════════════════════════════════════════════════
+   FlixTN Player  —  rebuilt clean
+   ════════════════════════════════════════════════ */
+
+/* ── Utility: seconds → m:ss / h:mm:ss ── */
+function playerFmt(s) {
+  if (!s || isNaN(s) || s <= 0) return '0:00';
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = Math.floor(s % 60);
+  return h > 0
+    ? h + ':' + String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0')
+    : m + ':' + String(sec).padStart(2,'0');
+}
+
+/* ── Utility: convert any video URL to embed URL ── */
+function playerEmbed(url) {
+  if (!url) return null;
+  if (/\.(mp4|webm|ogg|mkv)(\?|$)/i.test(url)) return null;
+  if (/\/embed\/|player\.vimeo|dailymotion\.com\/embed/.test(url)) return url;
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (yt) return 'https://www.youtube-nocookie.com/embed/' + yt[1] + '?autoplay=1&rel=0&modestbranding=1&controls=1';
+  const dm = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+  if (dm) return 'https://www.dailymotion.com/embed/video/' + dm[1] + '?autoplay=1&sharing-enable=false';
+  const vi = url.match(/vimeo\.com\/(\d+)/);
+  if (vi) return 'https://player.vimeo.com/video/' + vi[1] + '?autoplay=1&dnt=1';
+  return url;
+}
+
+/* ── Player CSS injected once into <head> ── */
+const PLAYER_STYLES = `
+  .vp-root {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #000;
+    font-family: 'Cairo', sans-serif;
+    user-select: none; -webkit-user-select: none;
+  }
+
+  /* video layer */
+  .vp-wrap {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .vp-video {
+    width: 100%; height: 100%;
+    object-fit: contain; background: #000; display: block;
+  }
+  .vp-iframe {
+    width: 100%; height: 100%;
+    border: none; display: block;
+  }
+
+  /* overlay that fades in/out */
+  .vp-overlay {
+    position: absolute; inset: 0; z-index: 10;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .vp-overlay.vp-show { opacity: 1; }
+  .vp-overlay.vp-hide { opacity: 0; }
+
+  /* ── TOP BAR ── */
+  .vp-top {
+    position: absolute; top: 0; left: 0; right: 0;
+    pointer-events: all;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, transparent 100%);
+    display: flex; align-items: center; gap: 10px;
+    padding: max(12px, env(safe-area-inset-top)) 14px 22px;
+  }
+  .vp-btn-back {
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; border-radius: 8px; cursor: pointer;
+    font-size: 13px; font-family: 'Cairo', sans-serif;
+    padding: 7px 14px;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s;
+  }
+  .vp-btn-back:hover { background: rgba(255,255,255,0.22); }
+  .vp-title {
+    flex: 1; overflow: hidden;
+    white-space: nowrap; text-overflow: ellipsis;
+    font-size: 13px; color: rgba(255,255,255,0.85);
+  }
+  .vp-btn-fs {
+    flex-shrink: 0; width: 36px; height: 36px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s;
+  }
+  .vp-btn-fs:hover { background: rgba(255,255,255,0.22); }
+
+  /* ── BOTTOM BAR ── */
+  .vp-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    pointer-events: all;
+    background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    padding: 0 14px max(16px, env(safe-area-inset-bottom));
+  }
+
+  /* ── PROGRESS BAR (RTL direction) ── */
+  .vp-progress {
+    direction: rtl;
+    padding: 12px 0 8px;
+    cursor: pointer;
+    touch-action: none;
+  }
+  .vp-track {
+    position: relative;
+    width: 100%; height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+    transition: height 0.15s;
+  }
+  .vp-progress:hover .vp-track,
+  .vp-progress.is-drag .vp-track { height: 7px; }
+
+  .vp-fill {
+    position: absolute; top: 0; right: 0; height: 100%;
+    background: #e50914; border-radius: 3px;
+    transition: width 0.1s linear;
+    pointer-events: none;
+  }
+  .vp-fill.is-drag { transition: none; }
+
+  .vp-thumb {
+    position: absolute; top: 50%; left: -7px;
+    transform: translateY(-50%) scale(0);
+    width: 16px; height: 16px;
+    background: #fff; border-radius: 50%;
+    box-shadow: 0 0 8px rgba(229,9,20,0.8);
+    transition: transform 0.15s;
+    pointer-events: none;
+  }
+  .vp-progress:hover .vp-thumb,
+  .vp-progress.is-drag .vp-thumb { transform: translateY(-50%) scale(1); }
+  .vp-progress.is-drag .vp-thumb { transform: translateY(-50%) scale(1.45); }
+
+  /* time row */
+  .vp-timerow {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    direction: ltr;
+  }
+  .vp-time {
+    font-size: 12px; color: rgba(255,255,255,0.5);
+    font-family: monospace;
+  }
+  .vp-time em { color: rgba(255,255,255,0.9); font-style: normal; }
+  .vp-btn-fs2 {
+    background: none; border: none; color: rgba(255,255,255,0.7);
+    font-size: 19px; cursor: pointer; padding: 4px;
+    transition: color 0.15s, transform 0.15s; line-height: 1;
+  }
+  .vp-btn-fs2:hover { color: #fff; transform: scale(1.15); }
+
+  /* ── SEEK RIPPLE ── */
+  .vp-ripple {
+    position: absolute; top: 0; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; z-index: 20; opacity: 0;
+  }
+  .vp-ripple.vp-left  { left: 0; width: 38%; }
+  .vp-ripple.vp-right { right: 0; width: 38%; }
+  .vp-ripple.vp-go { animation: vpRipple 0.65s ease forwards; }
+  @keyframes vpRipple {
+    0%   { opacity: 0; transform: scale(0.5); }
+    25%  { opacity: 1; transform: scale(1.05); }
+    65%  { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.9); }
+  }
+  .vp-ripple-inner { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .vp-ripple-circle {
+    width: 78px; height: 78px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 1px;
+  }
+  .vp-ripple-num {
+    font-size: 20px; font-weight: 800;
+    color: #fff; line-height: 1;
+    font-family: 'Cairo', sans-serif;
+  }
+  .vp-ripple-sec {
+    font-size: 10px; color: rgba(255,255,255,0.75);
+    font-family: 'Cairo', sans-serif; line-height: 1;
+  }
+  .vp-ripple-label {
+    font-size: 11px; color: rgba(255,255,255,0.7);
+    font-family: 'Cairo', sans-serif;
+  }
+
+  /* ── CENTER FLASH (play/pause on double-tap center) ── */
+  .vp-flash {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20; pointer-events: none; opacity: 0;
+  }
+  .vp-flash.vp-go { animation: vpFlash 0.45s ease forwards; }
+  @keyframes vpFlash {
+    0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.4); }
+    30%  { opacity: 1; transform: translate(-50%,-50%) scale(1.06); }
+    65%  { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%,-50%) scale(0.9); }
+  }
+  .vp-flash-circle {
+    width: 82px; height: 82px; border-radius: 50%;
+    background: rgba(255,255,255,0.16);
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px;
+  }
+
+  /* ── SPINNER ── */
+  .vp-spinner {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15; pointer-events: none;
+  }
+  .vp-spinner-ring {
+    width: 48px; height: 48px;
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top-color: #e50914;
+    border-radius: 50%;
+    animation: vpSpin 0.75s linear infinite;
+  }
+  @keyframes vpSpin { to { transform: rotate(360deg); } }
+
+  /* ── NO VIDEO ── */
+  .vp-empty {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 14px; color: rgba(255,255,255,0.3);
+    pointer-events: none;
+  }
+  .vp-empty .vp-icon { font-size: 52px; }
+  .vp-empty .vp-msg  { font-size: 14px; }
+
+  @media (max-width: 480px) {
+    .vp-title { font-size: 12px; }
+    .vp-time  { font-size: 11px; }
+  }
+`;
+
+/* ════════════════════════════════════════════════
+   PlayerPage Component
+   ════════════════════════════════════════════════ */
 function PlayerPage({ item, episode, onBack }) {
-  const videoRef   = useRef(null);
+
+  /* ── refs ── */
+  const vidRef     = useRef(null);
   const wrapRef    = useRef(null);
-  const [playing, setPlaying]   = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume]     = useState(1);
-  const [muted, setMuted]       = useState(false);
-  const [fullscreen, setFullscreen] = useState(false);
-  const [showCtrl, setShowCtrl] = useState(true);
-  const [tapFeedback, setTapFeedback] = useState(null); // {side:'left'|'right'|'center', key}
-  const hideTimer = useRef(null);
-  const lastTap   = useRef({side:null, time:0});
+  const trackRef   = useRef(null);
+  const hideTimer  = useRef(null);
+  const tapLast    = useRef({ side: null, time: 0 });
+  const tapDelay   = useRef(null);
+  const dragOn     = useRef(false);
 
-  const rawUrl  = episode?.video_url || item?.video_url;
-  const isDirect = rawUrl && /\.(mp4|webm|ogg|mkv)(\?|$)/i.test(rawUrl);
-  const title   = episode
-    ? `${item?.title_en||item?.title} — ${episode.title}`
-    : (item?.title_en||item?.title);
+  /* ── state ── */
+  const [cur,      setCur]      = useState(0);
+  const [dur,      setDur]      = useState(0);
+  const [playing,  setPlaying]  = useState(false);
+  const [buffering,setBuffering]= useState(true);
+  const [overlay,  setOverlay]  = useState(true);
+  const [fill,     setFill]     = useState(0);      // 0-100, RTL
+  const [dragging, setDragging] = useState(false);
+  const [ripple,   setRipple]   = useState(null);   // {side,key}
+  const [flash,    setFlash]    = useState(0);       // timestamp key
 
-  const getEmbed = (url) => {
-    if (!url) return null;
-    if (url.includes('/embed/') || url.includes('player.vimeo') || url.includes('dailymotion.com/embed')) return url;
-    const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    if (yt) return `https://www.youtube-nocookie.com/embed/${yt[1]}?autoplay=1&rel=0&modestbranding=1&controls=1`;
-    const dm = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-    if (dm) return `https://www.dailymotion.com/embed/video/${dm[1]}?autoplay=1&sharing-enable=false`;
-    const vi = url.match(/vimeo\.com\/(\d+)/);
-    if (vi) return `https://player.vimeo.com/video/${vi[1]}?autoplay=1&dnt=1`;
-    return url;
-  };
-  const embedUrl = !isDirect ? getEmbed(rawUrl) : null;
+  /* ── derived ── */
+  const rawUrl   = (episode?.video_url || item?.video_url || '').trim();
+  const isDirect = rawUrl !== '' && /\.(mp4|webm|ogg|mkv)(\?|$)/i.test(rawUrl);
+  const embedSrc = isDirect ? null : playerEmbed(rawUrl);
+  const pageTitle = episode
+    ? ((item?.title_en || item?.title || '') + ' — ' + (episode.title || ''))
+    : (item?.title_en || item?.title || '');
 
-  // ── helpers ──
-  const v = () => videoRef.current;
-  const seek = (s) => { if(v()) v().currentTime = Math.max(0, Math.min(v().duration||0, v().currentTime+s)); };
-  const togglePlay = () => {
-    if(!v()) return;
-    if(v().paused){ v().play(); setPlaying(true); }
-    else { v().pause(); setPlaying(false); }
-  };
-  const showCtrlTemp = () => {
-    setShowCtrl(true);
+  /* ── inject styles once ── */
+  useEffect(() => {
+    if (!document.getElementById('vp-styles')) {
+      const tag = document.createElement('style');
+      tag.id = 'vp-styles';
+      tag.textContent = PLAYER_STYLES;
+      document.head.appendChild(tag);
+    }
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  /* ── overlay auto-hide ── */
+  const showOverlay = useCallback(() => {
+    setOverlay(true);
     clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(()=>setShowCtrl(false), 3500);
-  };
-  useEffect(()=>{ showCtrlTemp(); return()=>clearTimeout(hideTimer.current); },[]);
+    hideTimer.current = setTimeout(() => setOverlay(false), 3500);
+  }, []);
+  useEffect(() => {
+    showOverlay();
+    return () => clearTimeout(hideTimer.current);
+  }, []);
 
-  // ── Double-tap to seek / single tap to play-pause ──
-  const handleVideoTap = (e) => {
+  /* ── video element shorthand ── */
+  const v = () => vidRef.current;
+
+  /* ── play / pause ── */
+  const togglePlay = useCallback(() => {
+    if (!v()) return;
+    v().paused ? v().play() : v().pause();
+  }, []);
+
+  /* ── seek by seconds ── */
+  const seek = useCallback((secs) => {
+    if (!v()) return;
+    v().currentTime = Math.max(0, Math.min(v().duration || 0, v().currentTime + secs));
+  }, []);
+
+  /* ── sync progress fill (RTL: full right = video start) ── */
+  useEffect(() => {
+    if (!dragOn.current && dur > 0) {
+      setFill(((dur - cur) / dur) * 100);
+    }
+  }, [cur, dur]);
+
+  /* ── progress bar drag helpers (RTL) ── */
+  const getBarPct = useCallback((e) => {
+    const el = trackRef.current;
+    if (!el) return 0;
+    const rect = el.getBoundingClientRect();
+    const cx = e.touches ? e.touches[0].clientX
+             : e.changedTouches ? e.changedTouches[0].clientX
+             : e.clientX;
+    return Math.max(0, Math.min(1, (rect.right - cx) / rect.width));
+  }, []);
+
+  const onBarDown = useCallback((e) => {
+    e.stopPropagation();
+    dragOn.current = true;
+    setDragging(true);
+    setFill(getBarPct(e) * 100);
+    showOverlay();
+  }, [getBarPct, showOverlay]);
+
+  const onBarMove = useCallback((e) => {
+    if (!dragOn.current) return;
+    setFill(getBarPct(e) * 100);
+  }, [getBarPct]);
+
+  const onBarUp = useCallback((e) => {
+    if (!dragOn.current) return;
+    dragOn.current = false;
+    setDragging(false);
+    const pct = getBarPct(e);
+    setFill(pct * 100);
+    if (v() && dur) v().currentTime = (1 - pct) * dur;
+  }, [getBarPct, dur]);
+
+  useEffect(() => {
+    window.addEventListener('mousemove', onBarMove);
+    window.addEventListener('mouseup',   onBarUp);
+    window.addEventListener('touchmove', onBarMove, { passive: true });
+    window.addEventListener('touchend',  onBarUp);
+    return () => {
+      window.removeEventListener('mousemove', onBarMove);
+      window.removeEventListener('mouseup',   onBarUp);
+      window.removeEventListener('touchmove', onBarMove);
+      window.removeEventListener('touchend',  onBarUp);
+    };
+  }, [onBarMove, onBarUp]);
+
+  /* ── tap handler ──
+       single tap CENTER → play / pause
+       single tap LEFT/RIGHT → show overlay only
+       double tap LEFT   → -10s
+       double tap RIGHT  → +10s  */
+  const handleTap = useCallback((e) => {
+    if (e.target.closest('.vp-bottom,.vp-top,.vp-progress')) return;
+
     const rect = wrapRef.current?.getBoundingClientRect();
     if (!rect) return;
-    const x = e.clientX - rect.left;
-    const w = rect.width;
-    const side = x < w*0.35 ? 'left' : x > w*0.65 ? 'right' : 'center';
-    const now  = Date.now();
-    const prev = lastTap.current;
-    const isDouble = prev.side === side && (now - prev.time) < 350;
-    lastTap.current = { side, time: isDouble ? 0 : now };
+    const cx    = ((e.clientX ?? e.changedTouches?.[0]?.clientX) || 0) - rect.left;
+    const zone  = cx < rect.width * 0.35 ? 'LEFT'
+                : cx > rect.width * 0.65 ? 'RIGHT'
+                : 'CENTER';
+    const now   = Date.now();
+    const prev  = tapLast.current;
+    const isDouble = prev.side === zone && (now - prev.time) < 320;
+    tapLast.current = { side: zone, time: isDouble ? 0 : now };
 
     if (isDouble) {
-      if (side === 'right') { seek(10); setTapFeedback({side:'right', key:now}); }
-      else if (side === 'left') { seek(-10); setTapFeedback({side:'left', key:now}); }
-    } else if (side === 'center') {
-      togglePlay();
-      setTapFeedback({side:'center', key:now});
+      clearTimeout(tapDelay.current);
+      if (zone === 'RIGHT') {
+        seek(10);
+        setRipple({ side: 'right', key: now });
+        setTimeout(() => setRipple(null), 750);
+      } else if (zone === 'LEFT') {
+        seek(-10);
+        setRipple({ side: 'left', key: now });
+        setTimeout(() => setRipple(null), 750);
+      }
     } else {
-      // single tap on sides — show controls
-      showCtrlTemp();
-      setTapFeedback({side, key:now});
+      if (zone === 'CENTER') {
+        togglePlay();
+        setFlash(now);
+        setTimeout(() => setFlash(0), 550);
+      }
+      tapDelay.current = setTimeout(showOverlay, 200);
     }
-    setTimeout(()=>setTapFeedback(null), 700);
-  };
+  }, [seek, togglePlay, showOverlay]);
 
-  const toggleFS = () => {
-    if(!document.fullscreenElement){ wrapRef.current?.requestFullscreen(); setFullscreen(true); }
-    else { document.exitFullscreen(); setFullscreen(false); }
-  };
+  /* ── fullscreen ── */
+  const toggleFS = useCallback(() => {
+    if (!document.fullscreenElement) wrapRef.current?.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  }, []);
 
-  const fmt = (s) => {
-    const h = Math.floor(s/3600);
-    const m = Math.floor((s%3600)/60);
-    const sec = Math.floor(s%60);
-    return h>0 ? `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}` : `${m}:${String(sec).padStart(2,'0')}`;
-  };
-
+  /* ══════════ RENDER ══════════ */
   return (
-    <div style={{background:'#000',minHeight:'100vh',display:'flex',flexDirection:'column'}}>
+    <div className="vp-root">
+      <div
+        ref={wrapRef}
+        className="vp-wrap"
+        onClick={handleTap}
+        onDoubleClick={handleTap}
+        onTouchEnd={handleTap}
+        onMouseMove={showOverlay}
+      >
 
-      {/* ── TOP BAR ── */}
-      <div style={{display:'flex',alignItems:'center',gap:'.9rem',padding:'.6rem 1.2rem',
-        background:'linear-gradient(to bottom,rgba(0,0,0,.95),transparent)',
-        position:'absolute',top:0,left:0,right:0,zIndex:20}}>
-        <button onClick={onBack} style={{background:'rgba(255,255,255,.1)',border:'1px solid rgba(255,255,255,.15)',
-          color:'#fff',padding:'.4rem .9rem',borderRadius:8,cursor:'pointer',
-          fontFamily:"'Cairo',sans-serif",fontSize:'.8rem'}}>← رجوع</button>
-        <span style={{fontWeight:700,flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',
-          fontFamily:"'Cairo',sans-serif",fontSize:'.85rem',color:'rgba(255,255,255,.9)'}}>{title}</span>
-        <span style={{fontSize:'.6rem',color:'rgba(255,255,255,.25)',letterSpacing:'.5px'}}>🔒</span>
-      </div>
-
-      {/* ── VIDEO WRAPPER ── */}
-      <div ref={wrapRef} style={{position:'relative',width:'100%',flex:1,background:'#000',
-        minHeight:'calc(100vh - 0px)',display:'flex',alignItems:'center',justifyContent:'center',
-        cursor:'pointer',userSelect:'none'}}
-        onMouseMove={showCtrlTemp}>
-
+        {/* ── No URL placeholder ── */}
         {!rawUrl && (
-          <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'1rem',color:'rgba(255,255,255,.3)'}}>
-            <span style={{fontSize:'4rem'}}>🎬</span>
-            <span style={{fontSize:'.85rem',fontFamily:"'Cairo',sans-serif"}}>لا يوجد رابط فيديو</span>
+          <div className="vp-empty">
+            <span className="vp-icon">🎬</span>
+            <span className="vp-msg">لا يوجد رابط فيديو</span>
           </div>
         )}
 
-        {/* Direct video */}
+        {/* ── Direct MP4 / WebM ── */}
         {rawUrl && isDirect && (
-          <video ref={videoRef} autoPlay
-            style={{width:'100%',maxHeight:'100vh',display:'block',background:'#000'}}
-            onTimeUpdate={e=>{setProgress(e.target.currentTime);setDuration(e.target.duration||0);}}
-            onPlay={()=>setPlaying(true)} onPause={()=>setPlaying(false)}
-            onVolumeChange={e=>{setVolume(e.target.volume);setMuted(e.target.muted);}}>
-            <source src={rawUrl}/>
+          <video
+            ref={vidRef}
+            className="vp-video"
+            autoPlay
+            playsInline
+            onTimeUpdate={e  => setCur(e.target.currentTime)}
+            onLoadedMetadata={e => { setDur(e.target.duration || 0); setBuffering(false); }}
+            onWaiting={() => setBuffering(true)}
+            onCanPlay={()  => setBuffering(false)}
+            onPlay={()     => setPlaying(true)}
+            onPause={()    => setPlaying(false)}
+          >
+            <source src={rawUrl} />
           </video>
         )}
 
-        {/* Iframe embed */}
-        {rawUrl && !isDirect && embedUrl && (
-          <iframe src={embedUrl} title={title} allowFullScreen
+        {/* ── Iframe embed (YouTube / Dailymotion / Vimeo) ── */}
+        {rawUrl && !isDirect && embedSrc && (
+          <iframe
+            src={embedSrc}
+            title={pageTitle}
+            className="vp-iframe"
+            allowFullScreen
             allow="autoplay; fullscreen; encrypted-media"
             referrerPolicy="strict-origin"
             sandbox="allow-scripts allow-same-origin allow-presentation allow-fullscreen"
-            style={{width:'100%',height:'100vh',border:'none',display:'block'}}/>
+          />
         )}
 
-        {/* ── TAP ZONES (only for direct video) ── */}
-        {rawUrl && isDirect && (
-          <>
-            {/* Left zone */}
-            <div onClick={handleVideoTap}
-              style={{position:'absolute',left:0,top:0,width:'35%',height:'100%',zIndex:5}} />
-            {/* Center zone */}
-            <div onClick={handleVideoTap}
-              style={{position:'absolute',left:'35%',top:0,width:'30%',height:'100%',zIndex:5}} />
-            {/* Right zone */}
-            <div onClick={handleVideoTap}
-              style={{position:'absolute',right:0,top:0,width:'35%',height:'100%',zIndex:5}} />
-
-            {/* Tap feedback animations */}
-            {tapFeedback?.side==='left' && (
-              <div key={tapFeedback.key+'l'} style={{position:'absolute',left:'8%',top:'50%',transform:'translateY(-50%)',
-                zIndex:10,animation:'tapAnim .6s ease forwards',pointerEvents:'none',textAlign:'center'}}>
-                <div style={{fontSize:'2.5rem'}}>⏪</div>
-                <div style={{color:'#fff',fontFamily:"'Cairo',sans-serif",fontSize:'.85rem',marginTop:'.3rem',
-                  background:'rgba(0,0,0,.6)',borderRadius:8,padding:'.2rem .6rem'}}>- 10 ث</div>
-              </div>
-            )}
-            {tapFeedback?.side==='right' && (
-              <div key={tapFeedback.key+'r'} style={{position:'absolute',right:'8%',top:'50%',transform:'translateY(-50%)',
-                zIndex:10,animation:'tapAnim .6s ease forwards',pointerEvents:'none',textAlign:'center'}}>
-                <div style={{fontSize:'2.5rem'}}>⏩</div>
-                <div style={{color:'#fff',fontFamily:"'Cairo',sans-serif",fontSize:'.85rem',marginTop:'.3rem',
-                  background:'rgba(0,0,0,.6)',borderRadius:8,padding:'.2rem .6rem'}}>+ 10 ث</div>
-              </div>
-            )}
-            {tapFeedback?.side==='center' && (
-              <div key={tapFeedback.key+'c'} style={{position:'absolute',left:'50%',top:'50%',
-                transform:'translate(-50%,-50%)',zIndex:10,animation:'tapAnim .5s ease forwards',pointerEvents:'none'}}>
-                <div style={{fontSize:'3.5rem'}}>{playing?'⏸':'▶'}</div>
-              </div>
-            )}
-          </>
+        {/* ── Buffering spinner ── */}
+        {buffering && rawUrl && isDirect && (
+          <div className="vp-spinner">
+            <div className="vp-spinner-ring" />
+          </div>
         )}
 
-        {/* ── CONTROLS BAR (direct video only) ── */}
-        {rawUrl && isDirect && (
-          <div style={{position:'absolute',bottom:0,left:0,right:0,zIndex:15,
-            background:'linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.6) 60%,transparent 100%)',
-            padding:'2rem 1.2rem .8rem',transition:'opacity .35s',opacity:showCtrl?1:0}}>
-
-            {/* Progress bar */}
-            {duration>0 && (
-              <div style={{marginBottom:'.8rem'}}>
-                <div style={{width:'100%',height:4,background:'rgba(255,255,255,.2)',borderRadius:2,
-                  cursor:'pointer',position:'relative'}}
-                  onClick={e=>{
-                    const r=e.currentTarget.getBoundingClientRect();
-                    if(v()) v().currentTime=(e.clientX-r.left)/r.width*duration;
-                  }}>
-                  <div style={{height:'100%',background:'linear-gradient(to right,#e50914,#ff4444)',
-                    borderRadius:2,width:`${(progress/duration)*100}%`,transition:'width .15s',
-                    position:'relative'}}>
-                    <div style={{position:'absolute',right:-5,top:-4,width:12,height:12,
-                      background:'#fff',borderRadius:'50%',boxShadow:'0 0 6px rgba(229,9,20,.8)'}}/>
-                  </div>
-                </div>
-                <div style={{display:'flex',justifyContent:'space-between',marginTop:'.35rem',
-                  fontSize:'.65rem',color:'rgba(255,255,255,.5)',fontFamily:'monospace'}}>
-                  <span>{fmt(progress)}</span>
-                  <span>{fmt(duration)}</span>
-                </div>
+        {/* ── Left seek ripple (-10s) ── */}
+        <div
+          key={(ripple?.side === 'left' ? ripple.key : 0) + 'L'}
+          className={`vp-ripple vp-left${ripple?.side === 'left' ? ' vp-go' : ''}`}
+        >
+          <div className="vp-ripple-inner">
+            <div className="vp-ripple-circle">
+                <span className="vp-ripple-num">10</span>
+                <span className="vp-ripple-sec">ث</span>
               </div>
-            )}
+            <div className="vp-ripple-label">◄◄ تأخير</div>
+          </div>
+        </div>
 
-            {/* Buttons row */}
-            <div style={{display:'flex',alignItems:'center',gap:'.6rem'}}>
-              {/* Seek back */}
-              <button onClick={()=>seek(-10)}
-                style={{background:'rgba(255,255,255,.1)',border:'1px solid rgba(255,255,255,.15)',
-                  color:'#fff',width:42,height:42,borderRadius:10,cursor:'pointer',
-                  display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',
-                  transition:'all .2s'}}
-                onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.2)'}
-                onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}>
-                ⏪
+        {/* ── Right seek ripple (+10s) ── */}
+        <div
+          key={(ripple?.side === 'right' ? ripple.key : 0) + 'R'}
+          className={`vp-ripple vp-right${ripple?.side === 'right' ? ' vp-go' : ''}`}
+        >
+          <div className="vp-ripple-inner">
+            <div className="vp-ripple-circle">
+                <span className="vp-ripple-num">10</span>
+                <span className="vp-ripple-sec">ث</span>
+              </div>
+            <div className="vp-ripple-label">تقديم ►►</div>
+          </div>
+        </div>
+
+        {/* ── Center play/pause flash ── */}
+        <div
+          key={flash || 'flash'}
+          className={`vp-flash${flash ? ' vp-go' : ''}`}
+        >
+          <div className="vp-flash-circle">
+            {playing ? '⏸' : '▶'}
+          </div>
+        </div>
+
+        {/* ══ OVERLAY (fades in/out) ══ */}
+        {rawUrl && (
+          <div className={`vp-overlay${overlay ? ' vp-show' : ' vp-hide'}`}>
+
+            {/* Top bar */}
+            <div className="vp-top">
+              <button
+                className="vp-btn-back"
+                onClick={e => { e.stopPropagation(); onBack(); }}
+              >
+                ← رجوع
               </button>
-
-              {/* Play/Pause */}
-              <button onClick={togglePlay}
-                style={{background:'linear-gradient(135deg,#e50914,#ff2233)',border:'none',
-                  color:'#fff',width:52,height:52,borderRadius:50,cursor:'pointer',
-                  display:'flex',alignItems:'center',justifyContent:'center',
-                  fontSize:'1.3rem',boxShadow:'0 4px 16px rgba(229,9,20,.5)',transition:'all .2s'}}
-                onMouseEnter={e=>e.currentTarget.style.transform='scale(1.1)'}
-                onMouseLeave={e=>e.currentTarget.style.transform='scale(1)'}>
-                {playing ? '⏸' : '▶'}
-              </button>
-
-              {/* Seek forward */}
-              <button onClick={()=>seek(10)}
-                style={{background:'rgba(255,255,255,.1)',border:'1px solid rgba(255,255,255,.15)',
-                  color:'#fff',width:42,height:42,borderRadius:10,cursor:'pointer',
-                  display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',
-                  transition:'all .2s'}}
-                onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.2)'}
-                onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}>
-                ⏩
-              </button>
-
-              {/* Volume */}
-              <button onClick={()=>{ if(v()){v().muted=!v().muted;setMuted(!muted);} }}
-                style={{background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',
-                  color:'#fff',width:38,height:38,borderRadius:8,cursor:'pointer',
-                  display:'flex',alignItems:'center',justifyContent:'center',fontSize:'.95rem'}}>
-                {muted||volume===0 ? '🔇' : volume<0.5 ? '🔉' : '🔊'}
-              </button>
-              <input type="range" min="0" max="1" step="0.05" value={muted?0:volume}
-                onChange={e=>{if(v()){v().volume=e.target.value;v().muted=false;setVolume(e.target.value);setMuted(false);}}}
-                style={{width:70,accentColor:'#e50914',cursor:'pointer'}}/>
-
-              <div style={{flex:1}}/>
-
-              {/* Time display */}
-              {duration>0 && (
-                <span style={{fontSize:'.7rem',color:'rgba(255,255,255,.6)',fontFamily:'monospace',whiteSpace:'nowrap'}}>
-                  {fmt(progress)} / {fmt(duration)}
-                </span>
-              )}
-
-              {/* Fullscreen */}
-              <button onClick={toggleFS}
-                style={{background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',
-                  color:'#fff',width:38,height:38,borderRadius:8,cursor:'pointer',
-                  display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem'}}>
-                {fullscreen ? '⛶' : '⛶'}
+              <span className="vp-title">{pageTitle}</span>
+              <button
+                className="vp-btn-fs"
+                onClick={e => { e.stopPropagation(); toggleFS(); }}
+              >
+                ⛶
               </button>
             </div>
+
+            {/* Bottom bar — direct video only */}
+            {isDirect && (
+              <div className="vp-bottom" onClick={e => e.stopPropagation()}>
+
+                {/* RTL progress bar */}
+                <div
+                  className={`vp-progress${dragging ? ' is-drag' : ''}`}
+                  onMouseDown={onBarDown}
+                  onTouchStart={onBarDown}
+                >
+                  <div className="vp-track" ref={trackRef}>
+                    <div
+                      className={`vp-fill${dragging ? ' is-drag' : ''}`}
+                      style={{ width: fill + '%' }}
+                    >
+                      <div className="vp-thumb" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Time + fullscreen button */}
+                <div className="vp-timerow">
+                  <div className="vp-time">
+                    <em>{playerFmt(cur)}</em>
+                    {' / '}
+                    {playerFmt(dur)}
+                  </div>
+                  <button className="vp-btn-fs2" onClick={toggleFS}>⛶</button>
+                </div>
+              </div>
+            )}
+
+            {/* Embed: small bottom bar with just back + fs */}
+            {!isDirect && (
+              <div className="vp-bottom" onClick={e => e.stopPropagation()} style={{paddingTop:'8px'}}>
+                <div className="vp-timerow">
+                  <button
+                    className="vp-btn-back"
+                    onClick={e => { e.stopPropagation(); onBack(); }}
+                  >
+                    ← رجوع
+                  </button>
+                  <button className="vp-btn-fs" onClick={toggleFS}>⛶</button>
+                </div>
+              </div>
+            )}
+
           </div>
         )}
       </div>
-
-      {/* Tap animation keyframes */}
-      <style>{`
-        @keyframes tapAnim {
-          0%   { opacity:0; transform:translateY(-50%) scale(.6); }
-          30%  { opacity:1; transform:translateY(-50%) scale(1.1); }
-          70%  { opacity:1; transform:translateY(-50%) scale(1); }
-          100% { opacity:0; transform:translateY(-50%) scale(.9); }
-        }
-      `}</style>
     </div>
   );
 }
-
 function RequestPage({ user, profile, showToast }) {
   const [type, setType]       = useState('movie');
   const [title, setTitle]     = useState('');
